@@ -1,6 +1,6 @@
 .title {
   margin: 0 0 8px;
-  font-size: 28px;
+  font-size: 36px;
 }
 
 .note,
@@ -28,9 +28,11 @@
 
 .item::before {
   content: counter(rank);
-  padding-top: 16px;
-  font-size: 18px;
+  padding-top: 12px;
+  font-family: var(--font-display);
+  font-size: 28px;
   font-weight: 700;
-  color: var(--accent);
+  line-height: 1;
+  color: var(--muted);
   text-align: right;
 }

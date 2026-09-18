@@ -1,15 +1,7 @@
 .card {
+  composes: cardInteractive from './ui.module.css';
   display: block;
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  text-decoration: none;
-  transition: border-color 0.15s;
-}
-
-.card:hover {
-  border-color: var(--accent);
 }
 
 .body {
@@ -30,9 +22,5 @@
 }
 
 .badge {
-  font-size: 12px;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 999px;
-  padding: 0 8px;
+  composes: metric from './ui.module.css';
 }

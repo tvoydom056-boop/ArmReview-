@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 
 import type { AthleteStats } from '@/lib/athleteStats'
 
@@ -36,15 +36,21 @@ export function StatsReveal({ stats }: { stats: AthleteStats }) {
 }
 
 function HandCell({ label, hand }: { label: string; hand: AthleteStats['right'] }) {
+  const winRate = hand.matches === 0 ? 0 : Math.round((hand.wins / hand.matches) * 100)
+
   return (
     <div className={styles.cell}>
       <span className={styles.label}>{label}</span>
       {hand.matches === 0 ? (
         <span className={styles.empty}>нет данных</span>
       ) : (
-        <span className={styles.value}>
-          {hand.wins} п. из {hand.matches}
-        </span>
+        <>
+          <span className={styles.value}>
+            {hand.wins} п. из {hand.matches}
+          </span>
+          <span className={styles.percent}>{winRate}%</span>
+          <span className={styles.bar} style={{ '--value': `${winRate}%` } as CSSProperties} />
+        </>
       )}
     </div>
   )

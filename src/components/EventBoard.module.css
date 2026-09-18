@@ -17,13 +17,13 @@
   max-width: 200px;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  border-radius: var(--radius);
-  background: var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface-hover);
 }
 
 .title {
   margin: 0;
-  font-size: 28px;
+  font-size: 36px;
 }
 
 .meta {
@@ -39,7 +39,6 @@
 
 .subtitle {
   margin: 0 0 12px;
-  font-size: 20px;
 }
 
 .empty {

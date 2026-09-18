@@ -41,21 +41,26 @@
 .pill {
   display: block;
   padding: 8px 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-row);
+  background: transparent;
   text-align: center;
+  transition: background-color var(--transition);
+}
+
+.radio:hover + .pill {
+  background: var(--surface-hover);
 }
 
 .radio:checked + .pill {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: var(--text);
+  background: var(--text);
   color: var(--bg);
   font-weight: 600;
 }
 
 .radio:focus-visible + .pill {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--text);
   outline-offset: 2px;
 }
 
@@ -68,14 +73,8 @@
 }
 
 .submit {
+  composes: action from '../../components/ui.module.css';
   padding: 10px 16px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--bg);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
 }
 
 .submit:disabled {
@@ -85,16 +84,10 @@
 
 .success {
   margin: 0;
-  color: var(--accent);
+  color: var(--win);
 }
 
 .error {
   margin: 0;
-  color: #b91c1c;
-}
-
-@media (prefers-color-scheme: dark) {
-  .error {
-    color: #f87171;
-  }
+  color: var(--loss);
 }

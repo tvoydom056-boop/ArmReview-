@@ -66,7 +66,7 @@ export default async function AthleteProfilePage({ params }: Props) {
             <dl className={styles.facts}>
               {facts.map(([label, value]) => (
                 <div key={label} className={styles.fact}>
-                  <dt>{label}</dt>
+                  <dt className={styles.factLabel}>{label}</dt>
                   <dd>{value}</dd>
                 </div>
               ))}

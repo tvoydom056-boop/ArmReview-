@@ -1,11 +1,9 @@
 .card {
+  composes: card from './ui.module.css';
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
 }
 
 .versus {
@@ -21,16 +19,15 @@
   gap: 8px;
   font-weight: 600;
   text-decoration: none;
+  transition: color var(--transition);
 }
 
 .side:hover {
-  color: var(--accent);
+  color: var(--muted);
 }
 
 .vs {
-  color: var(--muted);
-  font-size: 13px;
-  text-transform: uppercase;
+  composes: label from './ui.module.css';
 }
 
 .tags {
@@ -43,16 +40,14 @@
 }
 
 .tag {
-  padding: 2px 10px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-size: 13px;
-  color: var(--muted);
+  composes: tag from './ui.module.css';
 }
 
-.title {
-  border-color: var(--accent);
-  color: var(--accent);
+.tag.title {
+  border-color: var(--gold-border);
+  background: var(--gold-bg);
+  color: var(--gold);
+  font-weight: 700;
 }
 
 .footer {
@@ -64,12 +59,10 @@
 }
 
 .rate {
-  color: var(--accent);
-  font-size: 14px;
+  composes: action from './ui.module.css';
 }
 
 .subtitle {
+  composes: label from './ui.module.css';
   margin: 0;
-  font-size: 13px;
-  color: var(--muted);
 }

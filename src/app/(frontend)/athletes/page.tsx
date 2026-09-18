@@ -9,6 +9,9 @@ import styles from './athletes.module.css'
 export const metadata: Metadata = { title: 'Борцы' }
 export const dynamic = 'force-dynamic'
 
+// Фото первого ряда сетки (на десктопе) — в первом экране, грузим без ленивой подгрузки
+const EAGER_PHOTOS = 6
+
 export default async function AthletesPage() {
   const payload = await getPayloadClient()
   const { docs: athletes } = await payload.find({
@@ -26,9 +29,10 @@ export default async function AthletesPage() {
         <p className={styles.empty}>Пока никого нет.</p>
       ) : (
         <ul className={styles.grid}>
-          {athletes.map((a) => (
+          {athletes.map((a, i) => (
             <li key={a.id}>
               <AthleteCard
+                eager={i < EAGER_PHOTOS}
                 slug={a.slug}
                 name={a.name}
                 countryCode={a.countryCode}

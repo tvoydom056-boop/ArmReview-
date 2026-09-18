@@ -3,6 +3,11 @@
   margin-bottom: 16px;
   color: var(--muted);
   text-decoration: none;
+  transition: color var(--transition);
+}
+
+.back:hover {
+  color: var(--text);
 }
 
 .head {
@@ -19,7 +24,7 @@
 
 .name {
   margin: 0;
-  font-size: 28px;
+  font-size: 40px;
 }
 
 .nameEn {
@@ -42,20 +47,20 @@
 }
 
 .fact {
+  composes: card from '../../../../components/ui.module.css';
   padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
 }
 
-.fact dt {
-  font-size: 13px;
-  color: var(--muted);
+.factLabel {
+  composes: label from '../../../../components/ui.module.css';
 }
 
 .fact dd {
   margin: 0;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .source {
@@ -69,7 +74,6 @@
 
 .section h2 {
   margin: 0 0 8px;
-  font-size: 18px;
 }
 
 .achievements {

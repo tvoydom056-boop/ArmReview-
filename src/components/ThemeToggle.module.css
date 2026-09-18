@@ -1,0 +1,43 @@
+.button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+.button:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+/* outline-иконки одной толщины */
+.moon,
+.sun {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.moon {
+  display: var(--icon-moon);
+}
+
+.sun {
+  display: var(--icon-sun);
+}

@@ -3,6 +3,6 @@
   width: 24px;
   height: 18px;
   border-radius: 2px;
-  box-shadow: 0 0 0 1px var(--border);
+  border: 1px solid var(--border-strong);
   vertical-align: middle;
 }

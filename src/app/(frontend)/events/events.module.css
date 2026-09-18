@@ -1,6 +1,6 @@
 .title {
   margin: 0 0 20px;
-  font-size: 28px;
+  font-size: 36px;
 }
 
 .empty {
@@ -17,19 +17,11 @@
 }
 
 .item {
+  composes: cardInteractive from '../../../components/ui.module.css';
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  text-decoration: none;
-  transition: border-color 0.15s;
-}
-
-.item:hover {
-  border-color: var(--accent);
 }
 
 .name {
