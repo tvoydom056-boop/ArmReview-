@@ -1,0 +1,23 @@
+.page {
+  max-width: 680px;
+}
+
+.page h1 {
+  margin: 0 0 16px;
+  font-size: 28px;
+}
+
+.page h2 {
+  margin: 24px 0 8px;
+  font-size: 18px;
+}
+
+.page p,
+.page li {
+  margin: 0 0 8px;
+}
+
+.page ul {
+  margin: 0 0 8px;
+  padding-left: 20px;
+}

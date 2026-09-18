@@ -1,0 +1,36 @@
+.title {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.note,
+.empty {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: rank;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  counter-increment: rank;
+}
+
+.item::before {
+  content: counter(rank);
+  padding-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+}

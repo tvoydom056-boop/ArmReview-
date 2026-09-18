@@ -67,3 +67,9 @@
   color: var(--accent);
   font-size: 14px;
 }
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}

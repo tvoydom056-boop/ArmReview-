@@ -18,7 +18,16 @@ const loadEvent = cache(getEventBySlug)
 // В title только название турнира — без результатов (PROJECT.md § 12)
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const event = await loadEvent((await params).slug)
-  return { title: event?.title ?? 'Турнир не найден' }
+  if (!event) return { title: 'Турнир не найден' }
+  const poster = toEventHeader(event).poster
+  return {
+    title: event.title,
+    openGraph: {
+      title: event.title,
+      description: 'Карта матчей и оценки зрителей',
+      ...(poster ? { images: [poster.url] } : {}),
+    },
+  }
 }
 
 export default async function EventPage({ params }: Props) {

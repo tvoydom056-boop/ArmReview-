@@ -36,3 +36,12 @@ export function computeScore(votes: number, total: number, globalMean: number): 
   const raw = (votes * total + SMOOTHING_M * globalMean) / (votes + SMOOTHING_M)
   return Math.round(raw * 10) / 10
 }
+
+// Топ матчей: id по убыванию балла, при равенстве — больше голосов; без балла (мало голосов) в топ не попадает
+export function rankRatings(ratings: ReadonlyMap<number, MatchRating>, limit: number): number[] {
+  return [...ratings.entries()]
+    .filter(([, rating]) => rating.score !== null)
+    .sort(([idA, a], [idB, b]) => (b.score ?? 0) - (a.score ?? 0) || b.votes - a.votes || idA - idB)
+    .slice(0, limit)
+    .map(([id]) => id)
+}

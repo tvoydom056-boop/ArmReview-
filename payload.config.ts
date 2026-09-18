@@ -6,6 +6,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { migrations } from './src/migrations'
 import { Athletes } from './src/collections/Athletes'
 import { Events } from './src/collections/Events'
 import { Matches } from './src/collections/Matches'
@@ -30,6 +31,8 @@ export default buildConfig({
   graphQL: { disable: true },
   db: sqliteAdapter({
     client: { url: process.env.DATABASE_URI || 'file:./armreview.db' },
+    // В production схема применяется только миграциями: npm run payload migrate
+    prodMigrations: migrations,
   }),
   sharp,
 })

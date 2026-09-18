@@ -16,7 +16,12 @@ const loadMatch = cache(async (rawId: string) => {
 // В title только имена борцов — без результата (PROJECT.md § 12)
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await loadMatch((await params).id)
-  return { title: data ? `${data.match.athlete1.name} vs ${data.match.athlete2.name}` : 'Матч не найден' }
+  if (!data) return { title: 'Матч не найден' }
+  const title = `${data.match.athlete1.name} vs ${data.match.athlete2.name}`
+  return {
+    title,
+    openGraph: { title, description: `Оцени матч · ${data.event.title}` },
+  }
 }
 
 export default async function MatchPage({ params }: Props) {

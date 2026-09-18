@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { computeGlobalMean, computeScore, computeTotal } from './rating'
+import { computeGlobalMean, computeScore, computeTotal, rankRatings } from './rating'
 
 describe('computeTotal', () => {
   it('взвешивает шкалы 0.30 / 0.25 / 0.25 / 0.20', () => {
@@ -37,5 +37,25 @@ describe('computeGlobalMean', () => {
       { votes: 2, total: 1 },
     ])
     expect(mean).toBeCloseTo(4)
+  })
+})
+
+describe('rankRatings', () => {
+  it('сортирует по баллу, затем по числу голосов, и пропускает матчи без балла', () => {
+    const ratings = new Map([
+      [1, { votes: 10, score: 4.1 }],
+      [2, { votes: 30, score: 4.5 }],
+      [3, { votes: 3, score: null }],
+      [4, { votes: 50, score: 4.1 }],
+    ])
+    expect(rankRatings(ratings, 100)).toEqual([2, 4, 1])
+  })
+
+  it('обрезает по лимиту', () => {
+    const ratings = new Map([
+      [1, { votes: 5, score: 4 }],
+      [2, { votes: 5, score: 3 }],
+    ])
+    expect(rankRatings(ratings, 1)).toEqual([1])
   })
 })

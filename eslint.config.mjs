@@ -5,7 +5,7 @@ const eslintConfig = [
   ...nextCoreWebVitals,
   ...nextTypescript,
   {
-    ignores: ['.next/', 'payload-types.ts', 'src/app/(payload)/'],
+    ignores: ['.next/', 'payload-types.ts', 'src/app/(payload)/', 'src/migrations/'],
   },
 ]
 

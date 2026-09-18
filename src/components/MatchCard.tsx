@@ -7,10 +7,12 @@ import styles from './MatchCard.module.css'
 import { RatingBadge } from './RatingBadge'
 import { ScoreReveal } from './ScoreReveal'
 
-// href — ссылка на окно матча с голосованием; внутри самого окна её нет
-export function MatchCard({ match, href }: { match: MatchView; href?: string }) {
+// href — ссылка на окно матча с голосованием; внутри самого окна её нет.
+// subtitle — контекст, если карточка вне страницы турнира (например, в топе)
+export function MatchCard({ match, href, subtitle }: { match: MatchView; href?: string; subtitle?: string }) {
   return (
     <article className={styles.card}>
+      {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
       <div className={styles.versus}>
         <Side athlete={match.athlete1} />
         <span className={styles.vs}>vs</span>

@@ -66,3 +66,16 @@ a {
   margin: 0 auto;
   padding: 24px 16px 48px;
 }
+
+.site-footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 16px 96px;
+  font-size: 14px;
+}
+
+.site-footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
