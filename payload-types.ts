@@ -205,6 +205,10 @@ export interface Event {
  */
 export interface Match {
   id: number;
+  /**
+   * Заполняется автоматически
+   */
+  title?: string | null;
   event: number | Event;
   athlete1: number | Athlete;
   athlete2: number | Athlete;
@@ -392,6 +396,7 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "matches_select".
  */
 export interface MatchesSelect<T extends boolean = true> {
+  title?: T;
   event?: T;
   athlete1?: T;
   athlete2?: T;

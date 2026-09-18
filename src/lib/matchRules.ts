@@ -17,3 +17,8 @@ export function validateWinner(fields: MatchFields, winner: unknown): Validation
   if (w !== refId(fields.athlete1) && w !== refId(fields.athlete2)) return 'Победитель должен быть одним из двух борцов'
   return true
 }
+
+// Заголовок матча для списков в админке
+export function formatMatchTitle(name1: string | undefined, name2: string | undefined): string {
+  return `${name1 ?? '?'} vs ${name2 ?? '?'}`
+}

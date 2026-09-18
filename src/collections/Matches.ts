@@ -1,6 +1,7 @@
 import type { CollectionConfig, RelationshipFieldSingleValidation } from 'payload'
 
-import { validateDifferentAthletes, validateWinner } from '@/lib/matchRules'
+import { formatMatchTitle, validateDifferentAthletes, validateWinner } from '@/lib/matchRules'
+import { refId } from '@/lib/refId'
 
 import { anyone } from './access'
 
@@ -13,9 +14,25 @@ const winnerIsParticipant: RelationshipFieldSingleValidation = (value, { sibling
 export const Matches: CollectionConfig = {
   slug: 'matches',
   labels: { singular: 'Матч', plural: 'Матчи' },
-  admin: { defaultColumns: ['event', 'athlete1', 'athlete2', 'hand', 'cardOrder'] },
+  admin: { useAsTitle: 'title', defaultColumns: ['title', 'event', 'hand', 'cardOrder'] },
   access: { read: anyone },
+  hooks: {
+    // Название матча хранится в базе только ради читаемого списка в админке; в публичный код не попадает
+    beforeChange: [
+      async ({ data, originalDoc, req }) => {
+        const id1 = refId(data.athlete1 ?? originalDoc?.athlete1)
+        const id2 = refId(data.athlete2 ?? originalDoc?.athlete2)
+        const [a1, a2] = await Promise.all(
+          [id1, id2].map((id) =>
+            id === null ? null : req.payload.findByID({ collection: 'athletes', id, depth: 0, req }),
+          ),
+        )
+        return { ...data, title: formatMatchTitle(a1?.name, a2?.name) }
+      },
+    ],
+  },
   fields: [
+    { name: 'title', type: 'text', label: 'Название', admin: { readOnly: true, description: 'Заполняется автоматически' } },
     { name: 'event', type: 'relationship', relationTo: 'events', label: 'Турнир', required: true, index: true },
     { name: 'athlete1', type: 'relationship', relationTo: 'athletes', label: 'Борец 1', required: true, index: true },
     {

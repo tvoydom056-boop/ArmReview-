@@ -107,6 +107,12 @@ if ((await findId('events', 'east-vs-west-ii')) === null) {
   await make(5, { athlete1: ivan, athlete2: john, resultType: 'no_contest' })
 }
 
+// Название матча появилось позже матчей: дозаполняем старые (хук считает его при сохранении)
+const untitled = await payload.find({ collection: 'matches', where: { title: { exists: false } }, limit: 1000, depth: 0 })
+for (const m of untitled.docs) {
+  await payload.update({ collection: 'matches', id: m.id, data: { cardOrder: m.cardOrder } })
+}
+
 // Голоса: у первого матча турнира II хватает для балла (5+), у второго — «мало оценок»
 if ((await payload.count({ collection: 'votes' })).totalDocs === 0) {
   const { docs: matches } = await payload.find({

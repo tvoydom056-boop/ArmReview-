@@ -1,0 +1,17 @@
+[Unit]
+Description=ArmReview (Next.js + Payload)
+After=network.target
+
+[Service]
+Type=simple
+User=armreview
+WorkingDirectory=/opt/armreview
+# Секреты (PAYLOAD_SECRET, IP_HASH_SALT, DATABASE_URI, SITE_URL) лежат в /opt/armreview/.env, права 600
+EnvironmentFile=/opt/armreview/.env
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/npm run start -- -H 127.0.0.1 -p 3000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+# Замените example.ru на настоящий домен. Caddy сам получит и продлит HTTPS-сертификат.
+example.ru {
+	encode gzip zstd
+
+	# Приложение слушает только localhost, наружу торчит один Caddy
+	reverse_proxy 127.0.0.1:3000 {
+		# Приложение берёт IP зрителя только из этого заголовка (src/lib/clientIp.ts).
+		# header_up ПЕРЕЗАПИСЫВАЕТ значение, присланное клиентом, — подделать IP нельзя.
+		header_up X-Client-IP {remote_host}
+	}
+}

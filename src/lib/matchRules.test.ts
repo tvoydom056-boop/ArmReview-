@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { validateDifferentAthletes, validateWinner } from './matchRules'
+import { formatMatchTitle, validateDifferentAthletes, validateWinner } from './matchRules'
 
 describe('validateDifferentAthletes', () => {
   it('отклоняет одного и того же борца', () => {
@@ -26,5 +26,15 @@ describe('validateWinner', () => {
 
   it('в несостоявшемся матче победителя быть не может', () => {
     expect(validateWinner({ athlete1: 1, athlete2: 2, resultType: 'no_contest' }, 1)).toEqual(expect.any(String))
+  })
+})
+
+describe('formatMatchTitle', () => {
+  it('склеивает имена борцов', () => {
+    expect(formatMatchTitle('Иванов', 'Петров')).toBe('Иванов vs Петров')
+  })
+
+  it('подставляет ? вместо неизвестного имени', () => {
+    expect(formatMatchTitle('Иванов', undefined)).toBe('Иванов vs ?')
   })
 })
