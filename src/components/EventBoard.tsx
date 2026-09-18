@@ -34,7 +34,7 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
         <ul className={styles.list}>
           {matches.map((m) => (
             <li key={m.id}>
-              <MatchCard match={m} />
+              <MatchCard match={m} href={`/matches/${m.id}`} />
             </li>
           ))}
         </ul>

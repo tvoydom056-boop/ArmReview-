@@ -1,0 +1,16 @@
+.badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.score {
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.votes,
+.few {
+  font-size: 13px;
+  color: var(--muted);
+}

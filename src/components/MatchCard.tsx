@@ -4,9 +4,11 @@ import { getHandLabel, type AthleteRef, type MatchView } from '@/lib/matchView'
 
 import { CountryFlag } from './CountryFlag'
 import styles from './MatchCard.module.css'
+import { RatingBadge } from './RatingBadge'
 import { ScoreReveal } from './ScoreReveal'
 
-export function MatchCard({ match }: { match: MatchView }) {
+// href — ссылка на окно матча с голосованием; внутри самого окна её нет
+export function MatchCard({ match, href }: { match: MatchView; href?: string }) {
   return (
     <article className={styles.card}>
       <div className={styles.versus}>
@@ -19,6 +21,14 @@ export function MatchCard({ match }: { match: MatchView }) {
         <li className={styles.tag}>{getHandLabel(match.hand)}</li>
         {match.weightClass ? <li className={styles.tag}>{match.weightClass}</li> : null}
       </ul>
+      <div className={styles.footer}>
+        <RatingBadge rating={match.rating} />
+        {href ? (
+          <Link href={href} className={styles.rate}>
+            Оценить матч
+          </Link>
+        ) : null}
+      </div>
       <ScoreReveal outcome={match.outcome} />
     </article>
   )

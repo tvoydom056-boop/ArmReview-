@@ -107,5 +107,37 @@ if ((await findId('events', 'east-vs-west-ii')) === null) {
   await make(5, { athlete1: ivan, athlete2: john, resultType: 'no_contest' })
 }
 
+// Голоса: у первого матча турнира II хватает для балла (5+), у второго — «мало оценок»
+if ((await payload.count({ collection: 'votes' })).totalDocs === 0) {
+  const { docs: matches } = await payload.find({
+    collection: 'matches',
+    where: { 'event.slug': { equals: 'east-vs-west-ii' } },
+    sort: 'cardOrder',
+    limit: 2,
+    depth: 0,
+  })
+  const hex = (n: number) => n.toString(16).padStart(32, '0')
+  const scores = [
+    [5, 4, 4, 5],
+    [4, 4, 5, 3],
+    [5, 5, 4, 4],
+    [4, 3, 4, 5],
+    [5, 4, 5, 4],
+    [4, 5, 4, 4],
+  ]
+  for (const [i, [spectacle, intrigue, technique, refereeing]] of scores.entries()) {
+    await payload.create({
+      collection: 'votes',
+      data: { match: matches[0].id, deviceId: hex(i + 1), ipHash: 'seed', spectacle, intrigue, technique, refereeing },
+    })
+  }
+  for (const i of [0, 1]) {
+    await payload.create({
+      collection: 'votes',
+      data: { match: matches[1].id, deviceId: hex(100 + i), ipHash: 'seed', spectacle: 3, intrigue: 4, technique: 3, refereeing: 4 },
+    })
+  }
+}
+
 payload.logger.info('Seed готов')
 process.exit(0)

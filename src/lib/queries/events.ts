@@ -1,5 +1,6 @@
 import { toMatchView, type MatchView } from '../matchView'
 import { getPayloadClient } from '../payload'
+import { getRatingsByMatch, NO_VOTES } from './ratings'
 
 export async function getEvents() {
   const payload = await getPayloadClient()
@@ -45,5 +46,6 @@ export async function getEventMatches(eventId: number): Promise<MatchView[]> {
     limit: 100,
     pagination: false,
   })
-  return docs.flatMap((doc) => toMatchView(doc) ?? [])
+  const ratings = await getRatingsByMatch()
+  return docs.flatMap((doc) => toMatchView(doc, ratings.get(doc.id) ?? NO_VOTES) ?? [])
 }

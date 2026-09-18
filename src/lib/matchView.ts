@@ -1,5 +1,6 @@
 import type { Match } from '../../payload-types'
 
+import type { MatchRating } from './rating'
 import { refId } from './refId'
 
 export type AthleteRef = { name: string; slug: string; countryCode: string }
@@ -13,6 +14,7 @@ export type MatchView = {
   weightClass: string | null
   isTitle: boolean
   outcome: MatchOutcome
+  rating: MatchRating
 }
 
 const handLabel = { right: 'Правая рука', left: 'Левая рука' } as const
@@ -40,7 +42,7 @@ function toAthleteRef(value: Match['athlete1']): (AthleteRef & { id: number }) |
 }
 
 // Ждёт матч с depth ≥ 1 (борцы — объекты); иначе null
-export function toMatchView(match: Match): MatchView | null {
+export function toMatchView(match: Match, rating: MatchRating): MatchView | null {
   const a1 = toAthleteRef(match.athlete1)
   const a2 = toAthleteRef(match.athlete2)
   if (!a1 || !a2) return null
@@ -61,5 +63,6 @@ export function toMatchView(match: Match): MatchView | null {
       score2: match.score2,
       winnerName: winner?.name ?? null,
     }),
+    rating,
   }
 }

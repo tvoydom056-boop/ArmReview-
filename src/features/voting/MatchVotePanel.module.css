@@ -1,0 +1,16 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.event {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.notice {
+  margin: 0;
+  color: var(--muted);
+}
