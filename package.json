@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "vercel-build": "payload migrate && npm run build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
@@ -18,6 +19,7 @@
     "@payloadcms/db-sqlite": "3.90.0",
     "@payloadcms/next": "3.90.0",
     "@payloadcms/richtext-lexical": "3.90.0",
+    "@payloadcms/storage-vercel-blob": "3.90.0",
     "@payloadcms/translations": "3.90.0",
     "@payloadcms/ui": "3.90.0",
     "@tanstack/react-query": "5.103.1",

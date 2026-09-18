@@ -1,5 +1,6 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { ru } from '@payloadcms/translations/languages/ru'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -30,9 +31,19 @@ export default buildConfig({
   // STRUCTURE.md § 7: GraphQL не нужен, лишнюю поверхность API не открываем
   graphQL: { disable: true },
   db: sqliteAdapter({
-    client: { url: process.env.DATABASE_URI || 'file:./armreview.db' },
+    // Локально и на VPS — файл SQLite; на Vercel — libsql://… из Turso (файловая система там только для чтения)
+    client: { url: process.env.DATABASE_URI || 'file:./armreview.db', authToken: process.env.DATABASE_AUTH_TOKEN },
     // В production схема применяется только миграциями: npm run payload migrate
     prodMigrations: migrations,
   }),
+  // Картинки: есть BLOB_READ_WRITE_TOKEN (Vercel) — уходят в Vercel Blob, иначе лежат в папке media/.
+  // alwaysInsertFields: схема БД не зависит от токена, миграции одинаковы везде
+  plugins: [
+    vercelBlobStorage({
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      collections: { media: true },
+      alwaysInsertFields: true,
+    }),
+  ],
   sharp,
 })

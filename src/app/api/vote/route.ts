@@ -22,7 +22,10 @@ export async function POST(request: Request) {
   const parsed = voteInputSchema.safeParse(body)
   if (!parsed.success) return json({ error: 'INVALID_INPUT' }, STATUS.INVALID_INPUT)
 
-  const ip = getClientIp(request.headers, process.env.NODE_ENV === 'production')
+  const ip = getClientIp(request.headers, {
+    isProduction: process.env.NODE_ENV === 'production',
+    isVercel: process.env.VERCEL === '1',
+  })
   if (ip === null) {
     // IP не логируем; сюда попадаем только при неверной настройке Caddy
     console.error('vote: заголовок с IP клиента не выставлен прокси (см. lib/clientIp.ts)')

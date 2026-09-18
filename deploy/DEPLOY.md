@@ -1,5 +1,7 @@
 # Деплой ArmReview на VPS (Ubuntu 22.04/24.04)
 
+Вариант на Vercel + Turso — в `VERCEL.md`.
+
 Схема: Caddy (HTTPS, порты 80/443) → Next.js на `127.0.0.1:3000` → SQLite-файл рядом с приложением.
 Docker и отдельная база не нужны.
 
@@ -34,7 +36,7 @@ sudo -u armreview cp .env.example .env && sudo chmod 600 .env
 ```bash
 sudo -u armreview npm ci
 sudo -u armreview npm run build
-sudo -u armreview npm run payload migrate   # создаёт таблицы (в production схема ставится ТОЛЬКО миграциями)
+sudo -u armreview npx payload migrate   # создаёт таблицы (в production схема ставится ТОЛЬКО миграциями)
 ```
 
 ## 3. Сервис и Caddy
@@ -62,7 +64,7 @@ cd /opt/armreview
 sudo -u armreview git pull
 sudo -u armreview npm ci
 sudo -u armreview npm run build
-sudo -u armreview npm run payload migrate   # если менялись коллекции (перед этим на разработке: npm run payload migrate:create)
+sudo -u armreview npx payload migrate   # если менялись коллекции (перед этим на разработке: npm run payload migrate:create)
 sudo systemctl restart armreview
 ```
 
