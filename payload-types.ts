@@ -134,7 +134,7 @@ export interface Athlete {
   name: string;
   nameEn?: string | null;
   /**
-   * Если пусто — берётся из имени латиницей
+   * Латиницей. Если пусто — берётся из имени/названия, поэтому кириллицу заполните латиницей вручную
    */
   slug: string;
   countryCode: string;
@@ -189,7 +189,7 @@ export interface Event {
   id: number;
   title: string;
   /**
-   * Если пусто — берётся из названия латиницей
+   * Латиницей. Если пусто — берётся из имени/названия, поэтому кириллицу заполните латиницей вручную
    */
   slug: string;
   date: string;

@@ -15,10 +15,11 @@ export default function FrontendLayout({ children }: { children: ReactNode }) {
     <html lang="ru">
       <body>
         <header className="site-header">
-          <Link href="/athletes" className="site-logo">
+          <Link href="/" className="site-logo">
             ArmReview
           </Link>
-          <nav>
+          <nav className="site-nav">
+            <Link href="/events">Турниры</Link>
             <Link href="/athletes">Борцы</Link>
           </nav>
         </header>

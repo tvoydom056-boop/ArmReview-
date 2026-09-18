@@ -51,6 +51,11 @@ a {
   color: var(--accent);
 }
 
+.site-nav {
+  display: flex;
+  gap: 16px;
+}
+
 .site-header nav a {
   text-decoration: none;
   color: var(--muted);

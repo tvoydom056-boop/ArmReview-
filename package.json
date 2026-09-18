@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
+    "test": "vitest run",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
@@ -17,6 +18,7 @@
     "@payloadcms/db-sqlite": "3.90.0",
     "@payloadcms/next": "3.90.0",
     "@payloadcms/richtext-lexical": "3.90.0",
+    "@payloadcms/translations": "3.90.0",
     "@payloadcms/ui": "3.90.0",
     "cross-env": "10.1.0",
     "graphql": "^16.8.1",
@@ -33,7 +35,8 @@
     "eslint": "^9.16.0",
     "eslint-config-next": "16.3.5",
     "flag-icons": "7.5.0",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.7"
   },
   "engines": {
     "node": ">=20.9.0"

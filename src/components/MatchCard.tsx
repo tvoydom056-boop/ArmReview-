@@ -1,0 +1,34 @@
+import Link from 'next/link'
+
+import { getHandLabel, type AthleteRef, type MatchView } from '@/lib/matchView'
+
+import { CountryFlag } from './CountryFlag'
+import styles from './MatchCard.module.css'
+import { ScoreReveal } from './ScoreReveal'
+
+export function MatchCard({ match }: { match: MatchView }) {
+  return (
+    <article className={styles.card}>
+      <div className={styles.versus}>
+        <Side athlete={match.athlete1} />
+        <span className={styles.vs}>vs</span>
+        <Side athlete={match.athlete2} />
+      </div>
+      <ul className={styles.tags}>
+        {match.isTitle ? <li className={`${styles.tag} ${styles.title}`}>Титульный</li> : null}
+        <li className={styles.tag}>{getHandLabel(match.hand)}</li>
+        {match.weightClass ? <li className={styles.tag}>{match.weightClass}</li> : null}
+      </ul>
+      <ScoreReveal outcome={match.outcome} />
+    </article>
+  )
+}
+
+function Side({ athlete }: { athlete: AthleteRef }) {
+  return (
+    <Link href={`/athletes/${athlete.slug}`} className={styles.side}>
+      <CountryFlag code={athlete.countryCode} />
+      <span>{athlete.name}</span>
+    </Link>
+  )
+}

@@ -1,8 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
-import { slugify } from '@/lib/slugify'
-
 import { anyone } from './access'
+import { slugField } from './fields/slug'
 
 export const Athletes: CollectionConfig = {
   slug: 'athletes',
@@ -12,21 +11,7 @@ export const Athletes: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text', label: 'Имя', required: true },
     { name: 'nameEn', type: 'text', label: 'Имя латиницей' },
-    {
-      name: 'slug',
-      type: 'text',
-      label: 'Slug (для URL)',
-      required: true,
-      unique: true,
-      index: true,
-      admin: { description: 'Если пусто — берётся из имени латиницей' },
-      hooks: {
-        beforeValidate: [
-          ({ value, siblingData }) =>
-            value || slugify(String(siblingData.nameEn || siblingData.name || '')),
-        ],
-      },
-    },
+    slugField(['nameEn', 'name']),
     {
       name: 'countryCode',
       type: 'text',
