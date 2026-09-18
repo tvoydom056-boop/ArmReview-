@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/package-lock.json)",
+      "Read(**/*.db)",
+      "Read(**/.next/**)",
+      "Read(**/*.tsbuildinfo)"
+    ]
+  }
+}

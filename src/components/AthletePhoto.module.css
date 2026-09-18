@@ -1,0 +1,30 @@
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--border);
+  aspect-ratio: 4 / 5;
+}
+
+.card {
+  width: 100%;
+}
+
+.profile {
+  width: 100%;
+  max-width: 240px;
+  border-radius: var(--radius);
+}
+
+.img {
+  object-fit: cover;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--muted);
+}
