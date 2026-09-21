@@ -10,7 +10,9 @@ type Options = { isProduction: boolean; isVercel?: boolean }
 
 // В production без доверенного заголовка — null: молча склеить всех в один ipHash хуже, чем упасть и заметить
 export function getClientIp(headers: Headers, { isProduction, isVercel = false }: Options): string | null {
-  const value = (headers.get(CLIENT_IP_HEADER) ?? (isVercel ? headers.get(VERCEL_IP_HEADER) : null))?.trim()
+  // Граница доверия зависит от хостинга: на Vercel X-Client-IP присылает сам клиент.
+  // Между заголовками разных прокси fallback недопустим (PROJECT.md § 9).
+  const value = headers.get(isVercel ? VERCEL_IP_HEADER : CLIENT_IP_HEADER)?.trim()
   if (value) return value
   return isProduction ? null : '127.0.0.1'
 }
