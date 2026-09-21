@@ -3,7 +3,8 @@ import { z } from 'zod'
 const scale = z.number().int().min(1).max(5)
 
 export const voteInputSchema = z.object({
-  matchId: z.string().regex(/^\d+$/),
+  // SQLite ID передаётся в service как number: переполнение не должно доходить до драйвера.
+  matchId: z.string().regex(/^\d+$/).refine((value) => Number.isSafeInteger(Number(value)) && Number(value) > 0),
   spectacle: scale,
   intrigue: scale,
   technique: scale,

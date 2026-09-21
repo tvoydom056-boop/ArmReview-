@@ -12,6 +12,7 @@ export type MatchPanelData = {
 
 // Всё, что нужно окну матча: и полной странице /matches/[id], и модалке поверх турнира
 export async function getMatchPanelData(id: number): Promise<MatchPanelData | null> {
+  if (!Number.isSafeInteger(id) || id <= 0) return null
   const payload = await getPayloadClient()
   const { docs } = await payload.find({
     collection: 'matches',

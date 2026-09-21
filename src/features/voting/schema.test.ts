@@ -26,6 +26,12 @@ describe('voteInputSchema', () => {
     expect(voteInputSchema.safeParse({ ...valid, matchId: 'abc' }).success).toBe(false)
   })
 
+  it('отклоняет ID, которые нельзя безопасно передать в БД как number', () => {
+    for (const matchId of ['0', '9007199254740992', '9'.repeat(400)]) {
+      expect(voteInputSchema.safeParse({ ...valid, matchId }).success).toBe(false)
+    }
+  })
+
   it('заполненный honeypot схема пропускает — его тихо гасит service', () => {
     expect(voteInputSchema.safeParse({ ...valid, website: 'http://spam' }).success).toBe(true)
   })
