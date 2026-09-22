@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Макеты — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только сетка оглавления. Ничего из этого не нужно другим страницам,
+   поэтому в ui.css не выносится. Цвета — только токены ui.css. */
+
+/* .card + .card из ui.css даёт margin-top и ломает выравнивание внутри .grid */
+.grid > .card + .card { margin-top: 0; }
+
+.lead { max-width: 62ch; margin: 12px 0 0; font-size: 15px; }
+
+/* памятка: 4 правила этих макетов */
+.rules { counter-reset: r; margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.rules li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 14px; }
+.rules li::before {
+  counter-increment: r; content: counter(r);
+  font-family: var(--font-display); font-weight: 700; font-size: 16px;
+  color: var(--muted); line-height: 1.35;
+}
+
+/* карточка макета */
+.mock { display: flex; flex-direction: column; gap: 8px; }
+.mock:hover { background: var(--surface-hover); }
+.mock__title { font-family: var(--font-display); font-weight: 600; font-size: 19px; text-transform: uppercase; }
+.mock__meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.mock__file {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 12px; color: var(--gold); word-break: break-all;
+}
+.mock__desc { margin: 0; font-size: 14px; color: var(--muted); }
+/* прижато к низу, чтобы карточки в ряду выравнивались по списку блоков */
+.mock__blocks {
+  margin: auto 0 0; padding: 12px 0 0; border-top: 1px solid var(--border);
+  list-style: none; display: flex; flex-wrap: wrap; gap: 6px;
+}
+.mock__blocks li {
+  font-size: 11px; color: var(--muted);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 3px 9px;
+}
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <h1>Макеты ArmReview</h1>
+  <p class="lead muted">
+    Это статические HTML-макеты, не рабочее приложение: ничего не сохраняется и никуда не
+    отправляется, все данные в них — заглушки.
+  </p>
+
+  <div class="card section">
+    <p class="label">Правила этих макетов</p>
+    <ol class="rules">
+      <li>Счёт, победитель и статистика всегда под спойлером — это инвариант продукта, а не украшение.</li>
+      <li>Сайт без регистрации: логинов, лайков, комментариев и подписок в макетах нет.</li>
+      <li>Плашка «НЕТ ДАННЫХ В БАЗЕ» означает, что блок опирается на поля, которых в Payload пока нет.</li>
+      <li>Кнопка в правом верхнем углу переключает тёмную и светлую тему — проверять надо обе.</li>
+    </ol>
+  </div>
+
+  <section class="section">
+    <h2 class="label">Страницы сайта · 8 макетов</h2>
+    <div class="grid grid-2">
+
+      <a class="card mock" href="home.html">
+        <h3 class="mock__title">Главная</h3>
+        <p class="mock__meta"><span class="mock__file">home.html</span></p>
+        <p class="mock__desc">Точка входа: что идёт прямо сейчас и что смотреть дальше.</p>
+        <ul class="mock__blocks">
+          <li>Ближайший турнир</li>
+          <li>Последние турниры</li>
+          <li>Матчи на оценке</li>
+          <li>Тизер топа</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="event.html">
+        <h3 class="mock__title">Турнир</h3>
+        <p class="mock__meta"><span class="mock__file">event.html</span></p>
+        <p class="mock__desc">Карта одного турнира: все матчи в одном списке, с фильтром по руке.</p>
+        <ul class="mock__blocks">
+          <li>Карта матчей</li>
+          <li>Фильтры по руке</li>
+          <li>Главные матчи карты</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="match.html">
+        <h3 class="mock__title">Матч и голосование</h3>
+        <p class="mock__meta"><span class="mock__file">match.html</span></p>
+        <p class="mock__desc">Страница одного матча: сначала ставишь свою оценку, потом открываешь результат.</p>
+        <ul class="mock__blocks">
+          <li>Блок противостояния</li>
+          <li>Форма оценки по 4 шкалам</li>
+          <li>Результат под спойлером</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="athlete.html">
+        <h3 class="mock__title">Профиль борца</h3>
+        <p class="mock__meta"><span class="mock__file">athlete.html</span></p>
+        <p class="mock__desc">Всё про одного борца: кто он по стилю, что у него в рекорде и с кем он боролся.</p>
+        <ul class="mock__blocks">
+          <li>Шапка с типом борца</li>
+          <li>Шкала инсайд↔аутсайд</li>
+          <li>Рекорд</li>
+          <li>Статистика по стилям</li>
+          <li>Список матчей</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="athletes.html">
+        <h3 class="mock__title">Список борцов</h3>
+        <p class="mock__meta"><span class="mock__file">athletes.html</span></p>
+        <p class="mock__desc">Каталог всех борцов базы с поиском и отбором.</p>
+        <ul class="mock__blocks">
+          <li>Сетка карточек</li>
+          <li>Поиск</li>
+          <li>Фильтры</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="top.html">
+        <h3 class="mock__title">Топ-100 матчей</h3>
+        <p class="mock__meta"><span class="mock__file">top.html</span></p>
+        <p class="mock__desc">Рейтинг лучших матчей по оценкам зрителей — от первого места до сотого.</p>
+        <ul class="mock__blocks">
+          <li>Пьедестал</li>
+          <li>Плотный список с баллами</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="privacy.html">
+        <h3 class="mock__title">Политика конфиденциальности</h3>
+        <p class="mock__meta"><span class="mock__file">privacy.html</span></p>
+        <p class="mock__desc">Текстовая страница: что сайт собирает при голосовании и зачем.</p>
+        <ul class="mock__blocks">
+          <li>Какие данные собираются</li>
+          <li>Зачем они нужны</li>
+          <li>Cookie и хранение</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="contacts.html">
+        <h3 class="mock__title">Контакты</h3>
+        <p class="mock__meta"><span class="mock__file">contacts.html</span></p>
+        <p class="mock__desc">Текстовая страница: кто делает проект и куда писать об ошибке в данных.</p>
+        <ul class="mock__blocks">
+          <li>Кто делает проект</li>
+          <li>Куда писать</li>
+        </ul>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="label">Дизайн-система и состояния · 3 файла</h2>
+    <div class="grid grid-2">
+
+      <a class="card mock" href="components.html">
+        <h3 class="mock__title">Витрина примитивов</h3>
+        <p class="mock__meta"><span class="mock__file">components.html</span></p>
+        <p class="mock__desc">Все кирпичики ui.css в одном месте — отсюда берут готовое, а не пишут своё.</p>
+        <ul class="mock__blocks">
+          <li>Токены</li>
+          <li>Типографика</li>
+          <li>Все шкалы во всех состояниях</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="states.html">
+        <h3 class="mock__title">Состояния и оверлеи</h3>
+        <p class="mock__meta"><span class="mock__file">states.html</span></p>
+        <p class="mock__desc">Как выглядит сайт, когда что-то поверх, чего-то нет или что-то сломалось.</p>
+        <ul class="mock__blocks">
+          <li>Cookie-баннер</li>
+          <li>Модалка</li>
+          <li>Пустые состояния</li>
+          <li>Ошибки</li>
+          <li>Скелетоны</li>
+        </ul>
+      </a>
+
+      <a class="card mock" href="contrast-report.md">
+        <h3 class="mock__title">Отчёт по контрасту</h3>
+        <p class="mock__meta">
+          <span class="mock__file">contrast-report.md</span>
+          <span class="stylebadge muted">не страница</span>
+        </p>
+        <p class="mock__desc">Проверка цветовой системы на контраст и доступность в обеих темах.</p>
+        <ul class="mock__blocks">
+          <li>Замеры контраста</li>
+          <li>Тёмная и светлая тема</li>
+          <li>Что требует правки</li>
+        </ul>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

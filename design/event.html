@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>East vs West 17 — карта матчей — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Раскладка страницы турнира. Цвета — только токены ui.css, своих нет. */
+
+/* Заголовок секции: раскладка .yearhead из ui.css, но уровень — h2 (h1 занят названием турнира) */
+.yearhead h2 { font-family: var(--font-display); font-size: 22px; font-weight: 700; text-transform: uppercase; }
+
+/* Шапка турнира */
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 12px 0; font-size: 13px; color: var(--muted); }
+.meta i { font-style: normal; color: var(--border-strong); }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.note { margin: 0 0 12px; font-size: 13px; max-width: 72ch; }
+.note--after { margin: 14px 0 0; }
+
+/* Строка карты матчей: на узком экране результат переносится под имена */
+.matchrow { grid-template-columns: 38px 1fr; row-gap: 10px; }
+.cardno { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 46px; padding: 6px 0; border-radius: 8px; background: var(--surface-2); font-family: var(--font-display); }
+.cardno b { font-size: 16px; line-height: 1; }
+.cardno span { font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.fighters { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-weight: 600; }
+.fighters .vs { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 5px; }
+.pill--xs { padding: 2px 8px; font-size: 10px; letter-spacing: 0.06em; }
+
+/* Результат строки: балл открыт (он не выдаёт победителя), счёт — под своим спойлером */
+.result { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding-top: 9px; border-top: 1px solid var(--border); }
+.result__rating { display: flex; flex-direction: column; line-height: 1.15; }
+.result .spoiler { min-width: 108px; }
+.result .spoiler__body { min-height: 44px; display: flex; flex-direction: column; justify-content: center; text-align: right; }
+.result .spoiler__cover { padding: 0; }
+/* Закрытая строка должна читаться как «спрятано», а не «пусто». Базовый blur(9px) из ui.css
+   рассчитан на крупный блок, в ячейке высотой 44px он стирает содержимое до фона — поэтому
+   здесь размытие мягче, текст под кнопкой всё ещё нечитаем, но виден. */
+.result .spoiler[data-open='false'] .spoiler__body { filter: blur(5px); opacity: 0.7; }
+.score { font-size: 24px; line-height: 1.05; }
+.result__who { font-size: 12px; }
+.btn--xs { padding: 6px 14px; font-size: 12px; }
+@media (min-width: 640px) {
+  .matchrow { grid-template-columns: 38px 1fr 212px; }
+  .result { grid-column: auto; padding-top: 0; border-top: 0; }
+}
+
+/* Заглушка фото: инициалы вместо картинки */
+.ph { display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--muted); }
+
+/* Командный счёт турнира. Верхний отступ — чтобы плашка .future не легла на кнопку спойлера */
+.card.future { padding-top: 34px; }
+.teams { display: flex; align-items: center; justify-content: center; gap: 20px; text-align: center; }
+.teams .label { margin-bottom: 4px; }
+.teams b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 44px; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* Главные матчи: первый — во всю ширину. Гасим .card + .card из ui.css, внутри сетки отступ даёт gap */
+.mains .card + .card { margin-top: 0; }
+.mainfoot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; }
+a.btn { display: inline-block; }
+@media (min-width: 720px) { .mains > :first-child { grid-column: 1 / -1; } }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html" aria-current="page">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+  <a class="back" href="home.html">← Все турниры</a>
+
+  <h1>East vs West 17</h1>
+  <p class="meta">14 марта 2026 <i>·</i> Дубай, ОАЭ <i>·</i> 12 матчей в карте</p>
+  <div class="pills">
+    <!-- статус выводится из даты турнира: турнир прошёл → оценки принимаются -->
+    <span class="pill">Голосование открыто</span>
+    <span class="pill pill--gold">Титульные матчи: 2</span>
+  </div>
+
+  <div class="chips" role="tablist" aria-label="Фильтр карты матчей">
+    <button class="chip" role="tab" aria-selected="true">Все</button>
+    <button class="chip" role="tab" aria-selected="false">Правая рука</button>
+    <button class="chip" role="tab" aria-selected="false">Левая рука</button>
+    <button class="chip" role="tab" aria-selected="false">Титульные</button>
+  </div>
+
+  <!-- ===== КАРТА МАТЧЕЙ ===== -->
+  <section class="section">
+    <div class="yearhead">
+      <h2>Карта матчей</h2>
+      <span>12 матчей · по порядку в карте</span>
+    </div>
+    <p class="note muted">Счёт открывается в каждой строке отдельно — карту можно пролистать целиком, не узнав результат матча, который вы ещё не смотрели.</p>
+
+    <div class="matchrow">
+      <div class="cardno"><b>1</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/bg.svg" alt=""> Николай Тодоров
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/pl.svg" alt=""> Адам Новак
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">80 кг · Левая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">3.8</span>
+          <span class="matchrow__sub">96 голосов</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">4 : 2</div>
+            <div class="result__who">Победил Тодоров</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>2</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/md.svg" alt=""> Виктор Балан
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/br.svg" alt=""> Лукас Перейра
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">80 кг · Правая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.1</span>
+          <span class="matchrow__sub">118 голосов</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">3 : 3</div>
+            <div class="result__who">Ничья</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>3</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/by.svg" alt=""> Игорь Савицкий
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/lv.svg" alt=""> Эдгарс Лиепиньш
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">90 кг · Левая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">3.4</span>
+          <span class="matchrow__sub">87 голосов</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">6 : 0</div>
+            <div class="result__who">Победил Савицкий</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>4</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ua.svg" alt=""> Остап Гринько
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/us.svg" alt=""> Кристиан Мур
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">90 кг · Правая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.4</span>
+          <span class="matchrow__sub">162 голоса</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">2 : 4</div>
+            <div class="result__who">Победил Мур</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>5</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/kz.svg" alt=""> Руслан Дюсенов
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/us.svg" alt=""> Райан Долан
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">105 кг · Левая</span>
+        </div>
+      </div>
+      <div class="result">
+        <!-- балл показываем от 5 голосов (PROJECT.md § 6), до этого — прочерк -->
+        <div class="result__rating">
+          <span class="ratingbadge">—</span>
+          <span class="matchrow__sub">4 голоса</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">5 : 1</div>
+            <div class="result__who">Дюсенов · травма</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>6</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/tr.svg" alt=""> Мехмет Октай
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/pl.svg" alt=""> Якуб Заремба
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">105 кг · Правая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.0</span>
+          <span class="matchrow__sub">131 голос</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">4 : 2</div>
+            <div class="result__who">Победил Октай</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>7</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ru.svg" alt=""> Даниил Крайнов
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/br.svg" alt=""> Тьяго Алмейда
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">95 кг · Левая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">3.6</span>
+          <span class="matchrow__sub">102 голоса</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">1 : 5</div>
+            <div class="result__who">Победил Алмейда</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>8</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ge.svg" alt=""> Арсен Гоциридзе
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/us.svg" alt=""> Маркус Фрай
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">95 кг · Правая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.2</span>
+          <span class="matchrow__sub">149 голосов</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">4 : 2</div>
+            <div class="result__who">Победил Гоциридзе</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>9</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ru.svg" alt=""> Андрей Волков
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/pl.svg" alt=""> Матеуш Ковальский
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">110 кг · Левая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.5</span>
+          <span class="matchrow__sub">188 голосов</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">2 : 4</div>
+            <div class="result__who">Победил Ковальский</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>10</b><span>Карта</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ru.svg" alt=""> Тимур Хасанов
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/br.svg" alt=""> Рафаэль Дуарте
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">110 кг · Правая</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.3</span>
+          <span class="matchrow__sub">174 голоса</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">6 : 0</div>
+            <div class="result__who">Победил Хасанов</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>11</b><span>Ко-мейн</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ge.svg" alt=""> Реваз Кипиани
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/us.svg" alt=""> Коди Уэллс
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">105 кг · Левая</span>
+          <span class="pill pill--gold pill--xs">Титульный</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.7</span>
+          <span class="matchrow__sub">243 голоса</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">4 : 2</div>
+            <div class="result__who">Победил Кипиани</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="matchrow">
+      <div class="cardno"><b>12</b><span>Мейн</span></div>
+      <div>
+        <a class="fighters" href="match.html">
+          <img class="flag" src="../public/flags/ge.svg" alt=""> Георгий Арсенидзе
+          <span class="vs">vs</span>
+          <img class="flag" src="../public/flags/us.svg" alt=""> Джейсон Рид
+        </a>
+        <div class="tags">
+          <span class="matchrow__sub">+110 кг · Правая</span>
+          <span class="pill pill--gold pill--xs">Титульный</span>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result__rating">
+          <span class="ratingbadge">4.8</span>
+          <span class="matchrow__sub">311 голосов</span>
+        </div>
+        <div class="spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="num score">5 : 1</div>
+            <div class="result__who">Победил Арсенидзе</div>
+          </div>
+          <div class="spoiler__cover"><button class="btn btn--xs" data-reveal>Счёт</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ИТОГ ПРОТИВОСТОЯНИЯ (полей нет в базе) ===== -->
+  <section class="section">
+    <div class="yearhead">
+      <h2>Итог противостояния</h2>
+      <span>командный счёт</span>
+    </div>
+    <article class="card future">
+      <div class="spoiler" data-open="false">
+        <div class="spoiler__body">
+          <div class="teams">
+            <div>
+              <p class="label">East</p>
+              <b>8</b>
+            </div>
+            <span class="versus__vs">:</span>
+            <div>
+              <p class="label">West</p>
+              <b>3</b>
+            </div>
+          </div>
+          <p class="note note--after muted">Один матч закончился вничью.</p>
+        </div>
+        <div class="spoiler__cover">
+          <button class="btn" data-reveal>Показать итог турнира</button>
+          <p class="spoiler__hint">Командный счёт выдаёт результаты сразу нескольких матчей.</p>
+        </div>
+      </div>
+      <p class="note note--after muted">Сторону East / West хранить негде: у матча нет поля команды, у турнира нет поля формата. Пока считать нечего.</p>
+    </article>
+  </section>
+
+  <!-- ===== ГЛАВНЫЕ МАТЧИ КАРТЫ ===== -->
+  <section class="section">
+    <div class="yearhead">
+      <h2>Главные матчи карты</h2>
+      <span>3 матча</span>
+    </div>
+    <div class="grid grid-2 mains">
+
+      <article class="card">
+        <p class="label">Мейн-ивент · матч №12 · титул +110 кг</p>
+        <div class="versus">
+          <div>
+            <div class="versus__photo ph">ГА</div>
+            <div class="versus__name">Георгий Арсенидзе</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия</div>
+          </div>
+          <div class="versus__vs">VS</div>
+          <div>
+            <div class="versus__photo ph">ДР</div>
+            <div class="versus__name">Джейсон Рид</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/us.svg" alt=""> США</div>
+          </div>
+        </div>
+        <div class="mainfoot">
+          <span class="matchrow__sub">Правая рука · до 6 очков · 311 оценок</span>
+          <a class="btn" href="match.html">Оценить матч</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="label">Ко-мейн · матч №11 · титул 105 кг</p>
+        <div class="versus">
+          <div>
+            <div class="versus__photo ph">РК</div>
+            <div class="versus__name">Реваз Кипиани</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия</div>
+          </div>
+          <div class="versus__vs">VS</div>
+          <div>
+            <div class="versus__photo ph">КУ</div>
+            <div class="versus__name">Коди Уэллс</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/us.svg" alt=""> США</div>
+          </div>
+        </div>
+        <div class="mainfoot">
+          <span class="matchrow__sub">Левая рука · 243 оценки</span>
+          <a class="btn" href="match.html">Оценить матч</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="label">Суперматч · матч №9 · 110 кг</p>
+        <div class="versus">
+          <div>
+            <div class="versus__photo ph">АВ</div>
+            <div class="versus__name">Андрей Волков</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия</div>
+          </div>
+          <div class="versus__vs">VS</div>
+          <div>
+            <div class="versus__photo ph">МК</div>
+            <div class="versus__name">Матеуш Ковальский</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/pl.svg" alt=""> Польша</div>
+          </div>
+        </div>
+        <div class="mainfoot">
+          <span class="matchrow__sub">Левая рука · 188 оценок</span>
+          <a class="btn" href="match.html">Оценить матч</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== КАК ЭТО РАБОТАЕТ ===== -->
+  <section class="section">
+    <p class="label">Как это работает</p>
+    <p class="note">После турнира любой зритель оценивает каждый матч по четырём шкалам от 1 до 5. Из оценок всех зрителей считается балл матча — он и попадает в топ лучших матчей.</p>
+    <div class="grid grid-4">
+      <dl class="fact"><dt>Зрелищность</dt><dd>1–5</dd></dl>
+      <dl class="fact"><dt>Интрига</dt><dd>1–5</dd></dl>
+      <dl class="fact"><dt>Техничность</dt><dd>1–5</dd></dl>
+      <dl class="fact"><dt>Судейство</dt><dd>1–5</dd></dl>
+    </div>
+    <p class="note note--after muted">Регистрация не нужна: голос привязан к устройству, один голос на матч. Балл появляется, когда за матч проголосуют хотя бы 5 человек.</p>
+  </section>
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

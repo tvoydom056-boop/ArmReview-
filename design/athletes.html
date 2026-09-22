@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Борцы — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только раскладка этой страницы. Цвета — исключительно токены из ui.css. */
+
+.lead { max-width: 68ch; margin: 10px 0 0; font-size: 14px; }
+.note { max-width: 72ch; margin: 0; font-size: 13px; }
+.note + .note { margin-top: 10px; }
+
+.toolbar { display: grid; gap: 12px; margin: 18px 0 4px; }
+.search {
+  width: 100%; max-width: 420px;
+  padding: 11px 16px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border-strong);
+  color: var(--text); font-family: inherit; font-size: 14px;
+}
+.search::placeholder { color: var(--muted); }
+
+/* заглушка фото: инициалы вместо картинки */
+.ph { display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 24px; letter-spacing: .05em; color: var(--muted); }
+
+/* образец обводки в легенде — объявлен ДО .ph--*, чтобы цвет типа перебивал нейтральный */
+.ring {
+  display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+  border-style: solid; border-width: 3px; border-color: var(--border-strong);
+  vertical-align: -3px; margin-right: 8px;
+}
+
+/* тип борца — ТОЛЬКО обводка фото, без сплошной заливки:
+   заливкой в системе помечается исход матча (--win / --loss). */
+.ph--inside { border-width: 3px; border-color: var(--inside); }
+.ph--outside { border-width: 3px; border-color: var(--outside); }
+.ph--universal { border-width: 3px; border-color: var(--universal); }
+
+.athletecard__meta { font-size: 12px; color: var(--muted); }
+.athletecard .pill--gold { margin-top: auto; font-size: 11px; padding: 4px 10px; }
+
+.legendrow { font-size: 13px; padding: 5px 0; }
+
+/* место под плашку «НЕТ ДАННЫХ В БАЗЕ», чтобы она не легла на заголовок секции */
+.future > .label { padding-right: 120px; }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html" aria-current="page">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <p class="label">База участников</p>
+  <h1>Борцы</h1>
+  <p class="lead muted">Все, кто хоть раз выходил к столу на турнирах в базе. Поиск работает и по кириллице, и по латинице.</p>
+
+  <div class="toolbar">
+    <input class="search" type="search" placeholder="Имя борца — Сагинашвили или Saginashvili" aria-label="Поиск борца">
+    <div class="chips">
+      <button class="chip" aria-selected="true">Все</button>
+      <button class="chip" aria-selected="false">Правая</button>
+      <button class="chip" aria-selected="false">Левая</button>
+      <button class="chip" aria-selected="false">По странам</button>
+    </div>
+  </div>
+
+  <section class="section">
+    <p class="label">12 из 148 борцов</p>
+
+    <div class="grid grid-4">
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--universal" aria-hidden="true">ЛС</span>
+        <span class="athletecard__name">Леван Сагинашвили</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия · 155 кг</span>
+        <span class="stylebadge t-universal">универсал</span>
+        <span class="pill pill--gold">Подробный профиль</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--inside" aria-hidden="true">ВЛ</span>
+        <span class="athletecard__name">Виталий Лалетин</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия · 128 кг</span>
+        <span class="stylebadge t-inside">инсайд</span>
+        <span class="pill pill--gold">Подробный профиль</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--outside" aria-hidden="true">ДЧ</span>
+        <span class="athletecard__name">Дэйв Чаффи</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/us.svg" alt=""> США · 145 кг</span>
+        <span class="stylebadge t-outside">аутсайд</span>
+        <span class="pill pill--gold">Подробный профиль</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--inside" aria-hidden="true">ГК</span>
+        <span class="athletecard__name">Генади Квиквиния</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия · 150 кг</span>
+        <span class="stylebadge t-inside">инсайд</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--universal" aria-hidden="true">ХЗ</span>
+        <span class="athletecard__name">Хаджимурат Золоев</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия · 110 кг</span>
+        <span class="stylebadge t-universal">универсал</span>
+        <span class="pill pill--gold">Подробный профиль</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--inside" aria-hidden="true">РБ</span>
+        <span class="athletecard__name">Рустам Бабаев</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/ua.svg" alt=""> Украина · 115 кг</span>
+        <span class="stylebadge t-inside">инсайд</span>
+        <span class="pill pill--gold">Подробный профиль</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--outside" aria-hidden="true">ДК</span>
+        <span class="athletecard__name">Джерри Кадоретт</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/us.svg" alt=""> США · 125 кг</span>
+        <span class="stylebadge t-outside">аутсайд</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--universal" aria-hidden="true">ЕС</span>
+        <span class="athletecard__name">Ержан Сапаров</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/kz.svg" alt=""> Казахстан · 98 кг</span>
+        <span class="stylebadge t-universal">универсал</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--outside" aria-hidden="true">ЭД</span>
+        <span class="athletecard__name">Эрхан Демирджи</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/tr.svg" alt=""> Турция · 105 кг</span>
+        <span class="stylebadge t-outside">аутсайд</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--inside" aria-hidden="true">АТ</span>
+        <span class="athletecard__name">Артём Тайнов</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия · 100 кг</span>
+        <span class="stylebadge t-inside">инсайд</span>
+        <span class="pill pill--gold">Подробный профиль</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--universal" aria-hidden="true">АД</span>
+        <span class="athletecard__name">Александр Дробыш</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/by.svg" alt=""> Беларусь · 118 кг</span>
+        <span class="stylebadge t-universal">универсал</span>
+      </a>
+
+      <a class="athletecard" href="#">
+        <span class="athletecard__photo ph ph--outside" aria-hidden="true">ИО</span>
+        <span class="athletecard__name">Ион Опря</span>
+        <span class="athletecard__meta"><img class="flag" src="../public/flags/md.svg" alt=""> Молдова · 108 кг</span>
+        <span class="stylebadge t-outside">аутсайд</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ЛЕГЕНДА -->
+  <section class="section">
+    <div class="card future">
+      <p class="label">Что означает цвет обводки фото</p>
+
+      <div class="legendrow">
+        <span class="ring ph--inside"></span><b class="t-inside">Инсайд</b>
+        <span class="muted">— борется кистью, тянет соперника в себя, решает в короткой амплитуде.</span>
+      </div>
+      <div class="legendrow">
+        <span class="ring ph--outside"></span><b class="t-outside">Аутсайд</b>
+        <span class="muted">— уходит в верхний крюк и отрыв, работает на длинной руке и за счёт давления.</span>
+      </div>
+      <div class="legendrow">
+        <span class="ring ph--universal"></span><b class="t-universal">Универсал</b>
+        <span class="muted">— меняет технику по ходу схватки, нет одной ставки.</span>
+      </div>
+
+      <p class="note muted" style="margin-top:12px">Тип — только обводка и подпись, без сплошной заливки: заливкой в системе помечен исход матча (победа / поражение), и два смысла не должны путаться.</p>
+      <p class="note muted">Поля «тип борца» в базе пока нет — в коллекции есть только «стиль» свободным текстом. Обводка и подписи на карточках заполнены вручную для макета.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

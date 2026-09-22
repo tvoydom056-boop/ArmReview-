@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Топ-100 матчей — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только раскладка этой страницы. Цвета — исключительно токены из ui.css. */
+
+/* Пьедестал: на телефоне карточки во всю ширину, иначе пара борцов не помещается.
+   С 720px возвращаемся к трём колонкам .grid-3. */
+@media (max-width: 719px) { .podium { grid-template-columns: 1fr; } }
+
+.lead { max-width: 68ch; margin: 10px 0 0; font-size: 14px; }
+.note { max-width: 72ch; margin: 0; font-size: 13px; }
+.note + .note { margin-top: 10px; }
+
+/* заглушка фото: инициалы вместо картинки */
+.ph { display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; letter-spacing: .05em; color: var(--muted); }
+.podium .versus__photo { width: 72px; height: 72px; font-size: 22px; }
+/* «VS» по центру фото, а не по центру всей колонки с именем и страной */
+.podium .versus { align-items: start; }
+.podium .versus__vs { margin-top: 21px; }
+
+.podcard__top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.podcard__rank { font-size: 34px; line-height: 1; }
+.podcard__rank--lead { color: var(--gold); }
+.podcard__row { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 12px; }
+.podcard__rate { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.podcard__big { font-size: 34px; line-height: 1.1; }
+
+.matchrow > .rank { text-align: center; }
+
+/* место под плашку «НЕТ ДАННЫХ В БАЗЕ», чтобы она не легла на заголовок секции */
+.future > .label { padding-right: 120px; }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html" aria-current="page">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <p class="label">Рейтинг зрителей</p>
+  <h1>Топ-100 матчей</h1>
+  <p class="lead muted">Балл — взвешенное среднее четырёх зрительских оценок (зрелищность 30%, интрига 25%, техника 25%, судейство 20%) с байесовским сглаживанием: пока голосов мало, балл тянется к среднему по сайту, поэтому матч с тремя голосами не обгонит матч с тысячей.</p>
+
+  <div class="chips" style="margin-top:18px">
+    <button class="chip" aria-selected="true">Все</button>
+    <button class="chip" aria-selected="false">За год</button>
+    <button class="chip" aria-selected="false">Правая</button>
+    <button class="chip" aria-selected="false">Левая</button>
+  </div>
+
+  <!-- ПЬЕДЕСТАЛ -->
+  <section class="section future">
+    <p class="label">Пьедестал</p>
+
+    <div class="grid grid-3 podium">
+
+      <article class="card">
+        <header class="podcard__top">
+          <span class="rank podcard__rank podcard__rank--lead">1</span>
+          <span>
+            <span class="matchrow__event">East vs West 12</span><br>
+            <span class="matchrow__sub">15 апр 2023 · правая · 110 кг · титульный</span>
+          </span>
+        </header>
+
+        <div class="versus">
+          <div>
+            <div class="versus__photo ph" aria-hidden="true">ЛС</div>
+            <div class="versus__name">Леван Сагинашвили</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия</div>
+          </div>
+          <div class="versus__vs">VS</div>
+          <div>
+            <div class="versus__photo ph" aria-hidden="true">ВЛ</div>
+            <div class="versus__name">Виталий Лалетин</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия</div>
+          </div>
+        </div>
+
+        <div class="podcard__row podcard__rate">
+          <div>
+            <p class="label">Балл зрителей</p>
+            <span class="ratingbadge">9.42</span> <span class="muted">/ 10</span>
+          </div>
+          <div class="matchrow__sub">4&nbsp;118 голосов</div>
+        </div>
+
+        <div class="podcard__row spoiler" data-open="false">
+          <div class="spoiler__body">
+            <p class="label">Счёт</p>
+            <div class="podcard__rate">
+              <span class="num podcard__big">4 : 2</span>
+              <span class="pill pill--win">Сагинашвили</span>
+            </div>
+          </div>
+          <div class="spoiler__cover">
+            <button class="btn" data-reveal>Показать счёт</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="podcard__top">
+          <span class="rank podcard__rank">2</span>
+          <span>
+            <span class="matchrow__event">East vs West 14</span><br>
+            <span class="matchrow__sub">20 апр 2024 · правая · +110 кг</span>
+          </span>
+        </header>
+
+        <div class="versus">
+          <div>
+            <div class="versus__photo ph" aria-hidden="true">ГК</div>
+            <div class="versus__name">Генади Квиквиния</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия</div>
+          </div>
+          <div class="versus__vs">VS</div>
+          <div>
+            <div class="versus__photo ph" aria-hidden="true">ДЧ</div>
+            <div class="versus__name">Дэйв Чаффи</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/us.svg" alt=""> США</div>
+          </div>
+        </div>
+
+        <div class="podcard__row podcard__rate">
+          <div>
+            <p class="label">Балл зрителей</p>
+            <span class="ratingbadge">9.18</span> <span class="muted">/ 10</span>
+          </div>
+          <div class="matchrow__sub">3&nbsp;460 голосов</div>
+        </div>
+
+        <div class="podcard__row spoiler" data-open="false">
+          <div class="spoiler__body">
+            <p class="label">Счёт</p>
+            <div class="podcard__rate">
+              <span class="num podcard__big">3 : 3</span>
+              <span class="pill">Ничья</span>
+            </div>
+          </div>
+          <div class="spoiler__cover">
+            <button class="btn" data-reveal>Показать счёт</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="podcard__top">
+          <span class="rank podcard__rank">3</span>
+          <span>
+            <span class="matchrow__event">King of the Table 8</span><br>
+            <span class="matchrow__sub">2 ноя 2024 · левая · 110 кг · титульный</span>
+          </span>
+        </header>
+
+        <div class="versus">
+          <div>
+            <div class="versus__photo ph" aria-hidden="true">ХЗ</div>
+            <div class="versus__name">Хаджимурат Золоев</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия</div>
+          </div>
+          <div class="versus__vs">VS</div>
+          <div>
+            <div class="versus__photo ph" aria-hidden="true">РБ</div>
+            <div class="versus__name">Рустам Бабаев</div>
+            <div class="matchrow__sub"><img class="flag" src="../public/flags/ua.svg" alt=""> Украина</div>
+          </div>
+        </div>
+
+        <div class="podcard__row podcard__rate">
+          <div>
+            <p class="label">Балл зрителей</p>
+            <span class="ratingbadge">9.05</span> <span class="muted">/ 10</span>
+          </div>
+          <div class="matchrow__sub">2&nbsp;977 голосов</div>
+        </div>
+
+        <div class="podcard__row spoiler" data-open="false">
+          <div class="spoiler__body">
+            <p class="label">Счёт</p>
+            <div class="podcard__rate">
+              <span class="num podcard__big">4 : 3</span>
+              <span class="pill pill--win">Золоев</span>
+            </div>
+          </div>
+          <div class="spoiler__cover">
+            <button class="btn" data-reveal>Показать счёт</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- МЕСТА 4–17 -->
+  <section class="section future">
+    <p class="label">Места 4–17</p>
+
+    <a class="matchrow" href="#">
+      <span class="rank">4</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ua.svg" alt=""> Евгений Прудник</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Артём Тайнов</div>
+        <div class="matchrow__sub">East vs West 11 · мар 2023 · левая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.97</div>
+        <div class="muted">2&nbsp;204 голоса</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">5</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Ираклий Зиракашвили</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/us.svg" alt=""> Джерри Кадоретт</div>
+        <div class="matchrow__sub">East vs West 15 · июн 2024 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.91</div>
+        <div class="muted">1&nbsp;876 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">6</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Виталий Лалетин</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Генади Квиквиния</div>
+        <div class="matchrow__sub">East vs West 9 · сен 2022 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.84</div>
+        <div class="muted">3&nbsp;012 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">7</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/us.svg" alt=""> Дэйв Чаффи</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/it.svg" alt=""> Эрмес Гаспарини</div>
+        <div class="matchrow__sub">Top 8 Дубай · фев 2024 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.77</div>
+        <div class="muted">1&nbsp;455 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">8</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ua.svg" alt=""> Рустам Бабаев</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/by.svg" alt=""> Александр Дробыш</div>
+        <div class="matchrow__sub">East vs West 13 · ноя 2023 · левая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.69</div>
+        <div class="muted">1&nbsp;130 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">9</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Леван Сагинашвили</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/us.svg" alt=""> Дэйв Чаффи</div>
+        <div class="matchrow__sub">East vs West 6 · апр 2021 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.61</div>
+        <div class="muted">4&nbsp;902 голоса</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">10</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Артём Тайнов</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/kz.svg" alt=""> Ержан Сапаров</div>
+        <div class="matchrow__sub">East vs West 16 · авг 2024 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.54</div>
+        <div class="muted">968 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">11</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Хаджимурат Золоев</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/md.svg" alt=""> Ион Опря</div>
+        <div class="matchrow__sub">East vs West 15 · июн 2024 · левая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.47</div>
+        <div class="muted">812 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">12</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/tr.svg" alt=""> Эрхан Демирджи</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ua.svg" alt=""> Евгений Прудник</div>
+        <div class="matchrow__sub">East vs West 17 · окт 2024 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.39</div>
+        <div class="muted">1&nbsp;604 голоса</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">13</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/us.svg" alt=""> Джерри Кадоретт</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ua.svg" alt=""> Рустам Бабаев</div>
+        <div class="matchrow__sub">King of the Table 6 · янв 2023 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.33</div>
+        <div class="muted">2&nbsp;341 голос</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">14</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Ираклий Зиракашвили</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Виталий Лалетин</div>
+        <div class="matchrow__sub">East vs West 10 · дек 2022 · левая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.28</div>
+        <div class="muted">1&nbsp;019 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">15</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/by.svg" alt=""> Александр Дробыш</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/kz.svg" alt=""> Ержан Сапаров</div>
+        <div class="matchrow__sub">East vs West 16 · авг 2024 · левая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.21</div>
+        <div class="muted">547 голосов</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">16</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/md.svg" alt=""> Ион Опря</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/tr.svg" alt=""> Эрхан Демирджи</div>
+        <div class="matchrow__sub">East vs West 18 · фев 2025 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.16</div>
+        <div class="muted">731 голос</div>
+      </div>
+    </a>
+
+    <a class="matchrow" href="#">
+      <span class="rank">17</span>
+      <div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Генади Квиквиния</div>
+        <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Ираклий Зиракашвили</div>
+        <div class="matchrow__sub">East vs West 14 · апр 2024 · правая</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="ratingbadge">8.12</div>
+        <div class="muted">1&nbsp;288 голосов</div>
+      </div>
+    </a>
+
+    <p class="note muted" style="margin-top:16px">Дальше — места 18–100. Счёт и победитель в списке не показываются: страница про оценку матча, а не про его результат. Открыть результат можно на странице матча.</p>
+  </section>
+
+  <!-- МЕТОДИКА И АНТИНАКРУТКА -->
+  <section class="section">
+    <div class="grid grid-2">
+
+      <div class="card">
+        <p class="label">Из чего складывается балл</p>
+        <div class="stack">
+          <span style="width:30%;background:var(--gold)"></span>
+          <span style="width:25%;background:color-mix(in srgb, var(--gold) 72%, transparent)"></span>
+          <span style="width:25%;background:color-mix(in srgb, var(--gold) 48%, transparent)"></span>
+          <span style="width:20%;background:color-mix(in srgb, var(--gold) 28%, transparent)"></span>
+        </div>
+        <div class="stack__legend">
+          <span><i class="dot" style="background:var(--gold)"></i><b>Зрелищность</b> 30%</span>
+          <span><i class="dot" style="background:color-mix(in srgb, var(--gold) 72%, transparent)"></i><b>Интрига</b> 25%</span>
+          <span><i class="dot" style="background:color-mix(in srgb, var(--gold) 48%, transparent)"></i><b>Техника</b> 25%</span>
+          <span><i class="dot" style="background:color-mix(in srgb, var(--gold) 28%, transparent)"></i><b>Судейство</b> 20%</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Почему баллу можно верить</p>
+        <p class="note muted">Голос привязан к устройству: с одного устройства матч оценивается один раз. Повторная отправка перезаписывает вашу прежнюю оценку, а не добавляет новую — накрутить балл перезагрузкой страницы не выйдет. Регистрация не нужна, аккаунтов на сайте нет.</p>
+        <p class="note muted">Байесовское сглаживание тянет балл к среднему по сайту, пока голосов мало: три восторженные десятки не выбросят матч на первое место.</p>
+        <p class="note muted">Данные на этом макете — демонстрационные.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

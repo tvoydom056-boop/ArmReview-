@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Турниры — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только раскладка главной. Цвета — существующие токены ui.css, новых нет. */
+
+.lead { margin: 10px 0 0; max-width: 62ch; font-size: 15px; }
+.note { margin: 8px 0 0; font-size: 12px; }
+
+/* заголовок внутри карточки — в ui.css общего примитива нет */
+.cardtitle { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: 0.02em; text-transform: uppercase; }
+
+/* строчная ссылка-переход */
+.link { display: inline-block; font-size: 13px; font-weight: 600; color: var(--muted); transition: color var(--transition); }
+.link:hover { color: var(--text); }
+.section > .link { margin-top: 12px; }
+
+a.btn { display: inline-block; text-align: center; }
+
+/* ближайший турнир: постер + текст */
+.upcoming { display: grid; gap: 16px; }
+.upcoming__poster { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.upcoming__poster .p-bg { fill: var(--surface-2); }
+.upcoming__poster .p-stripe { fill: var(--border); }
+.upcoming__poster .p-text { fill: var(--muted); font-family: var(--font-display); font-weight: 700; }
+.upcoming__meta { margin: 6px 0 12px; font-size: 14px; }
+.upcoming__pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+@media (min-width: 560px) { .upcoming { grid-template-columns: 180px 1fr; align-items: center; gap: 20px; } }
+
+/* карточка турнира в списке: балл прижат к низу, чтобы карточки в ряду совпадали */
+.evcard { display: flex; flex-direction: column; gap: 10px; }
+.evcard__meta { font-size: 13px; }
+.evcard__score { margin-top: auto; padding-top: 4px; }
+.evcard__score .label { margin-bottom: 6px; }
+.scorebox { min-height: 56px; display: flex; align-items: center; }
+.scorebox .spoiler__body { display: flex; align-items: baseline; gap: 6px; font-size: 12px; }
+
+/* строка матча */
+.nameline { display: flex; align-items: center; gap: 6px; }
+.ava { flex: 0 0 auto; width: 26px; height: 26px; border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface-2); border: 1px solid var(--border-strong);
+  font-family: var(--font-display); font-size: 11px; font-weight: 600; color: var(--muted); }
+/* нейтральный номер матча в карте — вместо .wl, чтобы не выдать победителя */
+.cardno { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 44px; border-radius: 8px; background: var(--surface-2); color: var(--muted); font-family: var(--font-display); }
+.cardno b { font-size: 17px; font-weight: 700; line-height: 1; color: var(--text); }
+.cardno span { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; }
+/* подвал строки на всю ширину грида: счётчик + кнопка слева, плашка .future справа */
+.matchrow--vote { grid-template-columns: 44px 1fr; }
+.matchrow__foot { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding-top: 10px; font-size: 12px; }
+
+/* строка топа: пока экран узкий, балл уезжает на свою строку */
+.toprow { grid-template-columns: 44px 1fr; }
+.scorecell { grid-column: 1 / -1; min-height: 52px; display: flex; align-items: center; justify-content: flex-end; }
+@media (min-width: 560px) {
+  .toprow { grid-template-columns: 44px 1fr auto; }
+  .scorecell { grid-column: auto; min-width: 176px; } /* хватает, чтобы «Показать балл» не переносился */
+}
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html" aria-current="page">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <!-- 1. Вводный блок -->
+  <section>
+    <h1>Турниры</h1>
+    <p class="lead muted">Фанатский архив турниров East vs West: карта матчей, оценки зрителей по четырём шкалам — зрелищность, интрига, техника, судейство — и балл каждого матча. Оценивать можно без регистрации.</p>
+    <p class="note muted">Счёт, победитель и баллы скрыты: открываются только по кнопке.</p>
+  </section>
+
+  <!-- 2. Ближайший турнир -->
+  <section class="section">
+    <p class="label">Ближайший турнир</p>
+    <article class="card upcoming">
+      <svg class="upcoming__poster" viewBox="0 0 320 180" role="img" aria-label="Постер турнира — заглушка">
+        <clipPath id="poster-clip"><rect width="320" height="180" rx="12"/></clipPath>
+        <g clip-path="url(#poster-clip)">
+          <rect class="p-bg" width="320" height="180"/>
+          <path class="p-stripe" d="M0 180 L120 0 L168 0 L48 180 Z"/>
+          <path class="p-stripe" d="M152 180 L272 0 L320 0 L200 180 Z"/>
+          <text class="p-text" x="160" y="82" text-anchor="middle" font-size="26" letter-spacing="2">EAST vs WEST</text>
+          <text class="p-text" x="160" y="132" text-anchor="middle" font-size="42">18</text>
+        </g>
+      </svg>
+      <div>
+        <h2 class="cardtitle">East vs West 18</h2>
+        <p class="upcoming__meta muted">18 октября 2026 · Дубай, ОАЭ</p>
+        <div class="upcoming__pills">
+          <span class="pill">16 матчей в карте</span>
+          <span class="pill pill--gold">Голосование откроется после турнира</span>
+        </div>
+        <a class="btn" href="event.html">Карта матчей</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- 3. Последние турниры -->
+  <section class="section">
+    <p class="label">Последние турниры</p>
+    <div class="grid grid-2">
+
+      <article class="card evcard">
+        <div>
+          <h3 class="cardtitle">East vs West 17</h3>
+          <p class="evcard__meta muted">24 мая 2026 · Дубай, ОАЭ · 15 матчей</p>
+        </div>
+        <!-- средний балл турнира — агрегат, которого в базе нет (§ открытый вопрос 12) -->
+        <div class="evcard__score future">
+          <p class="label">Средний балл турнира</p>
+          <div class="spoiler scorebox" data-open="false">
+            <div class="spoiler__body"><span class="ratingbadge">4.3</span><span class="muted">из 5 · 15 матчей</span></div>
+            <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+          </div>
+        </div>
+        <a class="link" href="event.html">Смотреть карту матчей →</a>
+      </article>
+
+      <article class="card evcard">
+        <div>
+          <h3 class="cardtitle">East vs West 16</h3>
+          <p class="evcard__meta muted">8 февраля 2026 · Стамбул, Турция · 14 матчей</p>
+        </div>
+        <div class="evcard__score future">
+          <p class="label">Средний балл турнира</p>
+          <div class="spoiler scorebox" data-open="false">
+            <div class="spoiler__body"><span class="ratingbadge">4.6</span><span class="muted">из 5 · 14 матчей</span></div>
+            <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+          </div>
+        </div>
+        <a class="link" href="event.html">Смотреть карту матчей →</a>
+      </article>
+
+      <article class="card evcard">
+        <div>
+          <h3 class="cardtitle">East vs West 15</h3>
+          <p class="evcard__meta muted">12 октября 2025 · Дубай, ОАЭ · 16 матчей</p>
+        </div>
+        <div class="evcard__score future">
+          <p class="label">Средний балл турнира</p>
+          <div class="spoiler scorebox" data-open="false">
+            <div class="spoiler__body"><span class="ratingbadge">4.1</span><span class="muted">из 5 · 16 матчей</span></div>
+            <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+          </div>
+        </div>
+        <a class="link" href="event.html">Смотреть карту матчей →</a>
+      </article>
+
+      <article class="card evcard">
+        <div>
+          <h3 class="cardtitle">East vs West 14</h3>
+          <p class="evcard__meta muted">1 июня 2025 · Орландо, США · 13 матчей</p>
+        </div>
+        <div class="evcard__score future">
+          <p class="label">Средний балл турнира</p>
+          <div class="spoiler scorebox" data-open="false">
+            <div class="spoiler__body"><span class="ratingbadge">4.4</span><span class="muted">из 5 · 13 матчей</span></div>
+            <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+          </div>
+        </div>
+        <a class="link" href="event.html">Смотреть карту матчей →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 4. Матчи, которые сейчас оценивают -->
+  <section class="section">
+    <p class="label">Матчи, которые сейчас оценивают</p>
+
+    <article class="matchrow matchrow--vote">
+      <div class="cardno"><b>12</b><span>матч</span></div>
+      <div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/ge.svg" alt="">Леван Сагинашвили</div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/us.svg" alt="">Дэйв Чаффи</div>
+        <div class="matchrow__sub">East vs West 17 · правая · 110+ кг · титульный</div>
+      </div>
+      <!-- число голосов показывать или нет — решение не принято (PROJECT.md, открытый вопрос 12) -->
+      <div class="matchrow__foot future">
+        <span class="muted">128 оценок</span>
+        <a class="btn" href="match.html">Оценить</a>
+      </div>
+    </article>
+
+    <article class="matchrow matchrow--vote">
+      <div class="cardno"><b>10</b><span>матч</span></div>
+      <div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/ru.svg" alt="">Виталий Лалетин</div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/it.svg" alt="">Ермес Гаспарини</div>
+        <div class="matchrow__sub">East vs West 17 · левая · 105 кг</div>
+      </div>
+      <div class="matchrow__foot future">
+        <span class="muted">96 оценок</span>
+        <a class="btn" href="match.html">Оценить</a>
+      </div>
+    </article>
+
+    <article class="matchrow matchrow--vote">
+      <div class="cardno"><b>8</b><span>матч</span></div>
+      <div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/ua.svg" alt="">Евгений Прудник</div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/ge.svg" alt="">Иракли Зиракашвили</div>
+        <div class="matchrow__sub">East vs West 17 · правая · 95 кг</div>
+      </div>
+      <div class="matchrow__foot future">
+        <span class="muted">74 оценки</span>
+        <a class="btn" href="match.html">Оценить</a>
+      </div>
+    </article>
+
+    <article class="matchrow matchrow--vote">
+      <div class="cardno"><b>5</b><span>матч</span></div>
+      <div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/ca.svg" alt="">Девон Ларратт</div>
+        <div class="matchrow__name nameline"><img class="flag" src="../public/flags/ru.svg" alt="">Артём Тайнов</div>
+        <div class="matchrow__sub">East vs West 17 · левая · 110 кг</div>
+      </div>
+      <div class="matchrow__foot future">
+        <span class="muted">41 оценка</span>
+        <a class="btn" href="match.html">Оценить</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- 5. Лучшие матчи — тизер топ-100 -->
+  <section class="section">
+    <p class="label">Лучшие матчи</p>
+
+    <article class="matchrow toprow">
+      <span class="rank">1</span>
+      <div>
+        <div class="matchrow__name nameline"><span class="ava">ЛС</span><img class="flag" src="../public/flags/ge.svg" alt="">Леван Сагинашвили</div>
+        <div class="matchrow__name nameline"><span class="ava">ВЛ</span><img class="flag" src="../public/flags/ru.svg" alt="">Виталий Лалетин</div>
+        <div class="matchrow__sub">East vs West 12 · правая · 110+ кг</div>
+      </div>
+      <div class="spoiler scorecell" data-open="false">
+        <div class="spoiler__body"><span class="ratingbadge">4.8</span></div>
+        <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+      </div>
+    </article>
+
+    <article class="matchrow toprow">
+      <span class="rank">2</span>
+      <div>
+        <div class="matchrow__name nameline"><span class="ava">ЕП</span><img class="flag" src="../public/flags/ua.svg" alt="">Евгений Прудник</div>
+        <div class="matchrow__name nameline"><span class="ava">АТ</span><img class="flag" src="../public/flags/ru.svg" alt="">Артём Тайнов</div>
+        <div class="matchrow__sub">East vs West 15 · левая · 95 кг</div>
+      </div>
+      <div class="spoiler scorecell" data-open="false">
+        <div class="spoiler__body"><span class="ratingbadge">4.7</span></div>
+        <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+      </div>
+    </article>
+
+    <article class="matchrow toprow">
+      <span class="rank">3</span>
+      <div>
+        <div class="matchrow__name nameline"><span class="ava">ЕГ</span><img class="flag" src="../public/flags/it.svg" alt="">Ермес Гаспарини</div>
+        <div class="matchrow__name nameline"><span class="ava">РБ</span><img class="flag" src="../public/flags/ua.svg" alt="">Рустам Бабаев</div>
+        <div class="matchrow__sub">East vs West 16 · правая · 90 кг</div>
+      </div>
+      <div class="spoiler scorecell" data-open="false">
+        <div class="spoiler__body"><span class="ratingbadge">4.6</span></div>
+        <div class="spoiler__cover"><button class="btn" data-reveal>Показать балл</button></div>
+      </div>
+    </article>
+
+    <a class="link" href="top.html">Весь топ-100 →</a>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Артём Косарев — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только раскладка этой страницы. Цвета — существующие токены ui.css. */
+.hero__body { flex: 1; min-width: 0; }
+.hero__body > p { margin: 6px 0 0; }
+.hero__lat { font-size: 14px; letter-spacing: .06em; }
+.hero__badges { margin: 12px 0 0; line-height: 2.4; }
+
+/* фото-заглушка: те же размеры, что .avatar, но с инициалами вместо картинки */
+.ph { display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 38px; letter-spacing: .04em; color: var(--muted); }
+
+/* высокий спойлер: кнопка у верха блока, иначе на телефоне её не видно без прокрутки */
+.spoiler--tall .spoiler__cover { justify-content: flex-start; padding-top: 40px; }
+
+/* место под плашку «НЕТ ДАННЫХ В БАЗЕ» в правом верхнем углу */
+.future > .label { padding-right: 126px; }
+
+.handscore { font-size: 26px; line-height: 1; margin: 0 0 10px; }
+.statcol { background: var(--surface-2); border-radius: var(--radius-row); padding: 12px 14px; }
+summary { cursor: pointer; }
+
+@media (min-width: 720px) { .ph { font-size: 52px; } }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html" aria-current="page">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <a class="back" href="athletes.html">← Все борцы</a>
+
+  <!-- 1. ШАПКА БОРЦА -->
+  <section class="hero hero--inside">
+    <div class="avatar avatar--inside ph" aria-hidden="true">АК</div>
+    <div class="hero__body">
+      <h1>Артём Косарев</h1>
+      <p class="muted hero__lat">Artem Kosarev</p>
+      <div class="hero__meta">
+        <span><img class="flag" src="../public/flags/ru.svg" alt=""> Россия</span>
+        <span>·</span>
+        <span>86 кг</span>
+        <span>·</span>
+        <span>правая / левая</span>
+      </div>
+      <p class="hero__badges">
+        <span class="stylebadge t-inside">Супинирующий крюк</span>
+        <span class="stylebadge t-inside">Инсайд-пуллер</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. ШКАЛА ИНСАЙД ↔ АУТСАЙД (в базе позиции нет) -->
+  <section class="section">
+    <div class="card future">
+      <p class="label">Инсайд ↔ аутсайд</p>
+      <div class="scale">
+        <div class="scale__track">
+          <span class="scale__zone scale__zone--inside" style="width: 40%"></span>
+          <span class="scale__zone scale__zone--universal" style="width: 20%"></span>
+          <span class="scale__zone scale__zone--outside" style="width: 40%"></span>
+          <!-- отсчёт слева: 0% = чистый инсайд, поэтому 78% инсайда = маркер на 22% -->
+          <span class="scale__marker" style="--pos: 22%"></span>
+        </div>
+        <div class="scale__ends">
+          <span>100% инсайд</span>
+          <span>универсал</span>
+          <span>100% аутсайд</span>
+        </div>
+        <strong class="scale__value">78% инсайд</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ФАКТЫ -->
+  <section class="section">
+    <p class="label">Данные</p>
+    <div class="grid grid-4">
+      <dl class="fact">
+        <dt>Год рождения</dt>
+        <dd>1997</dd>
+      </dl>
+      <dl class="fact">
+        <dt>Рост</dt>
+        <dd>179 см</dd>
+      </dl>
+      <dl class="fact">
+        <dt>Вес</dt>
+        <dd>86 кг</dd>
+      </dl>
+      <dl class="fact">
+        <dt>Стиль</dt>
+        <dd>Супинирующий крюк</dd>
+      </dl>
+    </div>
+    <p class="label" style="margin: 10px 0 0">Фото: пресс-служба East vs West</p>
+  </section>
+
+  <!-- 4. ДОСТИЖЕНИЯ -->
+  <section class="section">
+    <p class="label">Достижения</p>
+    <div class="card">
+      <p style="margin: 0">
+        Победитель East vs West 17 в категории 86 кг (правая рука). Чемпион России 2025.
+        Серебро чемпионата Европы 2024. Пять супермачей East vs West подряд без поражений
+        на левой руке. Дебют в профессиональных супермачах — 2024 год.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. СТАТИСТИКА — ПОД СПОЙЛЕРОМ -->
+  <section class="section">
+    <p class="label">Статистика</p>
+
+    <div class="spoiler spoiler--tall" data-open="false">
+      <div class="spoiler__body">
+
+        <!-- а) рекорд -->
+        <div class="card">
+          <p class="label">Рекорд</p>
+          <div class="record">
+            <span class="record__main">10<span class="record__dash">—</span>1</span>
+            <span class="pill pill--gold">91% побед</span>
+            <span class="record__subline">
+              <span class="record__sub">34<span class="record__dash">—</span>14</span>
+              <span class="label">по раундам</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- б) рекорд по рукам -->
+        <div class="card">
+          <p class="label">Рекорд по рукам</p>
+          <div class="grid grid-2">
+            <div>
+              <p class="label">Правая</p>
+              <p class="num handscore">6 <span class="record__dash">—</span> 1</p>
+              <div class="split" style="--a: 86%">
+                <span class="split__a"></span>
+                <span class="split__b"></span>
+              </div>
+              <div class="split__legend">
+                <span style="color: var(--win)">6 побед</span>
+                <span style="color: var(--loss)">1 поражение</span>
+              </div>
+            </div>
+            <div>
+              <p class="label">Левая</p>
+              <p class="num handscore">4 <span class="record__dash">—</span> 0</p>
+              <div class="split" style="--a: 100%">
+                <span class="split__a"></span>
+                <span class="split__b"></span>
+              </div>
+              <div class="split__legend">
+                <span style="color: var(--win)">4 победы</span>
+                <span>0 поражений</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- в) пораундовая статистика по стилям (в базе стилей раунда нет) -->
+        <div class="card future">
+          <p class="label">Пораундовая статистика по стилям</p>
+          <div class="grid grid-2">
+
+            <div class="statcol">
+              <p class="label">Победы</p>
+              <div class="statline statline--win">
+                <b class="statline__n">19</b>
+                <span class="statline__k">Супинирующий крюк</span>
+                <span class="statline__p">56%</span>
+                <span class="statline__bar"><i style="--v: 56%"></i></span>
+              </div>
+              <div class="statline statline--win">
+                <b class="statline__n">8</b>
+                <span class="statline__k">Крюк</span>
+                <span class="statline__p">23%</span>
+                <span class="statline__bar"><i style="--v: 23%"></i></span>
+              </div>
+              <div class="statline statline--win">
+                <b class="statline__n">2</b>
+                <span class="statline__k">Отведение (верх)</span>
+                <span class="statline__p">6%</span>
+                <span class="statline__bar"><i style="--v: 6%"></i></span>
+              </div>
+              <div class="statline statline--win">
+                <b class="statline__n">4</b>
+                <span class="statline__k">Трицепс</span>
+                <span class="statline__p">12%</span>
+                <span class="statline__bar"><i style="--v: 12%"></i></span>
+              </div>
+              <div class="statline statline--win">
+                <b class="statline__n">1</b>
+                <span class="statline__k">Прямое движение</span>
+                <span class="statline__p">3%</span>
+                <span class="statline__bar"><i style="--v: 3%"></i></span>
+              </div>
+              <details>
+                <summary class="label">Ещё 3 стиля с нулём</summary>
+                <div class="statline statline--win statline--zero">
+                  <b class="statline__n">0</b>
+                  <span class="statline__k">Боковое давление</span>
+                  <span class="statline__p">0%</span>
+                  <span class="statline__bar"><i style="--v: 0%"></i></span>
+                </div>
+                <div class="statline statline--win statline--zero">
+                  <b class="statline__n">0</b>
+                  <span class="statline__k">Кистевой крюк</span>
+                  <span class="statline__p">0%</span>
+                  <span class="statline__bar"><i style="--v: 0%"></i></span>
+                </div>
+                <div class="statline statline--win statline--zero">
+                  <b class="statline__n">0</b>
+                  <span class="statline__k">Пронация</span>
+                  <span class="statline__p">0%</span>
+                  <span class="statline__bar"><i style="--v: 0%"></i></span>
+                </div>
+              </details>
+            </div>
+
+            <div class="statcol">
+              <p class="label">Поражения</p>
+              <div class="statline statline--loss statline--zero">
+                <b class="statline__n">0</b>
+                <span class="statline__k">Супинирующий крюк</span>
+                <span class="statline__p">0%</span>
+                <span class="statline__bar"><i style="--v: 0%"></i></span>
+              </div>
+              <div class="statline statline--loss">
+                <b class="statline__n">6</b>
+                <span class="statline__k">Крюк</span>
+                <span class="statline__p">43%</span>
+                <span class="statline__bar"><i style="--v: 43%"></i></span>
+              </div>
+              <div class="statline statline--loss">
+                <b class="statline__n">2</b>
+                <span class="statline__k">Отведение (верх)</span>
+                <span class="statline__p">14%</span>
+                <span class="statline__bar"><i style="--v: 14%"></i></span>
+              </div>
+              <div class="statline statline--loss">
+                <b class="statline__n">2</b>
+                <span class="statline__k">Трицепс</span>
+                <span class="statline__p">14%</span>
+                <span class="statline__bar"><i style="--v: 14%"></i></span>
+              </div>
+              <div class="statline statline--loss">
+                <b class="statline__n">4</b>
+                <span class="statline__k">Прямое движение</span>
+                <span class="statline__p">29%</span>
+                <span class="statline__bar"><i style="--v: 29%"></i></span>
+              </div>
+              <details>
+                <summary class="label">Ещё 3 стиля с нулём</summary>
+                <div class="statline statline--loss statline--zero">
+                  <b class="statline__n">0</b>
+                  <span class="statline__k">Боковое давление</span>
+                  <span class="statline__p">0%</span>
+                  <span class="statline__bar"><i style="--v: 0%"></i></span>
+                </div>
+                <div class="statline statline--loss statline--zero">
+                  <b class="statline__n">0</b>
+                  <span class="statline__k">Кистевой крюк</span>
+                  <span class="statline__p">0%</span>
+                  <span class="statline__bar"><i style="--v: 0%"></i></span>
+                </div>
+                <div class="statline statline--loss statline--zero">
+                  <b class="statline__n">0</b>
+                  <span class="statline__k">Пронация</span>
+                  <span class="statline__p">0%</span>
+                  <span class="statline__bar"><i style="--v: 0%"></i></span>
+                </div>
+              </details>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- г) сколько боролся в каждом стиле (в базе времени в стиле нет) -->
+        <div class="card future">
+          <p class="label">Сколько боролся в каждом стиле</p>
+          <div class="stack">
+            <span style="width: 41%; background: var(--inside)"></span>
+            <span style="width: 24%; background: var(--outside)"></span>
+            <span style="width: 13%; background: var(--universal)"></span>
+            <span style="width: 9%; background: var(--gold)"></span>
+            <span style="width: 7%; background: var(--warn)"></span>
+            <span style="width: 6%; background: var(--muted)"></span>
+          </div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background: var(--inside)"></i>Супинирующий крюк <b>41%</b></span>
+            <span><i class="dot" style="background: var(--outside)"></i>Крюк <b>24%</b></span>
+            <span><i class="dot" style="background: var(--universal)"></i>Трицепс <b>13%</b></span>
+            <span><i class="dot" style="background: var(--gold)"></i>Отведение (верх) <b>9%</b></span>
+            <span><i class="dot" style="background: var(--warn)"></i>Прямое движение <b>7%</b></span>
+            <span><i class="dot" style="background: var(--muted)"></i>Остальные <b>6%</b></span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="spoiler__cover">
+        <p class="spoiler__hint">Рекорд, винрейт и разбор по стилям скрыты.</p>
+        <button class="btn" data-reveal type="button">Показать статистику</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. МАТЧИ -->
+  <section class="section">
+    <p class="label">Матчи</p>
+
+    <div class="chips">
+      <button class="chip" type="button" aria-selected="true">Все</button>
+      <button class="chip" type="button" aria-selected="false">Правая</button>
+      <button class="chip" type="button" aria-selected="false">Левая</button>
+    </div>
+
+    <div class="spoiler spoiler--tall" data-open="false" style="margin-top: 16px">
+      <div class="spoiler__body">
+
+        <div class="yearhead">
+          <h3>2026</h3><span>4 матча</span>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–1</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/tr.svg" alt=""> Emre Yıldırım</div>
+            <div class="matchrow__sub">Правая · 86 кг · титульный</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 17</div>
+            <div class="muted">12 апр 2026</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–0</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/md.svg" alt=""> Sergiu Munteanu</div>
+            <div class="matchrow__sub">Левая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 17</div>
+            <div class="muted">12 апр 2026</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--l"><b>L</b><span>1–3</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/us.svg" alt=""> Kevin Braddock</div>
+            <div class="matchrow__sub">Правая · 86 кг · титульный</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 16</div>
+            <div class="muted">08 фев 2026</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>4–1</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/az.svg" alt=""> Tural Aliyev</div>
+            <div class="matchrow__sub">Левая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 16</div>
+            <div class="muted">08 фев 2026</div>
+          </div>
+        </div>
+
+        <div class="yearhead">
+          <h3>2025</h3><span>4 матча</span>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–2</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/ge.svg" alt=""> Lasha Kobakhidze</div>
+            <div class="matchrow__sub">Правая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 14</div>
+            <div class="muted">19 окт 2025</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–1</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/gb.svg" alt=""> Jack Whitcombe</div>
+            <div class="matchrow__sub">Левая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 14</div>
+            <div class="muted">19 окт 2025</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>4–0</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Дмитрий Шестаков</div>
+            <div class="matchrow__sub">Правая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">Чемпионат России</div>
+            <div class="muted">24 мая 2025</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>4–3</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/pl.svg" alt=""> Marcin Zawadzki</div>
+            <div class="matchrow__sub">Правая · 86 кг · титульный</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 12</div>
+            <div class="muted">15 мар 2025</div>
+          </div>
+        </div>
+
+        <div class="yearhead">
+          <h3>2024</h3><span>3 матча</span>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–1</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/tr.svg" alt=""> Nuri Kartal</div>
+            <div class="matchrow__sub">Правая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 10</div>
+            <div class="muted">09 ноя 2024</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–2</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/ie.svg" alt=""> Ryan Callaghan</div>
+            <div class="matchrow__sub">Левая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">East vs West 10</div>
+            <div class="muted">09 ноя 2024</div>
+          </div>
+        </div>
+
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>3–0</span></div>
+          <div>
+            <div class="matchrow__name"><img class="flag" src="../public/flags/ru.svg" alt=""> Илья Воробьёв</div>
+            <div class="matchrow__sub">Правая · 86 кг</div>
+          </div>
+          <div class="matchrow__right">
+            <div class="matchrow__event">Кубок Москвы</div>
+            <div class="muted">27 апр 2024</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="spoiler__cover">
+        <p class="spoiler__hint">Исход и счёт скрыты: по цвету клеток рекорд складывается сам.</p>
+        <button class="btn" data-reveal type="button">Показать результаты</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+/* ArmReview — общий стиль статических макетов.
+   Все макеты в design/ подключают ТОЛЬКО этот файл. Свой CSS в страницах не писать:
+   не хватает примитива — добавить сюда, чтобы он был у всех страниц сразу.
+   Цвет задаётся только токеном и только в обеих темах. */
+
+/* ========== ТОКЕНЫ ========== */
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0a0c;
+  --surface: #141519;
+  --surface-2: #1c1d23;
+  --surface-hover: #22232a;
+  --border: rgb(255 255 255 / 0.07);
+  --border-strong: rgb(255 255 255 / 0.16);
+  --overlay: rgb(0 0 0 / 0.7);
+
+  --text: #f5f5f7;
+  --muted: #8a8d96;
+
+  /* исход матча — только заливкой */
+  --win: #22c55e;
+  --loss: #ef4444;
+  --warn: #eab308;
+
+  --gold: #f5c518;
+  --gold-bg: rgb(245 197 24 / 0.14);
+  --gold-border: rgb(245 197 24 / 0.45);
+
+  /* тип борца — только обводкой/текстом, никогда сплошной заливкой.
+     Форма отличает их от --win/--loss, поэтому близкие оттенки не путаются. */
+  --inside: #f4436c;
+  --outside: #3b9eff;
+  --universal: #a855f7;
+  --inside-tint: rgb(244 67 108 / 0.13);
+  --outside-tint: rgb(59 158 255 / 0.13);
+  --universal-tint: rgb(168 85 247 / 0.13);
+
+  --radius-card: 18px;
+  --radius-row: 12px;
+  --radius-pill: 999px;
+
+  --transition: 150ms ease;
+  --font-display: 'Oswald', 'Arial Narrow', Impact, sans-serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --maxw: 1100px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f3f3f5;
+  --surface: #ffffff;
+  --surface-2: #ececf0;
+  --surface-hover: #e3e3e9;
+  --border: rgb(0 0 0 / 0.08);
+  --border-strong: rgb(0 0 0 / 0.18);
+  --overlay: rgb(0 0 0 / 0.45);
+
+  --text: #0a0a0c;
+  --muted: #5b5f68;
+
+  --win: #15803d;
+  --loss: #b91c1c;
+  --warn: #a16207;
+
+  --gold: #8a5a00;
+  --gold-bg: rgb(234 179 8 / 0.16);
+  --gold-border: rgb(161 98 7 / 0.45);
+
+  --inside: #d91e4d;
+  --outside: #0b63c4;
+  --universal: #7c2fd4;
+  --inside-tint: rgb(217 30 77 / 0.1);
+  --outside-tint: rgb(11 99 196 / 0.1);
+  --universal-tint: rgb(124 47 212 / 0.1);
+}
+
+/* ========== БАЗА ========== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+h1, h2, h3 { margin: 0; }
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 7vw, 44px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* мелкий uppercase-лейбл секции («PRO RECORD SUMMARY» у референса) */
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+.muted { color: var(--muted); }
+.num { font-family: var(--font-display); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ========== КАРКАС ========== */
+.shell { max-width: var(--maxw); margin: 0 auto; padding: 0 16px 64px; }
+
+.header {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  padding: 18px 0 0;
+  text-align: center;
+}
+
+.logo {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 4px solid var(--text);
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 14px 0 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav a { color: var(--muted); padding: 4px 8px; transition: color var(--transition); }
+.nav a:hover, .nav a[aria-current] { color: var(--text); }
+.nav a + a::before { content: '/'; margin-right: 12px; color: var(--border-strong); }
+
+.themebtn {
+  position: fixed; top: 14px; right: 14px; z-index: 20;
+  width: 36px; height: 36px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); font-size: 15px; cursor: pointer;
+}
+
+.back { display: inline-block; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+.back:hover { color: var(--text); }
+
+.footer {
+  border-top: 1px solid var(--border);
+  margin-top: 48px; padding-top: 20px;
+  display: flex; justify-content: center; gap: 20px;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ========== КАРТОЧКИ И СЕТКИ ========== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 18px;
+}
+.card + .card { margin-top: 12px; }
+
+.section { margin-top: 32px; }
+
+.grid { display: grid; gap: 12px; }
+.grid-2 { grid-template-columns: 1fr; }
+.grid-3 { grid-template-columns: repeat(2, 1fr); }
+.grid-4 { grid-template-columns: repeat(2, 1fr); }
+
+@media (min-width: 720px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* факт-карточка: ГОД РОЖДЕНИЯ / 2000 */
+.fact {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-row); padding: 10px 12px;
+}
+.fact dt { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.fact dd { margin: 2px 0 0; font-family: var(--font-display); font-weight: 500; font-size: 18px; }
+
+/* ========== ПИЛЮЛИ, ЧИПЫ, БЕЙДЖИ ========== */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: var(--radius-pill); padding: 5px 12px;
+  font-size: 12px; font-weight: 600;
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.pill--gold { background: var(--gold-bg); border-color: var(--gold-border); color: var(--gold); }
+.pill--win { color: var(--win); border-color: color-mix(in srgb, var(--win) 45%, transparent); background: color-mix(in srgb, var(--win) 13%, transparent); }
+.pill--loss { color: var(--loss); border-color: color-mix(in srgb, var(--loss) 45%, transparent); background: color-mix(in srgb, var(--loss) 13%, transparent); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border-radius: var(--radius-pill); padding: 7px 16px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--border-strong);
+  transition: all var(--transition);
+}
+.chip:hover { color: var(--text); }
+.chip[aria-selected='true'] { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* бейдж стиля борьбы — на месте «HYBRID» у референса */
+.stylebadge {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  border: 1px solid currentColor;
+}
+
+/* тип борца — ТОЛЬКО обводка + текст, без сплошной заливки */
+.t-inside { color: var(--inside); }
+.t-outside { color: var(--outside); }
+.t-universal { color: var(--universal); }
+
+/* ========== ШАПКА БОРЦА ========== */
+.hero {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-card); border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 22px 18px;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
+}
+/* намёк на тип борца: лёгкая подсветка фона, не заливка */
+.hero--inside { background: radial-gradient(120% 90% at 50% 0%, var(--inside-tint), transparent 70%), var(--surface); }
+.hero--outside { background: radial-gradient(120% 90% at 50% 0%, var(--outside-tint), transparent 70%), var(--surface); }
+.hero--universal { background: radial-gradient(120% 90% at 50% 0%, var(--universal-tint), transparent 70%), var(--surface); }
+
+.avatar {
+  width: 112px; height: 112px; border-radius: var(--radius-pill);
+  object-fit: cover; background: var(--surface-2);
+  border: 3px solid var(--border-strong);
+}
+.avatar--inside { border-color: var(--inside); }
+.avatar--outside { border-color: var(--outside); }
+.avatar--universal { border-color: var(--universal); }
+
+.hero__meta { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.flag { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; vertical-align: -1px; }
+
+@media (min-width: 720px) {
+  .hero { flex-direction: row; text-align: left; align-items: flex-start; gap: 22px; padding: 26px; }
+  .hero__meta { justify-content: flex-start; }
+  .avatar { width: 150px; height: 150px; }
+}
+
+/* ========== РЕКОРД (крупный счёт) ========== */
+.record { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.record__main { font-family: var(--font-display); font-weight: 700; font-size: 52px; line-height: 1; font-variant-numeric: tabular-nums; }
+.record__dash { color: var(--muted); margin: 0 6px; }
+.record__sub { font-family: var(--font-display); font-weight: 500; font-size: 20px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.record__subline { width: 100%; }
+
+/* ========== СТРОКА СТАТИСТИКИ С БАРОМ ========== */
+.statline { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 8px; padding: 7px 0; }
+.statline__n { font-weight: 700; font-variant-numeric: tabular-nums; }
+.statline__k { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.statline__p { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.statline__bar { grid-column: 1 / -1; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.statline__bar > i { display: block; height: 100%; width: var(--v, 0%); background: var(--muted); }
+.statline--win .statline__bar > i { background: var(--win); }
+.statline--loss .statline__bar > i { background: var(--loss); }
+.statline--zero { opacity: 0.45; }
+
+/* ========== ШКАЛЫ (переиспользуемый примитив) ========== */
+/* 1. Дивергентная: инсайд ← универсал → аутсайд */
+.scale { margin: 10px 0; }
+.scale__track { position: relative; display: flex; height: 10px; border-radius: var(--radius-pill); overflow: hidden; background: var(--surface-2); }
+.scale__zone { height: 100%; }
+.scale__zone--inside { background: var(--inside); opacity: 0.85; }
+.scale__zone--universal { background: var(--universal); opacity: 0.85; }
+.scale__zone--outside { background: var(--outside); opacity: 0.85; }
+.scale__marker {
+  position: absolute; top: -4px; left: var(--pos, 50%); transform: translateX(-50%);
+  width: 4px; height: 18px; border-radius: 2px;
+  background: var(--text); box-shadow: 0 0 0 2px var(--bg);
+}
+.scale__ends { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.scale__value { display: block; text-align: center; margin-top: 8px; font-size: 13px; font-weight: 600; }
+
+/* 2. Простая 50/50 без середины */
+.split { display: flex; height: 8px; border-radius: var(--radius-pill); overflow: hidden; background: var(--surface-2); }
+.split__a { width: var(--a, 50%); background: var(--win); }
+.split__b { flex: 1; background: var(--loss); }
+.split__legend { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+
+/* 3. Светофорная: плохо → средне → хорошо */
+.meter { position: relative; height: 8px; border-radius: var(--radius-pill); overflow: hidden;
+  background: linear-gradient(90deg, var(--loss), var(--warn) 50%, var(--win)); }
+.meter__marker { position: absolute; top: -3px; left: var(--pos, 50%); transform: translateX(-50%);
+  width: 3px; height: 14px; border-radius: 2px; background: var(--text); box-shadow: 0 0 0 2px var(--bg); }
+
+/* 4. Составная полоса: распределение по стилям */
+.stack { display: flex; height: 14px; border-radius: var(--radius-pill); overflow: hidden; background: var(--surface-2); }
+.stack > span { height: 100%; }
+.stack__legend { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 10px; font-size: 12px; color: var(--muted); }
+.stack__legend b { color: var(--text); font-weight: 600; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+
+/* пустое состояние любой шкалы */
+.scale--empty .scale__track, .split--empty, .meter--empty { background: var(--surface-2); filter: grayscale(1); opacity: 0.4; }
+
+/* ========== СТРОКА МАТЧА ========== */
+.matchrow {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-row); padding: 10px 12px;
+  transition: background var(--transition);
+}
+.matchrow:hover { background: var(--surface-hover); }
+.matchrow + .matchrow { margin-top: 8px; }
+
+.wl { display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: 8px; padding: 6px 0; min-height: 44px; font-family: var(--font-display); }
+.wl b { font-size: 17px; font-weight: 700; line-height: 1; }
+.wl span { font-size: 10px; opacity: 0.85; font-variant-numeric: tabular-nums; }
+.wl--w { background: color-mix(in srgb, var(--win) 22%, transparent); color: var(--win); }
+.wl--l { background: color-mix(in srgb, var(--loss) 22%, transparent); color: var(--loss); }
+
+.matchrow__name { font-weight: 600; }
+.matchrow__sub { font-size: 12px; color: var(--muted); }
+.matchrow__right { text-align: right; font-size: 12px; }
+.matchrow__event { font-weight: 600; }
+
+.yearhead { display: flex; align-items: baseline; gap: 10px; margin: 22px 0 10px; }
+.yearhead h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+.yearhead span { font-size: 12px; color: var(--muted); }
+
+/* ========== СПОЙЛЕР (инвариант продукта: результат скрыт) ========== */
+.spoiler { position: relative; }
+.spoiler__body { transition: filter var(--transition); }
+.spoiler[data-open='false'] .spoiler__body { filter: blur(9px); opacity: 0.5; pointer-events: none; user-select: none; }
+.spoiler__cover {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  text-align: center; padding: 16px;
+}
+.spoiler[data-open='true'] .spoiler__cover { display: none; }
+.spoiler__hint { font-size: 12px; color: var(--muted); max-width: 260px; }
+.btn {
+  border-radius: var(--radius-pill); padding: 10px 22px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  background: var(--text); color: var(--bg); border: 1px solid var(--text);
+  transition: opacity var(--transition);
+}
+.btn:hover { opacity: 0.85; }
+.btn--ghost { background: transparent; color: var(--text); border-color: var(--border-strong); }
+
+/* ========== РЕЙТИНГ / ТОП ========== */
+.ratingbadge { font-family: var(--font-display); font-weight: 700; font-size: 26px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.rank { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--muted); min-width: 34px; font-variant-numeric: tabular-nums; }
+
+/* ========== КАРТОЧКА БОРЦА В СПИСКЕ ========== */
+.athletecard {
+  display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-card); padding: 16px 12px;
+  transition: background var(--transition);
+}
+.athletecard:hover { background: var(--surface-hover); }
+.athletecard__photo { width: 84px; height: 84px; border-radius: var(--radius-pill); object-fit: cover; background: var(--surface-2); border: 2px solid var(--border-strong); }
+.athletecard__name { font-family: var(--font-display); font-weight: 600; font-size: 17px; text-transform: uppercase; }
+
+/* ========== ПРОТИВОСТОЯНИЕ (страница матча) ========== */
+.versus { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; text-align: center; }
+.versus__vs { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--muted); }
+.versus__photo { width: 96px; height: 96px; border-radius: var(--radius-pill); object-fit: cover; background: var(--surface-2); border: 2px solid var(--border-strong); margin: 0 auto 8px; }
+.versus__name { font-family: var(--font-display); font-weight: 600; font-size: 17px; text-transform: uppercase; }
+
+/* ========== ФОРМА ГОЛОСОВАНИЯ ========== */
+.vote { display: grid; gap: 18px; }
+.vote__row label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.vote__row label span { color: var(--muted); font-weight: 400; }
+.vote__val { font-family: var(--font-display); font-size: 18px; color: var(--gold); }
+input[type='range'] { width: 100%; accent-color: var(--gold); }
+
+/* ========== КОЛЬЦЕВАЯ ДИАГРАММА ========== */
+.donut { width: 140px; height: 140px; border-radius: 50%; margin: 0 auto;
+  background: conic-gradient(var(--slices)); position: relative; }
+.donut::after { content: ''; position: absolute; inset: 26%; border-radius: 50%; background: var(--surface); }
+
+/* ========== СЛУЖЕБНОЕ ДЛЯ МАКЕТОВ ========== */
+/* плашка «данных ещё нет» — отмечает блоки на будущих полях */
+.future { position: relative; }
+.future::before {
+  content: 'НЕТ ДАННЫХ В БАЗЕ';
+  position: absolute; top: 10px; right: 10px; z-index: 3;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  padding: 3px 7px; border-radius: var(--radius-pill);
+  color: var(--warn); border: 1px dashed color-mix(in srgb, var(--warn) 55%, transparent);
+  background: var(--bg);
+}

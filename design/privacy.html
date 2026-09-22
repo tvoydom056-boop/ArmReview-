@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Политика конфиденциальности — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Своё — только типографика длинного юридического текста и оглавление.
+   Цвета берутся токенами из ui.css; сам ui.css не трогаем. */
+
+/* шапка страницы */
+.updated { font-size: 13px; margin: 10px 0 0; }
+
+/* карточки идут той же колонкой, что и текст; в .grid они разведены gap'ом —
+   гасим .card + .card из ui.css, иначе к gap добавляется ещё 12px */
+.grid { max-width: 68ch; }
+.grid > .card + .card { margin-top: 0; }
+.card .factnote { font-size: 13px; line-height: 1.6; margin: 10px 0 0; }
+
+/* оглавление: на узком экране — свёрнутое в details, с 720px — раскрытый список.
+   Ширина — как у колонки текста, чтобы список и полотно шли одной колонкой. */
+.toc { max-width: 68ch; }
+.toc ol { margin: 0; padding-left: 20px; }
+.toc li { margin: 7px 0; line-height: 1.5; }
+.toc a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.toc a:hover { color: var(--text); }
+.toc summary {
+  cursor: pointer;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted);
+}
+.toc summary:hover { color: var(--text); }
+.toc[open] ol { margin-top: 12px; }
+.toc--wide { display: none; }
+@media (min-width: 720px) {
+  .toc--wide { display: block; }
+  .toc--narrow { display: none; }
+}
+
+/* полотно текста: узкая колонка, крупный интерлиньяж, воздух у заголовков */
+.legal { max-width: 68ch; }
+.legal h2 {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700; letter-spacing: 0.02em;
+  margin: 36px 0 10px;
+  scroll-margin-top: 16px;
+}
+.legal > section:first-child h2 { margin-top: 0; }
+.legal p, .legal li { font-size: 16px; line-height: 1.75; }
+.legal p { margin: 0 0 14px; }
+.legal ul, .legal ol { margin: 0 0 14px; padding-left: 22px; }
+.legal li { margin: 0 0 10px; }
+.legal a { text-decoration: underline; text-underline-offset: 3px; }
+.legal code {
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 14px; padding: 1px 6px; border-radius: 6px;
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.legal .card h2 { margin-top: 6px; }
+.legal .card > :last-child { margin-bottom: 0; }
+/* плашка .future висит в правом верхнем углу — освобождаем ей строку */
+.legal .future { padding-top: 34px; }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+  <a class="back" href="home.html">← На главную</a>
+
+  <p class="label">Юридическая информация</p>
+  <h1>Политика конфиденциальности</h1>
+  <p class="muted updated">Последнее обновление: <time datetime="2026-09-20">20 сентября 2026</time></p>
+
+  <!-- Короткая выжимка до полотна текста: что собираем, чего не собираем, зачем, сколько храним -->
+  <div class="grid grid-2 section">
+    <div class="card">
+      <p class="label">Что мы собираем</p>
+      <div class="chips">
+        <span class="pill">Оценки матча</span>
+        <span class="pill">Cookie устройства</span>
+        <span class="pill">Хеш IP-адреса</span>
+      </div>
+      <p class="factnote muted">Cookie <code>armreview_device</code> — случайный номер, живёт 1 год. Сам IP-адрес не сохраняется.</p>
+    </div>
+
+    <div class="card">
+      <p class="label">Чего мы не собираем</p>
+      <div class="chips">
+        <span class="pill muted">Имя</span>
+        <span class="pill muted">Почта</span>
+        <span class="pill muted">Телефон</span>
+        <span class="pill muted">Сырой IP</span>
+      </div>
+      <p class="factnote muted">Регистрации на сайте нет вообще — аккаунт заводить негде и незачем.</p>
+    </div>
+
+    <div class="card">
+      <p class="label">Зачем это нужно</p>
+      <p>Только чтобы засчитывать голоса честно: один голос с устройства за матч и защита от накрутки.</p>
+      <p class="factnote muted">Не для рекламы. Третьим лицам данные не передаём.</p>
+    </div>
+
+    <div class="card">
+      <p class="label">Сколько храним</p>
+      <p>Пока работает сайт — либо до вашего запроса на удаление.</p>
+      <!-- TODO(вопрос к Владу/юристу — срок хранения): пока «пока работает сайт», уточнить -->
+      <p class="factnote muted">Точный срок хранения уточняется до запуска голосования.</p>
+    </div>
+  </div>
+
+  <!-- Оглавление: на 375px свёрнуто в details, с 720px — раскрытый список -->
+  <div class="section">
+    <nav class="card toc toc--wide" aria-label="Содержание">
+      <p class="label">Содержание</p>
+      <ol>
+        <li><a href="#operator">Кто оператор и как связаться</a></li>
+        <li><a href="#data">Что мы храним</a></li>
+        <li><a href="#purpose">Зачем мы это храним</a></li>
+        <li><a href="#basis">Правовые основания обработки</a></li>
+        <li><a href="#cookie">Cookie</a></li>
+        <li><a href="#retention">Сколько храним</a></li>
+        <li><a href="#storage">Где хранятся данные</a></li>
+        <li><a href="#sharing">Передача данных и обработчики</a></li>
+        <li><a href="#rights">Ваши права</a></li>
+        <li><a href="#changes">Изменения политики</a></li>
+      </ol>
+    </nav>
+
+    <details class="card toc toc--narrow">
+      <summary>Содержание</summary>
+      <ol>
+        <li><a href="#operator">Кто оператор и как связаться</a></li>
+        <li><a href="#data">Что мы храним</a></li>
+        <li><a href="#purpose">Зачем мы это храним</a></li>
+        <li><a href="#basis">Правовые основания обработки</a></li>
+        <li><a href="#cookie">Cookie</a></li>
+        <li><a href="#retention">Сколько храним</a></li>
+        <li><a href="#storage">Где хранятся данные</a></li>
+        <li><a href="#sharing">Передача данных и обработчики</a></li>
+        <li><a href="#rights">Ваши права</a></li>
+        <li><a href="#changes">Изменения политики</a></li>
+      </ol>
+    </details>
+  </div>
+
+  <article class="legal section">
+
+    <section id="operator">
+      <h2>1. Кто оператор и как связаться</h2>
+      <p>
+        Оператор персональных данных: [ФИО оператора — уточнить]. Обращения — [адрес для обращений — уточнить].
+      </p>
+      <p>
+        ArmReview — неофициальный фан-проект: зрители оценивают матчи после турнира. Подробнее о проекте и
+        других способах связи — на странице <a href="contacts.html">контактов</a>.
+      </p>
+    </section>
+
+    <section id="data">
+      <h2>2. Что мы храним</h2>
+      <ul>
+        <li>Ваши оценки матча по четырём шкалам.</li>
+        <li>
+          Случайный идентификатор устройства — cookie <code>armreview_device</code> (срок — 1 год). Он не связан
+          с вашим именем и нужен, чтобы одно устройство оставляло один голос за матч.
+        </li>
+        <li>
+          Хеш IP-адреса — необратимая контрольная сумма с секретной солью. Сам IP-адрес мы не сохраняем и не
+          записываем в журналы.
+        </li>
+      </ul>
+      <p>Регистрации нет, имя, почту и телефон мы не собираем.</p>
+    </section>
+
+    <section id="purpose">
+      <h2>3. Зачем мы это храним</h2>
+      <p>
+        Только чтобы засчитывать голоса честно: не больше одного голоса с устройства за матч и защита от
+        накрутки. Мы не используем эти данные для рекламы и не передаём их третьим лицам.
+      </p>
+    </section>
+
+    <section id="basis">
+      <h2>4. Правовые основания обработки</h2>
+      <!-- TODO(юрист): основания по 152-ФЗ — согласие и/или законный интерес. PROJECT.md § 11 -->
+      <div class="card future">
+        <p class="muted">
+          Раздел не написан. Текст должен подготовить юрист до запуска голосования: на каком основании
+          обрабатываются хеш IP-адреса и идентификатор устройства и как подтверждается согласие.
+        </p>
+      </div>
+    </section>
+
+    <section id="cookie">
+      <h2>5. Cookie</h2>
+      <p>
+        Сайт использует единственный cookie — <code>armreview_device</code>. Без него голосование невозможно;
+        просмотр сайта работает и без него. Вы можете удалить cookie в настройках браузера.
+      </p>
+    </section>
+
+    <section id="retention">
+      <h2>6. Сколько храним</h2>
+      <!-- TODO(вопрос к Владу/юристу — срок хранения): пока «пока работает сайт», уточнить -->
+      <p>Оценки и хеши хранятся, пока работает сайт, либо до вашего запроса на удаление.</p>
+    </section>
+
+    <section id="storage">
+      <h2>7. Где хранятся данные</h2>
+      <!-- TODO: подтвердить после выбора хостинга (PROJECT.md § 10) — сервер должен быть в РФ -->
+      <p>Данные хранятся на сервере на территории Российской Федерации.</p>
+    </section>
+
+    <section id="sharing">
+      <h2>8. Передача данных и обработчики</h2>
+      <!-- TODO(юрист): хостинг-провайдер = обработчик по поручению; трансграничной передачи нет -->
+      <div class="card future">
+        <p class="muted">
+          Раздел не написан. Текст должен подготовить юрист: кто обрабатывает данные по нашему поручению
+          (хостинг-провайдер), на каких условиях и почему трансграничной передачи не происходит.
+        </p>
+      </div>
+    </section>
+
+    <section id="rights">
+      <h2>9. Ваши права</h2>
+      <p>
+        Вы можете запросить сведения о данных или их удаление, написав по адресу выше. Так как данные не
+        связаны с именем, укажите в письме время и матч, за который голосовали.
+      </p>
+    </section>
+
+    <section id="changes">
+      <h2>10. Изменения политики</h2>
+      <!-- TODO(юрист): порядок уведомления об изменениях и хранение прежних редакций -->
+      <div class="card future">
+        <p class="muted">
+          Раздел не написан. Текст должен подготовить юрист: как мы сообщаем об изменениях политики и с какого
+          момента новая редакция действует.
+        </p>
+      </div>
+    </section>
+
+    <div class="card future section">
+      <p class="label">Статус документа</p>
+      <p class="muted">
+        Это рабочая редакция: она описывает то, что сайт делает на самом деле, но ещё не прошла юридическую
+        вычитку. До запуска голосования нужно подставить данные оператора, закрыть разделы 4, 8 и 10 и подать
+        уведомление в Роскомнадзор.
+      </p>
+    </div>
+
+  </article>
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

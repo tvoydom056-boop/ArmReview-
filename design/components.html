@@ -1,0 +1,1068 @@
+<!-- ВИТРИНА ДИЗАЙН-СИСТЕМЫ. Каркас скопирован из _shell.html без изменений.
+     Собственный CSS — только раскладка витрины (сетки образцов, подписи). Цвета — только токены. -->
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-система — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Раскладка самой витрины. Ничего из ui.css не переопределяем — иначе витрина врёт. */
+.vz-lead { color: var(--muted); font-size: 14px; max-width: 64ch; margin: 12px 0 0; }
+.vz-note { color: var(--muted); font-size: 13px; margin: 0 0 14px; max-width: 72ch; }
+.vz-note b { color: var(--text); font-weight: 600; }
+code { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 0.92em; }
+
+.vz-cap { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 6px; }
+.vz-cap b { color: var(--text); font-weight: 700; }
+.vz-sm { font-size: 12px; }
+.vz-big { font-size: 34px; line-height: 1.1; }
+.vz-mid { font-size: 20px; }
+
+.vz-tokens { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 560px) { .vz-tokens { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 880px) { .vz-tokens { grid-template-columns: repeat(5, 1fr); } }
+.vz-tok { min-width: 0; }
+.vz-tok i { display: block; height: 46px; border-radius: 10px;
+  border: 1px solid var(--border-strong); background: var(--c, transparent); }
+.vz-tok code { display: block; margin-top: 6px; font-weight: 600; word-break: break-all; }
+.vz-tok small { display: block; color: var(--muted); font-size: 10px; word-break: break-all; }
+
+.vz-states { display: grid; gap: 20px; }
+@media (min-width: 720px) { .vz-states { grid-template-columns: repeat(2, 1fr); } }
+.vz-state { min-width: 0; }
+
+.vz-col { display: grid; gap: 16px; }
+.vz-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.vz-row--top { align-items: flex-start; }
+.vz-hr { height: 1px; background: var(--border); border: 0; margin: 18px 0; }
+.vz-wl { width: 44px; }
+.vz-sq { width: 84px; height: 84px; }
+.vz-list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+.vz-list li { margin-bottom: 8px; }
+.vz-list b { color: var(--text); font-weight: 600; }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+  <a class="back" href="index.html">← Все макеты</a>
+
+  <h1>Дизайн-система</h1>
+  <p class="vz-lead">
+    Все примитивы из <code>ui.css</code> во всех состояниях, включая краевые: пусто, 0%, край шкалы,
+    100%, очень длинная подпись. Шкалы — переиспользуемый примитив: под новый показатель берётся
+    подходящий тип, а не рисуется отдельная картинка. Кнопка <b>◐</b> в углу переключает тему —
+    каждое состояние обязано читаться в обеих.
+  </p>
+
+  <!-- ══════════ 1. ТОКЕНЫ ══════════ -->
+  <section class="section">
+    <p class="label">1 · Токены цвета</p>
+    <p class="vz-note">
+      Единственный источник цвета. В разметке — только <code>var(--токен)</code>, хардкод запрещён.
+      Значения даны столбиком: <b>тём</b> — тёмная тема, <b>свет</b> — светлая.
+      Образцы стоят прямо на фоне страницы, поэтому <code>--bg</code> выглядит пустым квадратом
+      (он и есть фон), а <code>--border</code> / <code>--border-strong</code> — полупрозрачные
+      и почти сливаются: это их нормальный вид.
+    </p>
+
+    <div class="vz-tokens">
+      <div class="vz-tok"><i style="--c: var(--bg)"></i><code>--bg</code>
+        <small>тём #0a0a0c</small><small>свет #f3f3f5</small></div>
+      <div class="vz-tok"><i style="--c: var(--surface)"></i><code>--surface</code>
+        <small>тём #141519</small><small>свет #ffffff</small></div>
+      <div class="vz-tok"><i style="--c: var(--surface-2)"></i><code>--surface-2</code>
+        <small>тём #1c1d23</small><small>свет #ececf0</small></div>
+      <div class="vz-tok"><i style="--c: var(--surface-hover)"></i><code>--surface-hover</code>
+        <small>тём #22232a</small><small>свет #e3e3e9</small></div>
+      <div class="vz-tok"><i style="--c: var(--border)"></i><code>--border</code>
+        <small>тём rgb(255 255 255 / .07)</small><small>свет rgb(0 0 0 / .08)</small></div>
+      <div class="vz-tok"><i style="--c: var(--border-strong)"></i><code>--border-strong</code>
+        <small>тём rgb(255 255 255 / .16)</small><small>свет rgb(0 0 0 / .18)</small></div>
+      <div class="vz-tok"><i style="--c: var(--text)"></i><code>--text</code>
+        <small>тём #f5f5f7</small><small>свет #0a0a0c</small></div>
+      <div class="vz-tok"><i style="--c: var(--muted)"></i><code>--muted</code>
+        <small>тём #8a8d96</small><small>свет #5b5f68</small></div>
+      <div class="vz-tok"><i style="--c: var(--win)"></i><code>--win</code>
+        <small>тём #22c55e</small><small>свет #15803d</small></div>
+      <div class="vz-tok"><i style="--c: var(--loss)"></i><code>--loss</code>
+        <small>тём #ef4444</small><small>свет #b91c1c</small></div>
+      <div class="vz-tok"><i style="--c: var(--warn)"></i><code>--warn</code>
+        <small>тём #eab308</small><small>свет #a16207</small></div>
+      <div class="vz-tok"><i style="--c: var(--gold)"></i><code>--gold</code>
+        <small>тём #f5c518</small><small>свет #8a5a00</small></div>
+      <div class="vz-tok"><i style="--c: var(--inside)"></i><code>--inside</code>
+        <small>тём #f4436c</small><small>свет #d91e4d</small></div>
+      <div class="vz-tok"><i style="--c: var(--outside)"></i><code>--outside</code>
+        <small>тём #3b9eff</small><small>свет #0b63c4</small></div>
+      <div class="vz-tok"><i style="--c: var(--universal)"></i><code>--universal</code>
+        <small>тём #a855f7</small><small>свет #7c2fd4</small></div>
+    </div>
+
+    <hr class="vz-hr">
+    <p class="vz-note">
+      Производные токены (отдельных образцов не требуют): <code>--gold-bg</code>,
+      <code>--gold-border</code>, <code>--inside-tint</code>, <code>--outside-tint</code>,
+      <code>--universal-tint</code> — видны ниже на пилюлях и подсветках <code>.hero--*</code>.
+      Токен <code>--overlay</code> объявлен в обеих темах, но в <code>ui.css</code>
+      <b>нигде не используется</b> — похоже, он задумывался под подложку спойлера (секция 7).
+    </p>
+  </section>
+
+  <!-- ══════════ 2. ТИПОГРАФИКА ══════════ -->
+  <section class="section">
+    <p class="label">2 · Типографика</p>
+    <p class="vz-note">
+      Два шрифта. <b>Oswald</b> (<code>--font-display</code>) — узкий, только для цифр и заголовков
+      uppercase: он держит крупный кегль на 375px. <b>Системный</b> (<code>--font-body</code>) —
+      весь остальной текст. Правило: всё, что читают, — системным; всё, что считывают взглядом
+      (счёт, рейтинг, ранг), — Oswald.
+    </p>
+
+    <div class="card vz-col">
+      <div>
+        <p class="vz-cap">h1 — Oswald 700, uppercase, clamp(28…44px)</p>
+        <h1>Давид Цыпленков</h1>
+      </div>
+
+      <div>
+        <p class="vz-cap">.label — подпись секции, 11px, uppercase, muted</p>
+        <p class="label">Статистика за карьеру</p>
+      </div>
+
+      <div>
+        <p class="vz-cap">.num — Oswald 700 + табличные цифры (колонки не «прыгают»)</p>
+        <div class="vz-row vz-row--top">
+          <div>
+            <div class="num vz-big">128 : 47</div>
+            <span class="vz-sm muted">.num — Oswald</span>
+          </div>
+          <div>
+            <div class="vz-big">128 : 47</div>
+            <span class="vz-sm muted">то же системным — шире и мягче</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="vz-cap">Обычный текст и .muted</p>
+        <p style="margin:0">Обычный абзац: основной цвет <code>--text</code>, системный шрифт, line-height 1.5.</p>
+        <p class="muted" style="margin:6px 0 0">Тот же абзац классом <code>.muted</code> — вторичный текст, подписи, даты.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 3. ШКАЛЫ ══════════ -->
+  <section class="section">
+    <p class="label">3 · Шкалы — главный переиспользуемый примитив</p>
+    <p class="vz-note">
+      Пять типов под пять разных смыслов. Прежде чем рисовать новую шкалу под новый показатель —
+      выбрать тип отсюда. Каждый тип ниже показан во всех состояниях, включая те, где он ломается.
+    </p>
+
+    <!-- а) .scale -->
+    <div class="card">
+      <p class="label">а) .scale — дивергентная, инсайд ↔ универсал ↔ аутсайд</p>
+      <p class="vz-note">
+        <b>Когда:</b> показатель с двумя противоположными полюсами и осмысленной серединой.
+        Стиль борьбы (инсайд ↔ аутсайд), крюк ↔ топ-ролл, баланс левой и правой руки,
+        «давит ↔ тянет». Позиция маркера — <code>--pos</code> в процентах.
+      </p>
+
+      <div class="vz-states">
+        <div class="vz-state">
+          <p class="vz-cap"><b>Пусто</b> — нет данных (.scale--empty, маркер убран)</p>
+          <div class="scale scale--empty">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+            </div>
+            <div class="scale__ends"><span>Инсайд</span><span>Аутсайд</span></div>
+            <span class="scale__value muted">Нет оценок</span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>0% — крайнее левое</b> (чистый инсайд)</p>
+          <div class="scale">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+              <i class="scale__marker" style="--pos:0%"></i>
+            </div>
+            <div class="scale__ends"><span>Инсайд</span><span>Аутсайд</span></div>
+            <span class="scale__value">Чистый инсайд</span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>25%</b> — уклон в инсайд</p>
+          <div class="scale">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+              <i class="scale__marker" style="--pos:25%"></i>
+            </div>
+            <div class="scale__ends"><span>Инсайд</span><span>Аутсайд</span></div>
+            <span class="scale__value">Скорее инсайд</span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>50% — середина</b> (универсал)</p>
+          <div class="scale">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+              <i class="scale__marker" style="--pos:50%"></i>
+            </div>
+            <div class="scale__ends"><span>Инсайд</span><span>Аутсайд</span></div>
+            <span class="scale__value">Универсал</span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>75%</b> — уклон в аутсайд</p>
+          <div class="scale">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+              <i class="scale__marker" style="--pos:75%"></i>
+            </div>
+            <div class="scale__ends"><span>Инсайд</span><span>Аутсайд</span></div>
+            <span class="scale__value">Скорее аутсайд</span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>100% — крайнее правое</b> (чистый аутсайд)</p>
+          <div class="scale">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+              <i class="scale__marker" style="--pos:100%"></i>
+            </div>
+            <div class="scale__ends"><span>Инсайд</span><span>Аутсайд</span></div>
+            <span class="scale__value">Чистый аутсайд</span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Очень длинная подпись</b> — стресс-тест .scale__ends и .scale__value</p>
+          <div class="scale">
+            <div class="scale__track">
+              <span class="scale__zone scale__zone--inside" style="width:33%"></span>
+              <span class="scale__zone scale__zone--universal" style="width:34%"></span>
+              <span class="scale__zone scale__zone--outside" style="width:33%"></span>
+              <i class="scale__marker" style="--pos:38%"></i>
+            </div>
+            <div class="scale__ends">
+              <span>Крюк с пронацией кисти внутрь</span><span>Верх через пальцы на закрытие</span>
+            </div>
+            <span class="scale__value">Тяготеет к крюку, но верх тоже рабочий вариант</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- б) .split -->
+    <div class="card">
+      <p class="label">б) .split — доля из 100%, без середины</p>
+      <p class="vz-note">
+        <b>Когда:</b> ровно две взаимоисключающие части одного целого. Винрейт (победы/поражения),
+        левая/правая рука, дома/в гостях. Середина смысла не несёт, поэтому маркера нет —
+        граница сама и есть значение. Ширина левой части — <code>--a</code>.
+      </p>
+
+      <div class="vz-states">
+        <div class="vz-state">
+          <p class="vz-cap"><b>Пусто</b> — .split--empty</p>
+          <div class="split split--empty"><i class="split__a" style="--a:50%"></i><i class="split__b"></i></div>
+          <div class="split__legend"><span class="muted">Нет матчей</span><span class="muted">—</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>0%</b> — ни одной победы</p>
+          <div class="split"><i class="split__a" style="--a:0%"></i><i class="split__b"></i></div>
+          <div class="split__legend"><span>0 побед</span><span>9 поражений</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>4%</b> — крайнее левое, но не ноль</p>
+          <div class="split"><i class="split__a" style="--a:4%"></i><i class="split__b"></i></div>
+          <div class="split__legend"><span>1 победа</span><span>24 поражения</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>50%</b> — середина</p>
+          <div class="split"><i class="split__a" style="--a:50%"></i><i class="split__b"></i></div>
+          <div class="split__legend"><span>12 побед</span><span>12 поражений</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>96%</b> — крайнее правое, но не сто</p>
+          <div class="split"><i class="split__a" style="--a:96%"></i><i class="split__b"></i></div>
+          <div class="split__legend"><span>24 победы</span><span>1 поражение</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>100%</b> — без поражений</p>
+          <div class="split"><i class="split__a" style="--a:100%"></i><i class="split__b"></i></div>
+          <div class="split__legend"><span>14 побед</span><span>0 поражений</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Очень длинная подпись</b> — стресс-тест .split__legend</p>
+          <div class="split"><i class="split__a" style="--a:62%"></i><i class="split__b"></i></div>
+          <div class="split__legend">
+            <span>Победы на левой руке в профи: 128</span><span>Поражения на левой: 47</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- в) .meter -->
+    <div class="card">
+      <p class="label">в) .meter — светофорная, плохо → средне → хорошо</p>
+      <p class="vz-note">
+        <b>Когда:</b> показатель, у которого есть направление «хуже → лучше», нормированный в 0…100.
+        Сила кисти, выносливость, стабильность, средняя оценка зрителей, процент реализации.
+        В отличие от <code>.scale</code>, края здесь не равноправны: левый — плохо, правый — хорошо.
+        Подписи краёв в примитив не входят — их даёт страница.
+      </p>
+
+      <div class="vz-states">
+        <div class="vz-state">
+          <p class="vz-cap"><b>Пусто</b> — .meter--empty (маркер убран)</p>
+          <div class="meter meter--empty"></div>
+          <div class="split__legend"><span class="muted">Оценок нет</span><span class="muted">—</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>0%</b> — крайнее левое</p>
+          <div class="meter"><i class="meter__marker" style="--pos:0%"></i></div>
+          <div class="split__legend"><span>Слабо</span><span>Сильно</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>18%</b> — ниже среднего</p>
+          <div class="meter"><i class="meter__marker" style="--pos:18%"></i></div>
+          <div class="split__legend"><span>Слабо</span><span>Сильно</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>50%</b> — середина</p>
+          <div class="meter"><i class="meter__marker" style="--pos:50%"></i></div>
+          <div class="split__legend"><span>Слабо</span><span>Сильно</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>88%</b> — выше среднего</p>
+          <div class="meter"><i class="meter__marker" style="--pos:88%"></i></div>
+          <div class="split__legend"><span>Слабо</span><span>Сильно</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>100%</b> — крайнее правое</p>
+          <div class="meter"><i class="meter__marker" style="--pos:100%"></i></div>
+          <div class="split__legend"><span>Слабо</span><span>Сильно</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Очень длинная подпись</b> под шкалой</p>
+          <div class="meter"><i class="meter__marker" style="--pos:64%"></i></div>
+          <div class="split__legend">
+            <span>Кистевая сила по оценкам зрителей</span><span>Выше среднего по весу</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- г) .stack -->
+    <div class="card">
+      <p class="label">г) .stack — составная полоса распределения</p>
+      <p class="vz-note">
+        <b>Когда:</b> целое делится на три и больше категорий, и важны пропорции, а не порядок.
+        Чем выигрывает (крюк / топ-ролл / верх), состав соперников по типу, исходы турниров.
+        Значения — ширины сегментов, расшифровка — <code>.stack__legend</code> с точками
+        <code>.dot</code>. Больше 4–5 сегментов на 375px не читается.
+      </p>
+
+      <div class="vz-states">
+        <div class="vz-state">
+          <p class="vz-cap"><b>Пусто</b> — сегментов нет (модификатора --empty у .stack нет)</p>
+          <div class="stack"></div>
+          <div class="stack__legend"><span class="muted">Нет данных по технике побед</span></div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Один сегмент 100%</b></p>
+          <div class="stack"><span style="width:100%; background:var(--inside)"></span></div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background:var(--inside)"></i>Крюк <b>100%</b></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Сегмент 0%</b> — «верх» не встречался ни разу</p>
+          <div class="stack">
+            <span style="width:64%; background:var(--inside)"></span>
+            <span style="width:36%; background:var(--universal)"></span>
+            <span style="width:0%; background:var(--outside)"></span>
+          </div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background:var(--inside)"></i>Крюк <b>64%</b></span>
+            <span><i class="dot" style="background:var(--universal)"></i>Топ-ролл <b>36%</b></span>
+            <span><i class="dot" style="background:var(--outside)"></i>Верх <b>0%</b></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Крайний случай: сегмент 1%</b> — тонкая полоска на скруглении</p>
+          <div class="stack">
+            <span style="width:1%; background:var(--inside)"></span>
+            <span style="width:98%; background:var(--universal)"></span>
+            <span style="width:1%; background:var(--outside)"></span>
+          </div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background:var(--inside)"></i>Крюк <b>1%</b></span>
+            <span><i class="dot" style="background:var(--universal)"></i>Топ-ролл <b>98%</b></span>
+            <span><i class="dot" style="background:var(--outside)"></i>Верх <b>1%</b></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Норма</b> — три сегмента</p>
+          <div class="stack">
+            <span style="width:52%; background:var(--inside)"></span>
+            <span style="width:26%; background:var(--universal)"></span>
+            <span style="width:22%; background:var(--outside)"></span>
+          </div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background:var(--inside)"></i>Крюк <b>52%</b></span>
+            <span><i class="dot" style="background:var(--universal)"></i>Топ-ролл <b>26%</b></span>
+            <span><i class="dot" style="background:var(--outside)"></i>Верх <b>22%</b></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Сумма меньше 100%</b> — остаток показывает фон --surface-2</p>
+          <div class="stack">
+            <span style="width:30%; background:var(--win)"></span>
+            <span style="width:25%; background:var(--warn)"></span>
+          </div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background:var(--win)"></i>Победы <b>30%</b></span>
+            <span><i class="dot" style="background:var(--warn)"></i>Ничьи <b>25%</b></span>
+            <span><i class="dot" style="background:var(--surface-2)"></i>Не размечено <b>45%</b></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Очень длинные подписи</b> — легенда переносится</p>
+          <div class="stack">
+            <span style="width:41%; background:var(--inside)"></span>
+            <span style="width:33%; background:var(--universal)"></span>
+            <span style="width:26%; background:var(--outside)"></span>
+          </div>
+          <div class="stack__legend">
+            <span><i class="dot" style="background:var(--inside)"></i>Победы крюком с пронацией кисти <b>41%</b></span>
+            <span><i class="dot" style="background:var(--universal)"></i>Победы топ-роллом через пальцы <b>33%</b></span>
+            <span><i class="dot" style="background:var(--outside)"></i>Победы верхом на закрытие <b>26%</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- д) .statline -->
+    <div class="card">
+      <p class="label">д) .statline — строка статистики с тонким баром</p>
+      <p class="vz-note">
+        <b>Когда:</b> список «сколько раз — чем — какая доля». Техника побед, статистика по турнирам,
+        разбивка по соперникам. Бар под строкой — доля от максимума (<code>--v</code>), он вторичен:
+        главное число слева. Модификаторы: <code>--win</code> (зелёный бар), <code>--loss</code>
+        (красный), <code>--zero</code> (нулевая строка, приглушена).
+      </p>
+
+      <div class="vz-states">
+        <div class="vz-state">
+          <p class="vz-cap"><b>Базовый</b> и модификаторы --win / --loss / --zero</p>
+          <div class="statline">
+            <b class="statline__n">7</b><span class="statline__k">Топ-ролл</span>
+            <span class="statline__p">41%</span>
+            <span class="statline__bar"><i style="--v:41%"></i></span>
+          </div>
+          <div class="statline statline--win">
+            <b class="statline__n">12</b><span class="statline__k">Крюк</span>
+            <span class="statline__p">63%</span>
+            <span class="statline__bar"><i style="--v:63%"></i></span>
+          </div>
+          <div class="statline statline--loss">
+            <b class="statline__n">4</b><span class="statline__k">Проигран верхом</span>
+            <span class="statline__p">21%</span>
+            <span class="statline__bar"><i style="--v:21%"></i></span>
+          </div>
+          <div class="statline statline--zero">
+            <b class="statline__n">0</b><span class="statline__k">Трицепс</span>
+            <span class="statline__p">0%</span>
+            <span class="statline__bar"><i style="--v:0%"></i></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Края бара:</b> 0% и 100%</p>
+          <div class="statline">
+            <b class="statline__n">0</b><span class="statline__k">Ни разу</span>
+            <span class="statline__p">0%</span>
+            <span class="statline__bar"><i style="--v:0%"></i></span>
+          </div>
+          <div class="statline statline--win">
+            <b class="statline__n">18</b><span class="statline__k">Все победы крюком</span>
+            <span class="statline__p">100%</span>
+            <span class="statline__bar"><i style="--v:100%"></i></span>
+          </div>
+          <div class="statline">
+            <b class="statline__n">1</b><span class="statline__k">Единственный раз</span>
+            <span class="statline__p">2%</span>
+            <span class="statline__bar"><i style="--v:2%"></i></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Длинные числа</b> — колонка под число фиксированная, 28px</p>
+          <div class="statline">
+            <b class="statline__n">9</b><span class="statline__k">Одна цифра</span>
+            <span class="statline__p">9%</span>
+            <span class="statline__bar"><i style="--v:9%"></i></span>
+          </div>
+          <div class="statline">
+            <b class="statline__n">128</b><span class="statline__k">Три цифры</span>
+            <span class="statline__p">74%</span>
+            <span class="statline__bar"><i style="--v:74%"></i></span>
+          </div>
+          <div class="statline">
+            <b class="statline__n">1240</b><span class="statline__k">Четыре цифры</span>
+            <span class="statline__p">96%</span>
+            <span class="statline__bar"><i style="--v:96%"></i></span>
+          </div>
+        </div>
+
+        <div class="vz-state">
+          <p class="vz-cap"><b>Очень длинная подпись</b> — проверка на 375px</p>
+          <div class="statline statline--win">
+            <b class="statline__n">6</b>
+            <span class="statline__k">Перекрёстный захват с пронацией кисти на закрытие</span>
+            <span class="statline__p">32%</span>
+            <span class="statline__bar"><i style="--v:32%"></i></span>
+          </div>
+          <div class="statline">
+            <b class="statline__n">3</b>
+            <span class="statline__k">Суперфинал-чемпионат-мира-2024</span>
+            <span class="statline__p">17%</span>
+            <span class="statline__bar"><i style="--v:17%"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 4. ПИЛЮЛИ И ЧИПЫ ══════════ -->
+  <section class="section">
+    <p class="label">4 · Пилюли, чипы, бейджи</p>
+    <p class="vz-note">
+      <b>.pill</b> — неинтерактивная метка факта (вес, рука, титул). <b>.chip</b> — интерактивный
+      фильтр, одно значение выбрано (<code>aria-selected="true"</code>); клик переключает —
+      обработчик уже в каркасе. <b>.stylebadge</b> — тип борца, только обводка и текст.
+    </p>
+
+    <div class="card vz-col">
+      <div>
+        <p class="vz-cap">.pill — базовая, --gold, --win, --loss</p>
+        <div class="vz-row">
+          <span class="pill">110 кг</span>
+          <span class="pill">Левая рука</span>
+          <span class="pill pill--gold">★ Чемпион мира</span>
+          <span class="pill pill--win">Победа</span>
+          <span class="pill pill--loss">Поражение</span>
+          <span class="pill pill--gold">Топ-1 рейтинга ArmReview по левой руке в 110 кг</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="vz-cap">.chip — попробуйте кликнуть, выбранный подсвечивается</p>
+        <div class="chips">
+          <button class="chip" aria-selected="true">Все</button>
+          <button class="chip" aria-selected="false">Левая</button>
+          <button class="chip" aria-selected="false">Правая</button>
+          <button class="chip" aria-selected="false">Только титульные поединки</button>
+        </div>
+      </div>
+
+      <div>
+        <p class="vz-cap">.stylebadge с .t-inside / .t-outside / .t-universal</p>
+        <div class="vz-row">
+          <span class="stylebadge t-inside">Инсайд</span>
+          <span class="stylebadge t-outside">Аутсайд</span>
+          <span class="stylebadge t-universal">Универсал</span>
+          <span class="stylebadge t-universal">Универсал с уклоном в верх</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 5. ТИП БОРЦА ══════════ -->
+  <section class="section">
+    <p class="label">5 · Тип борца против исхода матча — разведение цветов</p>
+    <p class="vz-note">
+      Тут два разных смысла используют близкие красные оттенки, и их нельзя путать.
+      Правило системы: <b>исход матча кодируется заливкой</b> (сплошной фон
+      <code>--win</code> / <code>--loss</code>), <b>тип борца — только обводкой и текстом</b>
+      (<code>--inside</code> / <code>--outside</code> / <code>--universal</code>), заливки у него
+      не бывает никогда. Разная форма важнее разного оттенка: даже если красные сблизятся,
+      «залито» и «обведено» не спутать.
+    </p>
+
+    <div class="card">
+      <p class="vz-cap">Слева — исход (заливка). Справа — тип борца (обводка)</p>
+      <div class="vz-row vz-row--top">
+        <div>
+          <div class="wl wl--w vz-wl"><b>W</b><span>6–0</span></div>
+          <p class="vz-cap" style="margin:6px 0 0">.wl--w<br>заливка --win</p>
+        </div>
+        <div>
+          <div class="wl wl--l vz-wl"><b>L</b><span>2–6</span></div>
+          <p class="vz-cap" style="margin:6px 0 0">.wl--l<br>заливка --loss</p>
+        </div>
+        <div>
+          <div class="vz-row" style="min-height:44px">
+            <span class="stylebadge t-inside">Инсайд</span>
+          </div>
+          <p class="vz-cap" style="margin:6px 0 0">.stylebadge.t-inside<br>обводка --inside, фона нет</p>
+        </div>
+      </div>
+
+      <hr class="vz-hr">
+
+      <p class="vz-cap">Аватары: цвет типа уходит в рамку, фото не перекрашивается</p>
+      <div class="vz-row vz-row--top">
+        <div>
+          <div class="avatar avatar--inside vz-sq"></div>
+          <p class="vz-cap" style="margin:6px 0 0">--inside</p>
+        </div>
+        <div>
+          <div class="avatar avatar--outside vz-sq"></div>
+          <p class="vz-cap" style="margin:6px 0 0">--outside</p>
+        </div>
+        <div>
+          <div class="avatar avatar--universal vz-sq"></div>
+          <p class="vz-cap" style="margin:6px 0 0">--universal</p>
+        </div>
+        <div>
+          <div class="avatar vz-sq"></div>
+          <p class="vz-cap" style="margin:6px 0 0">тип не указан</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="vz-cap" style="margin:18px 0 8px">.hero--inside / --outside / --universal — подсветка фона тинтом, не заливка</p>
+
+    <div class="hero hero--inside">
+      <div class="avatar avatar--inside"></div>
+      <div>
+        <h1>Давид Цыпленков</h1>
+        <div class="hero__meta">
+          <span>Россия</span><span>·</span><span>110 кг</span><span>·</span>
+          <span class="stylebadge t-inside">Инсайд</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero hero--outside" style="margin-top:12px">
+      <div class="avatar avatar--outside"></div>
+      <div>
+        <h1>Леван Сагинашвили</h1>
+        <div class="hero__meta">
+          <span>Грузия</span><span>·</span><span>110 кг</span><span>·</span>
+          <span class="stylebadge t-outside">Аутсайд</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero hero--universal" style="margin-top:12px">
+      <div class="avatar avatar--universal"></div>
+      <div>
+        <h1>Дмитрий Трубин</h1>
+        <div class="hero__meta">
+          <span>Россия</span><span>·</span><span>90 кг</span><span>·</span>
+          <span class="stylebadge t-universal">Универсал</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 6. КАРТОЧКИ И СТРОКИ ══════════ -->
+  <section class="section">
+    <p class="label">6 · Карточки и строки</p>
+    <p class="vz-note">
+      <b>.card</b> — контейнер любого блока. <b>.fact</b> — одно поле «ключ → значение».
+      <b>.matchrow</b> — строка матча в списке. <b>.athletecard</b> — борец в сетке.
+      <b>.versus</b> — противостояние на странице матча. <b>.rank</b> и <b>.ratingbadge</b> —
+      номер в топе и оценка.
+    </p>
+
+    <div class="card">
+      <p class="label">.card + .fact в сетке .grid-3</p>
+      <div class="grid grid-3">
+        <dl class="fact"><dt>Год рождения</dt><dd>1978</dd></dl>
+        <dl class="fact"><dt>Вес</dt><dd>110 кг</dd></dl>
+        <dl class="fact"><dt>Рост</dt><dd>185 см</dd></dl>
+        <dl class="fact"><dt>Страна</dt><dd>Россия</dd></dl>
+        <dl class="fact"><dt>Длина предплечья</dt><dd>—</dd></dl>
+        <dl class="fact"><dt>Титул</dt><dd>Многократный чемпион мира по армрестлингу</dd></dl>
+      </div>
+    </div>
+
+    <p class="vz-cap" style="margin:18px 0 8px">.matchrow — варианты W и L, обычная и длинная подпись</p>
+    <div class="matchrow">
+      <div class="wl wl--w"><b>W</b><span>6–0</span></div>
+      <div>
+        <div class="matchrow__name">Леван Сагинашвили</div>
+        <div class="matchrow__sub">Левая · 110 кг</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="matchrow__event">East vs West 12</div>
+        <div class="muted">14.09.2024</div>
+      </div>
+    </div>
+    <div class="matchrow">
+      <div class="wl wl--l"><b>L</b><span>2–6</span></div>
+      <div>
+        <div class="matchrow__name">Дмитрий Трубин</div>
+        <div class="matchrow__sub">Правая · 90 кг</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="matchrow__event">Zloty Tur</div>
+        <div class="muted">02.12.2023</div>
+      </div>
+    </div>
+    <div class="matchrow">
+      <div class="wl wl--w"><b>W</b><span>4–2</span></div>
+      <div>
+        <div class="matchrow__name">Константин Константинопольский</div>
+        <div class="matchrow__sub">Левая · суперфинал, титульный поединок за пояс</div>
+      </div>
+      <div class="matchrow__right">
+        <div class="matchrow__event">Professional-Armwrestling-League</div>
+        <div class="muted">01.01.2025</div>
+      </div>
+    </div>
+
+    <p class="vz-cap" style="margin:18px 0 8px">.rank + .ratingbadge — 1, 12 и 100 (колонка ранга 34px)</p>
+    <div class="card">
+      <div class="vz-row"><span class="rank">1</span><span class="ratingbadge">9.42</span><span class="muted vz-sm">Цыпленков</span></div>
+      <div class="vz-row"><span class="rank">12</span><span class="ratingbadge">8.71</span><span class="muted vz-sm">Трубин</span></div>
+      <div class="vz-row"><span class="rank">100</span><span class="ratingbadge">7.05</span><span class="muted vz-sm">последний в топ-100</span></div>
+      <div class="vz-row"><span class="rank">—</span><span class="ratingbadge">—</span><span class="muted vz-sm">без оценок</span></div>
+    </div>
+
+    <p class="vz-cap" style="margin:18px 0 8px">.athletecard в сетке .grid-4 (на 375px — две колонки)</p>
+    <div class="grid grid-4">
+      <a class="athletecard" href="#">
+        <div class="athletecard__photo"></div>
+        <div class="athletecard__name">Давид Цыпленков</div>
+        <span class="stylebadge t-inside">Инсайд</span>
+      </a>
+      <a class="athletecard" href="#">
+        <div class="athletecard__photo"></div>
+        <div class="athletecard__name">Леван Сагинашвили</div>
+        <span class="stylebadge t-outside">Аутсайд</span>
+      </a>
+      <a class="athletecard" href="#">
+        <div class="athletecard__photo"></div>
+        <div class="athletecard__name">Дмитрий Трубин</div>
+        <span class="stylebadge t-universal">Универсал</span>
+      </a>
+      <a class="athletecard" href="#">
+        <div class="athletecard__photo"></div>
+        <div class="athletecard__name">Константин Константинопольский</div>
+        <span class="stylebadge t-inside">Инсайд</span>
+      </a>
+    </div>
+
+    <p class="vz-cap" style="margin:18px 0 8px">.versus — короткие и длинные фамилии</p>
+    <div class="card">
+      <div class="versus">
+        <div>
+          <div class="versus__photo"></div>
+          <div class="versus__name">Цыпленков</div>
+          <div class="muted vz-sm">Россия</div>
+        </div>
+        <div class="versus__vs">VS</div>
+        <div>
+          <div class="versus__photo"></div>
+          <div class="versus__name">Сагинашвили</div>
+          <div class="muted vz-sm">Грузия</div>
+        </div>
+      </div>
+      <hr class="vz-hr">
+      <div class="versus">
+        <div>
+          <div class="versus__photo"></div>
+          <div class="versus__name">Константинопольский</div>
+          <div class="muted vz-sm">Казахстан</div>
+        </div>
+        <div class="versus__vs">VS</div>
+        <div>
+          <div class="versus__photo"></div>
+          <div class="versus__name">Ли</div>
+          <div class="muted vz-sm">Корея</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 7. СПОЙЛЕР ══════════ -->
+  <section class="section">
+    <p class="label">7 · Спойлер — инвариант продукта</p>
+    <p class="vz-note">
+      Счёт, победитель и статистика показываются <b>только по кнопке</b>. Закрытое состояние —
+      <code>data-open="false"</code>: содержимое размыто, некликабельно и не выделяется мышью.
+      Кнопка <code>data-reveal</code> переводит блок в <code>data-open="true"</code> — обработчик
+      в каркасе, обратно не закрывается. Проверьте оба состояния в обеих темах.
+    </p>
+
+    <div class="vz-states">
+      <div class="vz-state">
+        <p class="vz-cap"><b>Закрыт</b> — data-open="false"</p>
+        <div class="card spoiler" data-open="false">
+          <div class="spoiler__body">
+            <p class="label">Итог поединка</p>
+            <div class="record">
+              <div class="record__main">6<span class="record__dash">:</span>0</div>
+              <div class="record__sub">Цыпленков</div>
+            </div>
+            <div class="statline statline--win">
+              <b class="statline__n">4</b><span class="statline__k">Победы крюком</span>
+              <span class="statline__p">67%</span>
+              <span class="statline__bar"><i style="--v:67%"></i></span>
+            </div>
+            <div class="statline statline--loss">
+              <b class="statline__n">2</b><span class="statline__k">Поражения верхом</span>
+              <span class="statline__p">33%</span>
+              <span class="statline__bar"><i style="--v:33%"></i></span>
+            </div>
+          </div>
+          <div class="spoiler__cover">
+            <p class="spoiler__hint">Счёт и статистика скрыты, пока вы не решите их открыть.</p>
+            <button class="btn" data-reveal>Показать результат</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="vz-state">
+        <p class="vz-cap"><b>Открыт</b> — data-open="true"</p>
+        <div class="card spoiler" data-open="true">
+          <div class="spoiler__body">
+            <p class="label">Итог поединка</p>
+            <div class="record">
+              <div class="record__main">6<span class="record__dash">:</span>0</div>
+              <div class="record__sub">Цыпленков</div>
+            </div>
+            <div class="statline statline--win">
+              <b class="statline__n">4</b><span class="statline__k">Победы крюком</span>
+              <span class="statline__p">67%</span>
+              <span class="statline__bar"><i style="--v:67%"></i></span>
+            </div>
+            <div class="statline statline--loss">
+              <b class="statline__n">2</b><span class="statline__k">Поражения верхом</span>
+              <span class="statline__p">33%</span>
+              <span class="statline__bar"><i style="--v:33%"></i></span>
+            </div>
+          </div>
+          <div class="spoiler__cover">
+            <p class="spoiler__hint">Счёт и статистика скрыты, пока вы не решите их открыть.</p>
+            <button class="btn" data-reveal>Показать результат</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="vz-state">
+        <p class="vz-cap"><b>Краевой случай:</b> короткое содержимое — накладке не хватает высоты</p>
+        <div class="card spoiler" data-open="false">
+          <div class="spoiler__body">
+            <div class="record"><div class="record__sub">6 : 0</div></div>
+          </div>
+          <div class="spoiler__cover">
+            <p class="spoiler__hint">Короткий блок: подсказка и кнопка выше самого содержимого.</p>
+            <button class="btn" data-reveal>Показать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 8. КНОПКИ ══════════ -->
+  <section class="section">
+    <p class="label">8 · Кнопки</p>
+    <p class="vz-note">
+      <b>.btn</b> — основное действие на экране, оно одно: «Показать результат», «Проголосовать».
+      <b>.btn--ghost</b> — второстепенное: «Показать ещё», «Отмена». Наведите курсор:
+      у обеих hover — это <code>opacity: .85</code>, у сплошной заметно, у призрачной почти нет.
+      Состояний <code>:active</code> и <code>:disabled</code> в системе пока не описано.
+    </p>
+
+    <div class="card vz-col">
+      <div>
+        <p class="vz-cap">Обычная ширина</p>
+        <div class="vz-row">
+          <button class="btn">Показать результат</button>
+          <button class="btn btn--ghost">Показать ещё 20 матчей</button>
+        </div>
+      </div>
+      <div>
+        <p class="vz-cap">Фокус с клавиатуры — Tab по кнопкам выше (outline 2px --text)</p>
+        <div class="vz-row">
+          <button class="btn">Ок</button>
+          <button class="btn btn--ghost">Отмена</button>
+          <button class="btn">Очень длинная надпись на кнопке в одну строку</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 9. СЛУЖЕБНОЕ ══════════ -->
+  <section class="section">
+    <p class="label">9 · Служебное — .future</p>
+    <p class="vz-note">
+      <code>.future</code> вешает на блок плашку «НЕТ ДАННЫХ В БАЗЕ» в правом верхнем углу.
+      Нужна на макетах, где поле нарисовано, но данных под него в базе ещё нет — чтобы заказчик
+      не принял нарисованное за реальное. В продакшене таких блоков быть не должно.
+    </p>
+
+    <div class="card future">
+      <p class="label">Физические данные</p>
+      <div class="grid grid-3">
+        <dl class="fact"><dt>Обхват предплечья</dt><dd>—</dd></dl>
+        <dl class="fact"><dt>Обхват бицепса</dt><dd>—</dd></dl>
+        <dl class="fact"><dt>Размах</dt><dd>—</dd></dl>
+      </div>
+    </div>
+
+    <p class="vz-cap" style="margin:18px 0 8px">Краевой случай: .future на узком блоке — плашка шире содержимого</p>
+    <div class="grid grid-2">
+      <dl class="fact future"><dt>Сила кисти</dt><dd>—</dd></dl>
+      <dl class="fact future"><dt>Выносливость</dt><dd>—</dd></dl>
+    </div>
+  </section>
+
+  <!-- ══════════ 10. ОСТАЛЬНЫЕ ПРИМИТИВЫ ══════════ -->
+  <section class="section">
+    <p class="label">10 · Остальное из ui.css</p>
+    <p class="vz-note">
+      Примитивы, которые не попали в секции выше, но объявлены в системе:
+      <code>.yearhead</code> — разделитель года в списке матчей, <code>.donut</code> — кольцевая
+      диаграмма распределения, <code>.vote</code> — форма голосования с ползунками.
+    </p>
+
+    <div class="yearhead">
+      <h3>2024</h3>
+      <span>12 поединков · 9 побед</span>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <p class="vz-cap">.donut — те же доли, что у .stack, когда важна не полоса, а круг</p>
+        <div class="donut" style="--slices: var(--inside) 0 52%, var(--universal) 0 78%, var(--outside) 0"></div>
+        <div class="stack__legend">
+          <span><i class="dot" style="background:var(--inside)"></i>Крюк <b>52%</b></span>
+          <span><i class="dot" style="background:var(--universal)"></i>Топ-ролл <b>26%</b></span>
+          <span><i class="dot" style="background:var(--outside)"></i>Верх <b>22%</b></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="vz-cap">.vote — ползунки оценки, значение в --gold</p>
+        <div class="vote">
+          <div class="vote__row">
+            <label>Зрелищность <span class="vote__val">8</span></label>
+            <input type="range" min="1" max="10" value="8">
+          </div>
+          <div class="vote__row">
+            <label>Интрига <span>не оценено</span></label>
+            <input type="range" min="1" max="10" value="5">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 11. КРАЯ ══════════ -->
+  <section class="section">
+    <p class="label">11 · Что ломается на краях</p>
+    <p class="vz-note">
+      Найдено при сборке витрины. Правки — в <code>ui.css</code>, не в страницах.
+    </p>
+    <div class="card">
+      <ol class="vz-list">
+        <li><b>Маркеры шкал срезаны.</b> <code>.scale__track</code> и <code>.meter</code> имеют
+          <code>overflow: hidden</code> ради скругления, а маркер лежит внутри них и торчит вверх-вниз —
+          его обрезает по высоте полосы. На 0% и 100% скруглённый угол съедает и остаток:
+          маркер превращается в невидимую полоску. Обе темы.</li>
+        <li><b>Ореол маркера чужого цвета.</b> <code>box-shadow: 0 0 0 2px var(--bg)</code>, но шкалы
+          живут на <code>--surface</code>. В светлой теме это серое кольцо на белой карточке.</li>
+        <li><b>Пустое состояние не пустое.</b> <code>--empty</code> только обесцвечивает; сегменты
+          и маркер остаются и читаются как настоящие данные. У <code>.stack</code> модификатора
+          <code>--empty</code> нет вовсе.</li>
+        <li><b>Подписи краёв слипаются.</b> <code>.scale__ends</code> и <code>.split__legend</code> —
+          <code>space-between</code> без <code>gap</code>: две длинные подписи встречаются посередине.</li>
+        <li><b>Колонка числа в .statline — 28px.</b> Трёхзначное число упирается, четырёхзначное
+          наезжает на подпись.</li>
+        <li><b>Кнопки не наследуют шрифт.</b> У <code>button</code> нет <code>font: inherit</code>,
+          поэтому <code>.btn</code>, <code>.chip</code> и <code>.themebtn</code> рисуются
+          браузерным шрифтом, а не <code>--font-body</code>.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

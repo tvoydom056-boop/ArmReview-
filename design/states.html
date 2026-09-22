@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Состояния и оверлеи — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только то, чего нет в ui.css. Цвета — существующие токены, новых нет.
+   Кандидаты на перенос в ui.css помечены [→ui.css]. */
+
+/* --- раскладка этой страницы (в ui.css не нужна) --- */
+.h2 { font-family: var(--font-display); font-weight: 700; font-size: 22px; text-transform: uppercase; letter-spacing: .02em; }
+.lead { color: var(--muted); font-size: 14px; max-width: 62ch; }
+.small { font-size: 12px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+.demo { border: 1px dashed var(--border-strong); border-radius: var(--radius-card); padding: 14px; margin-top: 12px; }
+.demo > .label { margin-bottom: 4px; }
+.demo.future > .label { padding-right: 126px; }
+.demo__when { font-size: 12px; color: var(--muted); margin: 0 0 12px; }
+.demo__note { font-size: 12px; color: var(--muted); margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--border); }
+.demo__note b { color: var(--text); font-weight: 600; }
+
+/* имитация экрана: внутри неё живут «фиксированные» баннер и модалка */
+.screen { position: relative; overflow: hidden; height: 300px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--bg); }
+.screen--tall { height: 560px; }
+.screen__bottom { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 4; }
+.phoneframe { max-width: 360px; margin: 0 auto; }
+
+/* --- [→ui.css] заглушка фото без внешнего URL --- */
+.ph { display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--muted); }
+
+/* --- [→ui.css] cookie-баннер --- */
+.cookiebar { display: grid; gap: 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-card); box-shadow: 0 -8px 28px var(--overlay); }
+.cookiebar__text { margin: 0; font-size: 13px; color: var(--muted); }
+.cookiebar__text a { color: var(--text); text-decoration: underline; }
+.cookiebar__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (min-width: 720px) { .cookiebar { grid-template-columns: 1fr auto; align-items: center; } }
+
+/* --- [→ui.css] модалка / нижний лист --- */
+.modal { position: absolute; inset: 0; z-index: 5; display: flex; align-items: flex-end; justify-content: center; }
+.modal__backdrop { position: absolute; inset: 0; background: var(--overlay); }
+.modal__card { position: relative; z-index: 1; width: 100%; max-height: 100%; overflow-y: auto; padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card) var(--radius-card) 0 0; }
+.modal__close { position: absolute; top: 10px; right: 10px; z-index: 2; width: 32px; height: 32px; line-height: 1; border-radius: var(--radius-pill); background: var(--surface-2); border: 1px solid var(--border); color: var(--text); font-size: 16px; cursor: pointer; }
+@media (min-width: 720px) {
+  .modal { align-items: center; padding: 20px; }
+  .modal__card { max-width: 520px; border-radius: var(--radius-card); }
+}
+/* всегда нижний лист — для демонстрации мобильного поведения на любой ширине */
+.modal--sheet { align-items: flex-end; padding: 0; }
+.modal--sheet .modal__card { max-width: none; border-radius: var(--radius-card) var(--radius-card) 0 0; }
+
+/* --- [→ui.css] пустое состояние --- */
+.empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 12px; text-align: center; }
+.empty__icon { color: var(--muted); opacity: .65; }
+.empty__code { font-family: var(--font-display); font-weight: 700; font-size: 58px; line-height: 1; color: var(--muted); opacity: .5; }
+.empty__title { font-family: var(--font-display); font-weight: 600; font-size: 17px; text-transform: uppercase; letter-spacing: .02em; }
+.empty__hint { margin: 0; max-width: 36ch; font-size: 13px; color: var(--muted); }
+.empty__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+
+/* --- [→ui.css] служебное сообщение (голосование недоступно / ошибка) --- */
+.notice { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-row); }
+.notice + .notice { margin-top: 10px; }
+.notice__icon { flex: 0 0 auto; margin-top: 2px; color: var(--muted); }
+.notice__body { min-width: 0; }
+.notice__title { font-size: 14px; font-weight: 600; }
+.notice__text { margin: 3px 0 0; font-size: 13px; color: var(--muted); }
+.notice__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.notice--soon { border-color: color-mix(in srgb, var(--warn) 45%, transparent); background: color-mix(in srgb, var(--warn) 10%, transparent); }
+.notice--soon .notice__icon { color: var(--warn); }
+.notice--done { border-color: color-mix(in srgb, var(--win) 45%, transparent); background: color-mix(in srgb, var(--win) 10%, transparent); }
+.notice--done .notice__icon { color: var(--win); }
+.notice--error { border-color: color-mix(in srgb, var(--loss) 45%, transparent); background: color-mix(in srgb, var(--loss) 10%, transparent); }
+.notice--error .notice__icon { color: var(--loss); }
+
+/* --- [→ui.css] скелетоны загрузки --- */
+@keyframes sk-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+.sk { display: block; background: var(--surface-2); border-radius: 6px; animation: sk-pulse 1.5s ease-in-out infinite; }
+.sk--pill { border-radius: var(--radius-pill); }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } }
+
+/* --- [→ui.css] защита от длинного контента --- */
+.brk { min-width: 0; overflow-wrap: anywhere; }
+.clip { overflow: hidden; }
+
+/* достижения списком */
+.ach { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13px; }
+.ach li { display: flex; gap: 8px; min-width: 0; }
+.ach li::before { content: '—'; flex: 0 0 auto; color: var(--muted); }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <a class="back" href="index.html">← Все макеты</a>
+  <h1>Состояния<br>и оверлеи</h1>
+  <p class="lead">Служебные и краевые состояния интерфейса — собраны в одном месте, чтобы их не проектировали в последний день. Каждый блок в рамке: что это, когда возникает, что видит человек.</p>
+
+  <div class="toc">
+    <a class="pill" href="#s1">1 · Cookie</a>
+    <a class="pill" href="#s2">2 · Модалка</a>
+    <a class="pill" href="#s3">3 · Пусто</a>
+    <a class="pill" href="#s4">4 · Нельзя голосовать</a>
+    <a class="pill" href="#s5">5 · Ошибки</a>
+    <a class="pill" href="#s6">6 · Загрузка</a>
+    <a class="pill" href="#s7">7 · Длинный контент</a>
+  </div>
+
+
+  <!-- ========== 1. COOKIE-БАННЕР ========== -->
+  <section class="section" id="s1">
+    <h2 class="h2">1 · Cookie-баннер</h2>
+    <p class="lead">Сайт кладёт cookie устройства и хранит хеш IP — по позиции РКН это персональные данные, поэтому человека предупреждаем до того, как он проголосует. Без тёмных паттернов: одна кнопка, никаких предвыбранных галочек, отказ не прячем в третий экран.</p>
+
+    <div class="demo">
+      <p class="label">1.1 — Баннер, прижатый к низу экрана</p>
+      <p class="demo__when">Когда: первый визит, согласие ещё не сохранено. Уходит по «Понятно» и больше не возвращается на этом устройстве.</p>
+
+      <div class="screen">
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>6:0</span></div>
+          <div class="brk">
+            <div class="matchrow__name">Леван Сагинашвили</div>
+            <div class="matchrow__sub">East vs West 14 · левая</div>
+          </div>
+          <div class="matchrow__right"><div class="matchrow__event">2024</div></div>
+        </div>
+        <div class="matchrow">
+          <div class="wl wl--l"><b>L</b><span>2:4</span></div>
+          <div class="brk">
+            <div class="matchrow__name">Дэвид Карлсен</div>
+            <div class="matchrow__sub">East vs West 13 · правая</div>
+          </div>
+          <div class="matchrow__right"><div class="matchrow__event">2023</div></div>
+        </div>
+
+        <div class="screen__bottom">
+          <div class="cookiebar" role="region" aria-label="Уведомление о cookie">
+            <p class="cookiebar__text">Мы храним один cookie устройства и хеш вашего IP — только чтобы засчитать голос один раз. Реклама и аналитика не подключены. Подробнее — в <a href="#">политике конфиденциальности</a>.</p>
+            <div class="cookiebar__actions">
+              <button class="btn" type="button">Понятно</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo__note"><b>Правило:</b> кнопка одна и она не «Принять всё». Выбора между «принять» и «отклонить» здесь нет, потому что cookie строго технический — отказаться от него значит отказаться от голосования, и честнее сказать это прямо, чем рисовать фальшивый переключатель. На узком экране текст и кнопка встают в колонку, на широком — в строку.</p>
+    </div>
+  </section>
+
+
+  <!-- ========== 2. МОДАЛКА МАТЧА ========== -->
+  <section class="section" id="s2">
+    <h2 class="h2">2 · Модалка матча</h2>
+    <p class="lead">Перехватывающий роут: клик по матчу в списке открывает <code>/matches/[id]</code> поверх страницы, а не уводит с неё. Прямой заход по ссылке или обновление страницы — обычная страница матча, без оверлея. Закрытие возвращает назад по истории, поэтому кнопка «назад» в браузере тоже закрывает окно.</p>
+
+    <div class="demo">
+      <p class="label">2.1 — Оверлей на широком экране</p>
+      <p class="demo__when">Когда: клик по строке матча из карты турнира или из топ-100. Фон затемнён токеном --overlay, страница под ним видна и сохраняет позицию скролла.</p>
+
+      <div class="screen screen--tall">
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>6:0</span></div>
+          <div class="brk"><div class="matchrow__name">Леван Сагинашвили</div><div class="matchrow__sub">East vs West 14</div></div>
+          <div class="matchrow__right"><div class="matchrow__event">2024</div></div>
+        </div>
+
+        <div class="modal" role="dialog" aria-modal="true" aria-label="Матч">
+          <div class="modal__backdrop"></div>
+          <div class="modal__card">
+            <button class="modal__close" type="button" aria-label="Закрыть">×</button>
+
+            <p class="label">East vs West 14 · левая · 12.04.2024</p>
+
+            <div class="versus">
+              <div>
+                <div class="versus__photo ph">ЛС</div>
+                <div class="versus__name brk">Леван Сагинашвили</div>
+                <div class="small muted"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия</div>
+              </div>
+              <div class="versus__vs">VS</div>
+              <div>
+                <div class="versus__photo ph">ДЛ</div>
+                <div class="versus__name brk">Девон Ларратт</div>
+                <div class="small muted"><img class="flag" src="../public/flags/ca.svg" alt=""> Канада</div>
+              </div>
+            </div>
+
+            <div class="section">
+              <p class="label">Ваша оценка</p>
+              <form class="vote">
+                <div class="vote__row">
+                  <label for="m-sp">Зрелищность <span class="vote__val">4</span></label>
+                  <input id="m-sp" type="range" min="1" max="5" value="4">
+                  <p class="small muted" style="margin:6px 0 0">1 — вялый, скучно смотреть · 5 — эмоции до последней секунды</p>
+                </div>
+                <div class="vote__row">
+                  <label for="m-in">Интрига <span class="vote__val">3</span></label>
+                  <input id="m-in" type="range" min="1" max="5" value="3">
+                  <p class="small muted" style="margin:6px 0 0">1 — исход ясен сразу · 5 — до конца неясно, кто победит</p>
+                </div>
+                <div class="vote__row">
+                  <label for="m-te">Техничность <span class="vote__val">5</span></label>
+                  <input id="m-te" type="range" min="1" max="5" value="5">
+                  <p class="small muted" style="margin:6px 0 0">1 — борьба на одной силе · 5 — сложная техника и смена приёмов</p>
+                </div>
+                <div class="vote__row">
+                  <label for="m-re">Судейство <span class="vote__val">4</span></label>
+                  <input id="m-re" type="range" min="1" max="5" value="4">
+                  <p class="small muted" style="margin:6px 0 0">1 — были явные ошибки судей · 5 — чётко и справедливо</p>
+                </div>
+                <button class="btn" type="button">Отправить оценку</button>
+              </form>
+            </div>
+
+            <div class="section">
+              <p class="label">Результат</p>
+              <div class="spoiler" data-open="false">
+                <div class="spoiler__cover">
+                  <button class="btn" type="button" data-reveal>Показать счёт</button>
+                  <p class="spoiler__hint">Счёт и победитель скрыты, пока вы не откроете их сами.</p>
+                </div>
+                <div class="spoiler__body">
+                  <div class="record">
+                    <div class="record__main">6<span class="record__dash">:</span>0</div>
+                    <div class="record__sub">Сагинашвили</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="label">2.2 — То же окно на 375px: нижний лист</p>
+      <p class="demo__when">Когда: то же самое на телефоне. Карточка прилипает к нижнему краю, скругления только сверху, содержимое скроллится внутри листа — большой палец достаёт до кнопок.</p>
+
+      <div class="phoneframe">
+        <div class="screen screen--tall">
+          <div class="modal modal--sheet" role="dialog" aria-modal="true" aria-label="Матч">
+            <div class="modal__backdrop"></div>
+            <div class="modal__card">
+              <button class="modal__close" type="button" aria-label="Закрыть">×</button>
+
+              <p class="label">East vs West 14 · левая</p>
+
+              <div class="versus">
+                <div>
+                  <div class="versus__photo ph">ЛС</div>
+                  <div class="versus__name brk">Леван Сагинашвили</div>
+                  <div class="small muted"><img class="flag" src="../public/flags/ge.svg" alt=""> Грузия</div>
+                </div>
+                <div class="versus__vs">VS</div>
+                <div>
+                  <div class="versus__photo ph">ДЛ</div>
+                  <div class="versus__name brk">Девон Ларратт</div>
+                  <div class="small muted"><img class="flag" src="../public/flags/ca.svg" alt=""> Канада</div>
+                </div>
+              </div>
+
+              <div class="section">
+                <p class="label">Ваша оценка</p>
+                <form class="vote">
+                  <div class="vote__row">
+                    <label for="s-sp">Зрелищность <span class="vote__val">4</span></label>
+                    <input id="s-sp" type="range" min="1" max="5" value="4">
+                  </div>
+                  <div class="vote__row">
+                    <label for="s-in">Интрига <span class="vote__val">3</span></label>
+                    <input id="s-in" type="range" min="1" max="5" value="3">
+                  </div>
+                  <div class="vote__row">
+                    <label for="s-te">Техничность <span class="vote__val">5</span></label>
+                    <input id="s-te" type="range" min="1" max="5" value="5">
+                  </div>
+                  <div class="vote__row">
+                    <label for="s-re">Судейство <span class="vote__val">4</span></label>
+                    <input id="s-re" type="range" min="1" max="5" value="4">
+                  </div>
+                  <button class="btn" type="button">Отправить оценку</button>
+                </form>
+              </div>
+
+              <div class="section">
+                <p class="label">Результат</p>
+                <div class="spoiler" data-open="false">
+                  <div class="spoiler__cover">
+                    <button class="btn" type="button" data-reveal>Показать счёт</button>
+                    <p class="spoiler__hint">Счёт скрыт, пока вы не откроете его сами.</p>
+                  </div>
+                  <div class="spoiler__body">
+                    <div class="record">
+                      <div class="record__main">6<span class="record__dash">:</span>0</div>
+                      <div class="record__sub">Сагинашвили</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo__note"><b>Мелочи, которые ломают модалку:</b> крестик не должен уезжать при скролле содержимого — он приклеен к карточке, а не к странице; клик по затемнению закрывает окно; фон под листом не скроллится. Подсказки шкал на телефоне спрятаны, чтобы лист не уезжал в длинную простыню — разворачиваются по тапу на название шкалы.</p>
+    </div>
+  </section>
+
+
+  <!-- ========== 3. ПУСТЫЕ СОСТОЯНИЯ ========== -->
+  <section class="section" id="s3">
+    <h2 class="h2">3 · Пустые состояния</h2>
+    <p class="lead">Пусто — это не ошибка. Человек должен понять, что сайт работает, данных просто ещё нет, и что делать дальше. Поэтому у каждого — символ, короткий заголовок и подсказка с выходом.</p>
+
+    <div class="grid grid-2">
+
+      <div class="demo">
+        <p class="label">3.1 — У борца нет матчей</p>
+        <p class="demo__when">Когда: карточка борца заведена, но ни один матч ещё не внесён в базу.</p>
+        <div class="card">
+          <div class="empty">
+            <svg class="empty__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="16" rx="3"/>
+              <path d="M7 9.5h10M7 14h6" stroke-dasharray="3 3"/>
+            </svg>
+            <div class="empty__title">Матчей пока нет</div>
+            <p class="empty__hint">Мы ещё не внесли поединки этого борца. Они появятся здесь по мере разбора турниров.</p>
+            <div class="empty__actions"><a class="btn btn--ghost" href="#">Все турниры</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <p class="label">3.2 — У матча нет оценок</p>
+        <p class="demo__when">Когда: матч уже в базе, голосование открыто, но никто ещё не оценил.</p>
+        <div class="card">
+          <div class="empty">
+            <svg class="empty__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.6l2.6 5.3 5.9.85-4.25 4.15 1 5.85L12 17l-5.25 2.75 1-5.85L3.5 9.75l5.9-.85z"/>
+            </svg>
+            <div class="empty__title">Оценок ещё нет</div>
+            <p class="empty__hint">Будьте первым — балл матча появится, когда наберётся 5 оценок.</p>
+            <div class="empty__actions"><button class="btn" type="button">Оценить матч</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo future">
+        <p class="label">3.3 — Поиск ничего не нашёл</p>
+        <p class="demo__when">Когда: в поиске по борцам введён запрос, под который нет совпадений ни по имени, ни по латинице.</p>
+        <div class="card">
+          <div class="empty">
+            <svg class="empty__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4 21 21"/>
+            </svg>
+            <div class="empty__title">Ничего не нашли</div>
+            <p class="empty__hint">По запросу «сагинашвилли» совпадений нет. Проверьте раскладку или попробуйте фамилию латиницей.</p>
+            <div class="empty__actions"><button class="btn btn--ghost" type="button">Сбросить поиск</button></div>
+          </div>
+        </div>
+        <p class="demo__note">Поиска по борцам в коде сейчас нет — ни страницы со строкой ввода, ни запроса. Состояние спроектировано на вырост: искать придётся сразу по двум полям, <b>name</b> и <b>nameEn</b>, иначе «Saginashvili» не найдётся.</p>
+      </div>
+
+      <div class="demo">
+        <p class="label">3.4 — Турнир ещё не начался</p>
+        <p class="demo__when">Когда: турнир заведён с датой в будущем, карта матчей ещё не опубликована.</p>
+        <div class="card">
+          <div class="empty">
+            <svg class="empty__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><circle cx="12" cy="15.5" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+            <div class="empty__title">Карта матчей ещё не объявлена</div>
+            <p class="empty__hint">East vs West 16 — 30 ноября 2026. Пары появятся здесь, как только организаторы их объявят.</p>
+            <div class="empty__actions"><a class="btn btn--ghost" href="#">Прошедшие турниры</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <p class="label">3.5 — Топ-100 пуст</p>
+        <p class="demo__when">Когда: голосов в базе слишком мало — ни один матч не набрал порог в 5 оценок, показывать нечего.</p>
+        <div class="card">
+          <div class="empty">
+            <svg class="empty__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 20h16"/><rect x="5" y="13" width="4" height="6" rx="1"/><rect x="10" y="9" width="4" height="10" rx="1" stroke-dasharray="3 3"/><rect x="15" y="15" width="4" height="4" rx="1" stroke-dasharray="3 3"/>
+            </svg>
+            <div class="empty__title">Рейтинг ещё собирается</div>
+            <p class="empty__hint">Матч попадает в топ, когда его оценили минимум 5 человек. Пока таких нет — помогите набрать первые оценки.</p>
+            <div class="empty__actions"><a class="btn" href="#">Выбрать матч</a></div>
+          </div>
+        </div>
+        <p class="demo__note">Порог зашит в <b>MIN_VOTES_TO_SHOW = 5</b>. Важно не путать это состояние с «топ загружается»: если голосов нет, скелетон показывать нельзя — он никогда не сменится на данные.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ========== 4. ГОЛОСОВАНИЕ НЕДОСТУПНО ========== -->
+  <section class="section" id="s4">
+    <h2 class="h2">4 · Голосовать нельзя</h2>
+    <p class="lead">Три разных причины — и они не должны выглядеть одинаково. «Ещё рано» — это обещание, «закрыто» — это точка, «вы уже голосовали» — это подтверждение. Одинаковая серая плашка на все три случая читается как поломка.</p>
+
+    <div class="demo">
+      <p class="label">4.1 — Голосование ещё не открылось</p>
+      <p class="demo__when">Когда: турнир ещё не прошёл или идёт прямо сейчас. Окно открывается в 00:00 МСК следующих суток после даты турнира.</p>
+      <div class="card">
+        <div class="notice notice--soon">
+          <svg class="notice__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+          </svg>
+          <div class="notice__body">
+            <div class="notice__title">Голосование ещё не началось</div>
+            <p class="notice__text">Оценки открываются 13 апреля в 00:00 МСК — на следующий день после турнира, когда все посмотрят запись.</p>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Тон ожидания: жёлтый акцент, часы, конкретные дата и время. Форму оценки в этом состоянии не рисуем вообще — заблокированные ползунки выглядят как сломанные.</p>
+    </div>
+
+    <div class="demo future">
+      <p class="label">4.2 — Голосование закрыто</p>
+      <p class="demo__when">Когда: окно голосования истекло, оценки заморожены, остаётся только смотреть результат.</p>
+      <div class="card">
+        <div class="notice">
+          <svg class="notice__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <rect x="4.5" y="10.5" width="15" height="9.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>
+          </svg>
+          <div class="notice__body">
+            <div class="notice__title">Голосование закрыто</div>
+            <p class="notice__text">Оценки по этому матчу собраны — итоговый балл 8.4 из 10 по 214 голосам.</p>
+            <div class="notice__actions"><a class="btn btn--ghost" href="#">Смотреть разбор оценок</a></div>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Состояния «закрыто» в проекте сейчас нет: <b>VotingState</b> знает только <b>open</b>, <b>too_early</b> и <b>not_votable</b>, поля с датой закрытия ни у турнира, ни у матча не существует. Если окно всё-таки будет — это поле и правило, а не только вёрстка. Нейтральный тон выбран намеренно: человек ничего не нарушил, он просто пришёл позже.</p>
+    </div>
+
+    <div class="demo">
+      <p class="label">4.3 — Вы уже голосовали с этого устройства</p>
+      <p class="demo__when">Когда: в базе уже есть голос с этой парой (матч, cookie устройства). Голос не запрещён, он перезаписывается.</p>
+      <div class="card">
+        <div class="notice notice--done">
+          <svg class="notice__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16 9.7"/>
+          </svg>
+          <div class="notice__body">
+            <div class="notice__title">Ваша оценка учтена</div>
+            <p class="notice__text">Зрелищность 4 · Интрига 3 · Техничность 5 · Судейство 4. С одного устройства считается один голос — но его можно переставить.</p>
+            <div class="notice__actions"><button class="btn btn--ghost" type="button">Изменить оценку</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Не «вам нельзя», а «уже готово, можно поправить». Свои оценки показываем цифрами — иначе человек не помнит, что ставил, и жмёт «изменить» вслепую. Под капотом это тот же запрос: уникальный индекс <b>(match, deviceId)</b> превращает повторную отправку в обновление.</p>
+    </div>
+  </section>
+
+
+  <!-- ========== 5. ОШИБКИ ========== -->
+  <section class="section" id="s5">
+    <h2 class="h2">5 · Ошибки</h2>
+
+    <div class="grid grid-2">
+      <div class="demo">
+        <p class="label">5.1 — Борец не найден</p>
+        <p class="demo__when">Когда: адрес со слугом, которого нет в базе — опечатка в ссылке или карточку удалили.</p>
+        <div class="card">
+          <div class="empty">
+            <div class="empty__code">404</div>
+            <div class="empty__title">Такого борца у нас нет</div>
+            <p class="empty__hint">Возможно, в ссылке опечатка. Посмотрите список борцов — если человек известный, мы его скоро добавим.</p>
+            <div class="empty__actions">
+              <a class="btn" href="#">К списку борцов</a>
+              <a class="btn btn--ghost" href="#">На главную</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <p class="label">5.2 — Матч не найден</p>
+        <p class="demo__when">Когда: то же самое для матча. Если пришли по перехваченной ссылке — 404 показываем страницей, а не в модалке.</p>
+        <div class="card">
+          <div class="empty">
+            <div class="empty__code">404</div>
+            <div class="empty__title">Матч не найден</div>
+            <p class="empty__hint">Поединка с таким номером нет. Найдите его в карте турнира — там все пары по датам.</p>
+            <div class="empty__actions">
+              <a class="btn" href="#">К турнирам</a>
+              <a class="btn btn--ghost" href="#">На главную</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="label">5.3 — Оценка не ушла: нет сети</p>
+      <p class="demo__when">Когда: запрос упал — телефон в метро, сервер не ответил. Данные формы не теряем.</p>
+      <div class="card">
+        <div class="notice notice--error">
+          <svg class="notice__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M12 4.5 2.8 20h18.4z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/>
+          </svg>
+          <div class="notice__body">
+            <div class="notice__title">Не удалось отправить оценку</div>
+            <p class="notice__text">Похоже, пропала связь. Ваши оценки сохранены в форме — попробуйте ещё раз.</p>
+            <div class="notice__actions">
+              <button class="btn" type="button">Повторить</button>
+              <button class="btn btn--ghost" type="button">Отмена</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Ошибка живёт рядом с кнопкой отправки, а не всплывашкой в углу. Ползунки остаются на выставленных значениях — переставлять четыре шкалы заново человек не будет, он просто уйдёт.</p>
+    </div>
+
+    <div class="demo">
+      <p class="label">5.4 — Слишком много голосов с устройства</p>
+      <p class="demo__when">Когда: с одного устройства или IP прилетело больше голосов, чем разрешает лимит. Ответ 429, честное сообщение без обвинений.</p>
+      <div class="card">
+        <div class="notice">
+          <svg class="notice__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 8v4.5M12 16h.01"/>
+          </svg>
+          <div class="notice__body">
+            <div class="notice__title">Слишком много голосов, попробуйте позже</div>
+            <p class="notice__text">С одного устройства можно оценивать матчи не чаще, чем раз в минуту — это защита от накруток. Ваши прежние оценки на месте.</p>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Формулировка нейтральная: «попробуйте позже», а не «вы пытаетесь накрутить». В лимит упирается и обычный человек, который открыл десять матчей подряд с домашнего Wi-Fi, — обвинять его нельзя.</p>
+    </div>
+
+    <div class="demo">
+      <p class="label">5.5 — Бот-проверка: состояния нет</p>
+      <p class="demo__when">Когда: сработала скрытая проверка — заполнено поле-ловушка или форма отправлена быстрее минимального времени. Голос не записывается, но человек видит обычный успех.</p>
+      <div class="card">
+        <div class="notice notice--done">
+          <svg class="notice__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16 9.7"/>
+          </svg>
+          <div class="notice__body">
+            <div class="notice__title">Спасибо, ваша оценка учтена</div>
+            <p class="notice__text">Балл матча обновится, когда наберётся достаточно голосов.</p>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Это тот же самый экран успеха, что и при обычном голосовании, — и так задумано. Сервер отвечает <b>200 OK</b>, ничего не записав: бот не узнаёт, что его вычислили, а живой человек, случайно попавший под проверку, не видит обвинения. <b>Рисовать отдельный экран «вы бот» нельзя</b> — он сам себя выдаёт.</p>
+    </div>
+  </section>
+
+
+  <!-- ========== 6. СКЕЛЕТОНЫ ========== -->
+  <section class="section" id="s6">
+    <h2 class="h2">6 · Скелетоны загрузки</h2>
+    <p class="lead">Форма плашек повторяет геометрию будущего содержимого — тогда при подстановке данных ничего не прыгает. Пульсация мягкая; при системной настройке «уменьшить анимацию» она отключается.</p>
+
+    <div class="demo">
+      <p class="label">6.1 — Строка матча</p>
+      <p class="demo__when">Когда: карта турнира или топ-100 ждёт данные. Занимает ровно ту же высоту, что и готовая строка.</p>
+      <div class="matchrow" aria-hidden="true">
+        <span class="sk" style="height:44px"></span>
+        <span>
+          <span class="sk" style="width:62%;height:13px"></span>
+          <span class="sk" style="width:40%;height:10px;margin-top:7px"></span>
+        </span>
+        <span class="sk" style="width:46px;height:13px"></span>
+      </div>
+      <div class="matchrow" aria-hidden="true">
+        <span class="sk" style="height:44px"></span>
+        <span>
+          <span class="sk" style="width:48%;height:13px"></span>
+          <span class="sk" style="width:55%;height:10px;margin-top:7px"></span>
+        </span>
+        <span class="sk" style="width:46px;height:13px"></span>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="demo">
+        <p class="label">6.2 — Карточка борца</p>
+        <p class="demo__when">Когда: грузится список борцов. Круг под фото держит высоту сетки.</p>
+        <div class="grid grid-2">
+          <div class="athletecard" aria-hidden="true">
+            <span class="sk sk--pill" style="width:84px;height:84px"></span>
+            <span class="sk" style="width:76%;height:15px"></span>
+            <span class="sk" style="width:52%;height:11px"></span>
+          </div>
+          <div class="athletecard" aria-hidden="true">
+            <span class="sk sk--pill" style="width:84px;height:84px"></span>
+            <span class="sk" style="width:64%;height:15px"></span>
+            <span class="sk" style="width:58%;height:11px"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo">
+        <p class="label">6.3 — Блок рекорда</p>
+        <p class="demo__when">Когда: на странице борца считается статистика побед и поражений.</p>
+        <div class="card" aria-hidden="true">
+          <span class="sk" style="width:120px;height:11px"></span>
+          <span class="sk" style="width:150px;height:46px;margin-top:12px"></span>
+          <span class="sk" style="width:100%;height:2px;margin-top:16px"></span>
+          <span class="sk" style="width:82%;height:12px;margin-top:14px"></span>
+          <span class="sk" style="width:68%;height:12px;margin-top:8px"></span>
+          <span class="sk" style="width:74%;height:12px;margin-top:8px"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== 7. ДЛИННЫЙ КОНТЕНТ ========== -->
+  <section class="section" id="s7">
+    <h2 class="h2">7 · Длинный контент</h2>
+    <p class="lead">Проверка на разрыв вёрстки. Имена, турниры и стили приходят из админки, длину никто не ограничивает — значит рано или поздно придёт и такое. Всё ниже показано на реальных классах с защитой от переполнения.</p>
+
+    <div class="demo">
+      <p class="label">7.1 — Очень длинное имя борца</p>
+      <p class="demo__when">Когда: имя без пробелов длиннее ширины экрана — двойные фамилии, отчества, транслит.</p>
+      <div class="hero hero--universal">
+        <div class="avatar ph">ХГ</div>
+        <div class="brk" style="min-width:0">
+          <h1 class="brk">Хаджимурадгаджиабдурахманов</h1>
+          <div class="hero__meta">
+            <span><img class="flag" src="../public/flags/ru.svg" alt=""> Россия</span>
+            <span>·</span>
+            <span>1994</span>
+            <span>·</span>
+            <span class="stylebadge t-universal">Универсал</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="label">7.2 — Длинное название турнира в строке матча</p>
+      <p class="demo__when">Когда: организаторы дают турниру официальное название на строку с лишним, а строка матча — жёсткая сетка из трёх колонок.</p>
+      <div class="matchrow">
+        <div class="wl wl--w"><b>W</b><span>4:2</span></div>
+        <div class="brk">
+          <div class="matchrow__name brk">Хаджимурадгаджиабдурахманов</div>
+          <div class="matchrow__sub brk">Открытый кубок Президента Республики по армрестлингу памяти заслуженного тренера — полуфинал</div>
+        </div>
+        <div class="matchrow__right brk"><div class="matchrow__event">2024</div><div class="muted">левая</div></div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="label">7.3 — То же без защиты</p>
+      <p class="demo__when">Когда: забыли про min-width — колонка распирает сетку, содержимое уезжает за край. Рамка обрезает переполнение, чтобы вся страница не поехала горизонтально.</p>
+      <div class="clip">
+        <div class="matchrow">
+          <div class="wl wl--w"><b>W</b><span>4:2</span></div>
+          <div>
+            <div class="matchrow__name">Хаджимурадгаджиабдурахманов</div>
+            <div class="matchrow__sub">Открытый кубок Президента</div>
+          </div>
+          <div class="matchrow__right">2024</div>
+        </div>
+      </div>
+      <p class="demo__note">Сетка <b>44px 1fr auto</b> ведёт себя так по умолчанию: у элемента сетки <b>min-width: auto</b>, поэтому колонка не может стать уже самого длинного слова и растягивает всю строку. Лечится двумя свойствами на средней колонке — <b>min-width: 0</b> и <b>overflow-wrap: anywhere</b>.</p>
+    </div>
+
+    <div class="demo">
+      <p class="label">7.4 — Длинный стиль и длинное имя в карточке</p>
+      <p class="demo__when">Когда: стиль борьбы записан не одним словом, а перечислением, и попал в бейдж.</p>
+      <div class="grid grid-2">
+        <div class="athletecard">
+          <div class="athletecard__photo ph">ХГ</div>
+          <div class="athletecard__name brk">Хаджимурадгаджиабдурахманов</div>
+          <span class="stylebadge t-inside brk">Топпронация-бочка-крюк</span>
+        </div>
+        <div class="athletecard">
+          <div class="athletecard__photo ph">ЛС</div>
+          <div class="athletecard__name brk">Леван Сагинашвили</div>
+          <span class="stylebadge t-outside brk">Топролл</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="label">7.5 — Достижения на пять строк</p>
+      <p class="demo__when">Когда: у борца длинный послужной список — поле «Достижения» в админке ничем не ограничено.</p>
+      <div class="card">
+        <p class="label">Достижения</p>
+        <ul class="ach">
+          <li class="brk">Восьмикратный чемпион мира по армрестлингу среди профессионалов в тяжёлой весовой категории</li>
+          <li class="brk">Победитель East vs West 8, 11, 13 и 14 — четыре супер-матча подряд без единого поражения</li>
+          <li class="brk">Чемпион Европы 2019, 2021, 2022 (обе руки), серебро 2023 на правой</li>
+          <li class="brk">Рекордсмен по количеству побед над топ-10 мирового рейтинга за один календарный год</li>
+          <li class="brk">Заслуженный мастер спорта, тренер национальной сборной с 2023 года</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="label">7.6 — Длинные значения в фактах</p>
+      <p class="demo__when">Когда: весовая категория или место проведения записаны словами, а карточка факта узкая.</p>
+      <div class="grid grid-4">
+        <dl class="fact"><dt>Вес</dt><dd class="brk">110+ кг (супертяжёлая)</dd></dl>
+        <dl class="fact"><dt>Рост</dt><dd class="brk">196 см</dd></dl>
+        <dl class="fact"><dt>Место</dt><dd class="brk">Дубай, ОАЭ</dd></dl>
+        <dl class="fact"><dt>Стиль</dt><dd class="brk">Топпронация</dd></dl>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>

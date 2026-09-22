@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Матч — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Только раскладка страницы матча. Цвета — существующие токены ui.css, новых нет. */
+
+/* фото-заглушка: инициалы по центру круга .versus__photo */
+.versus__photo { display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 30px; color: var(--muted); }
+
+.versus-meta { margin-top: 16px; justify-content: center; }
+
+/* строка шкалы в форме голосования */
+.vote__name { font-weight: 600; }
+.vote__hint { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+.vote__row input[type='range'] { height: 28px; } /* палец на телефоне */
+
+.vote__total { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; border-top: 1px solid var(--border); padding-top: 16px; }
+.vote__score { color: var(--gold); }
+.vote__note { margin: 12px 0 0; font-size: 11px; color: var(--muted); }
+
+.bigscore { font-size: 44px; line-height: 1; }
+
+/* плашка .future внутри уже существующей карточки */
+.future--inline { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+
+  <!-- 1. НАЗАД + ТУРНИР -->
+  <a class="back" href="event.html">← К карте матчей</a>
+  <p class="label">East vs West 17 · 12 апреля 2026 · Дубай, ОАЭ</p>
+
+  <!-- 2. ПРОТИВОСТОЯНИЕ -->
+  <div class="card">
+    <div class="versus">
+      <div>
+        <div class="versus__photo" aria-hidden="true">АК</div>
+        <h2 class="versus__name">Артём Косарев</h2>
+        <div class="hero__meta"><img class="flag" src="../public/flags/ru.svg" alt=""> Россия</div>
+        <div class="hero__meta">178 см · 86 кг</div>
+      </div>
+
+      <div class="versus__vs">VS</div>
+
+      <div>
+        <div class="versus__photo" aria-hidden="true">EY</div>
+        <h2 class="versus__name">Emre Yıldırım</h2>
+        <div class="hero__meta"><img class="flag" src="../public/flags/tr.svg" alt=""> Турция</div>
+        <div class="hero__meta">181 см · 86 кг</div>
+      </div>
+    </div>
+
+    <div class="chips versus-meta">
+      <span class="pill">Правая рука</span>
+      <span class="pill">86 кг</span>
+      <span class="pill pill--gold">Титульный матч</span>
+    </div>
+  </div>
+
+  <!-- Судейская бригада: поля нет в коллекции matches -->
+  <div class="card future">
+    <p class="label">Судейская бригада</p>
+    <p class="matchrow__sub">Главный судья и боковые нигде не хранятся — шкала «Судейство» ниже
+      оценивается по впечатлению от матча, без привязки к конкретной бригаде.</p>
+  </div>
+
+  <!-- 3. СПОЙЛЕР: РЕЗУЛЬТАТ -->
+  <section class="section">
+    <p class="label">Результат</p>
+    <div class="card spoiler" data-open="false">
+      <div class="spoiler__body">
+        <div class="record">
+          <b class="record__main">3<span class="record__dash">—</span>1</b>
+          <div>
+            <span class="statline__k">Победитель</span>
+            <h3 class="versus__name">Артём Косарев</h3>
+          </div>
+          <div class="record__subline chips">
+            <span class="pill pill--win">Победа 3 : 1</span>
+            <span class="pill">Обычный исход</span>
+          </div>
+        </div>
+
+        <div class="future future--inline">
+          <p class="label">Ход по раундам</p>
+          <div class="chips">
+            <span class="pill">Р1 · Косарев</span>
+            <span class="pill">Р2 · Yıldırım</span>
+            <span class="pill">Р3 · Косарев</span>
+            <span class="pill">Р4 · Косарев</span>
+          </div>
+          <p class="vote__hint">В базе есть только итоговый счёт (score1 / score2), пораундовой разбивки нет.</p>
+        </div>
+      </div>
+
+      <div class="spoiler__cover">
+        <p class="spoiler__hint">Не смотрел турнир? Оцени матч, не подглядывая в результат.</p>
+        <button class="btn" data-reveal>Показать результат</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ГЛАВНЫЙ БЛОК: ФОРМА ГОЛОСОВАНИЯ -->
+  <section class="section">
+    <p class="label">Оцени матч</p>
+    <div class="card">
+      <form class="vote" id="voteForm">
+
+        <div class="vote__row">
+          <label for="s-spectacle">
+            <b class="vote__name">Зрелищность <span>· вес 0.30</span></b>
+            <b class="vote__val" data-val="spectacle">5</b>
+          </label>
+          <input type="range" id="s-spectacle" data-scale="spectacle" min="1" max="5" step="1" value="5">
+          <p class="vote__hint">1 — вялый, скучно смотреть · 5 — эмоции до последней секунды</p>
+        </div>
+
+        <div class="vote__row">
+          <label for="s-intrigue">
+            <b class="vote__name">Интрига <span>· вес 0.25</span></b>
+            <b class="vote__val" data-val="intrigue">4</b>
+          </label>
+          <input type="range" id="s-intrigue" data-scale="intrigue" min="1" max="5" step="1" value="4">
+          <p class="vote__hint">1 — исход ясен сразу · 5 — до конца неясно, кто победит</p>
+        </div>
+
+        <div class="vote__row">
+          <label for="s-technique">
+            <b class="vote__name">Техничность <span>· вес 0.25</span></b>
+            <b class="vote__val" data-val="technique">4</b>
+          </label>
+          <input type="range" id="s-technique" data-scale="technique" min="1" max="5" step="1" value="4">
+          <p class="vote__hint">1 — борьба на одной силе · 5 — сложная техника и смена приёмов</p>
+        </div>
+
+        <div class="vote__row">
+          <label for="s-refereeing">
+            <b class="vote__name">Судейство <span>· вес 0.20</span></b>
+            <b class="vote__val" data-val="refereeing">4</b>
+          </label>
+          <input type="range" id="s-refereeing" data-scale="refereeing" min="1" max="5" step="1" value="4">
+          <p class="vote__hint">1 — были явные ошибки судей · 5 — чётко и справедливо отработали рефери</p>
+        </div>
+
+        <div class="vote__total">
+          <div>
+            <span class="statline__k">Твой балл матча</span>
+            <div>
+              <b class="record__main vote__score" id="voteScore">4.3</b>
+              <span class="record__sub">/ 5.0</span>
+            </div>
+          </div>
+          <button class="btn" type="button">Отправить оценку</button>
+        </div>
+      </form>
+
+      <p class="vote__note">Без регистрации. Оценку можно изменить — она привязана к этому устройству.</p>
+    </div>
+  </section>
+
+  <!-- 5. ВТОРОЕ СОСТОЯНИЕ ТОГО ЖЕ БЛОКА -->
+  <section class="section">
+    <p class="label">Состояние: уже проголосовал</p>
+    <div class="card">
+      <p class="matchrow__sub">Твоя оценка сохранена 13 апреля. Показываем, что ты поставил.</p>
+
+      <div class="statline">
+        <b class="statline__n">5</b>
+        <span class="statline__k">Зрелищность</span>
+        <span class="statline__p">вес 0.30</span>
+        <span class="statline__bar"><i style="--v:100%"></i></span>
+      </div>
+      <div class="statline">
+        <b class="statline__n">4</b>
+        <span class="statline__k">Интрига</span>
+        <span class="statline__p">вес 0.25</span>
+        <span class="statline__bar"><i style="--v:80%"></i></span>
+      </div>
+      <div class="statline">
+        <b class="statline__n">4</b>
+        <span class="statline__k">Техничность</span>
+        <span class="statline__p">вес 0.25</span>
+        <span class="statline__bar"><i style="--v:80%"></i></span>
+      </div>
+      <div class="statline">
+        <b class="statline__n">5</b>
+        <span class="statline__k">Судейство</span>
+        <span class="statline__p">вес 0.20</span>
+        <span class="statline__bar"><i style="--v:100%"></i></span>
+      </div>
+
+      <div class="vote__total">
+        <div>
+          <span class="statline__k">Твой балл матча</span>
+          <div>
+            <b class="record__main vote__score">4.5</b>
+            <span class="record__sub">/ 5.0</span>
+          </div>
+        </div>
+        <button class="btn btn--ghost" type="button">Изменить оценку</button>
+      </div>
+
+      <p class="vote__note">Без регистрации. Оценку можно изменить — она привязана к этому устройству.</p>
+    </div>
+  </section>
+
+  <!-- 6. СПОЙЛЕР: КАК ОЦЕНИЛИ ДРУГИЕ -->
+  <section class="section">
+    <p class="label">Как оценили другие</p>
+    <div class="card spoiler" data-open="false">
+      <div class="spoiler__body">
+        <div class="record">
+          <b class="ratingbadge bigscore">4.4</b>
+          <div>
+            <span class="statline__k">Средний балл матча</span>
+            <div class="matchrow__sub">182 голоса · из 5.0</div>
+          </div>
+        </div>
+
+        <div class="statline">
+          <b class="statline__n">4.7</b>
+          <span class="statline__k">Зрелищность</span>
+          <span class="statline__p">вес 0.30</span>
+          <span class="statline__bar"><i style="--v:94%"></i></span>
+        </div>
+        <div class="statline">
+          <b class="statline__n">4.2</b>
+          <span class="statline__k">Интрига</span>
+          <span class="statline__p">вес 0.25</span>
+          <span class="statline__bar"><i style="--v:84%"></i></span>
+        </div>
+        <div class="statline">
+          <b class="statline__n">4.1</b>
+          <span class="statline__k">Техничность</span>
+          <span class="statline__p">вес 0.25</span>
+          <span class="statline__bar"><i style="--v:82%"></i></span>
+        </div>
+        <div class="statline">
+          <b class="statline__n">4.5</b>
+          <span class="statline__k">Судейство</span>
+          <span class="statline__p">вес 0.20</span>
+          <span class="statline__bar"><i style="--v:90%"></i></span>
+        </div>
+
+        <p class="vote__note">Балл считается с байесовским сглаживанием (m = 5, C = 3.5)
+          и показывается от 5 голосов.</p>
+      </div>
+
+      <div class="spoiler__cover">
+        <p class="spoiler__hint">Сначала поставь свою оценку — потом смотри, что думают остальные.</p>
+        <button class="btn" data-reveal>Показать оценки</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+
+<script>
+// Пересчёт балла — та же формула, что в src/lib/rating.ts (RATING_WEIGHTS).
+const WEIGHTS = { spectacle: 0.3, intrigue: 0.25, technique: 0.25, refereeing: 0.2 };
+const voteForm = document.getElementById('voteForm');
+const voteScore = document.getElementById('voteScore');
+
+function recalcVote() {
+  let total = 0;
+  voteForm.querySelectorAll('input[type="range"]').forEach((range) => {
+    const key = range.dataset.scale;
+    total += WEIGHTS[key] * Number(range.value);
+    voteForm.querySelector('[data-val="' + key + '"]').textContent = range.value;
+  });
+  voteScore.textContent = total.toFixed(1);
+}
+
+voteForm.addEventListener('input', recalcVote);
+recalcVote();
+</script>
+</body>
+</html>

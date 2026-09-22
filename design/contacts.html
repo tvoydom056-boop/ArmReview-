@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Контакты — ArmReview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ui.css">
+<style>
+/* Своё — только типографика текстовой страницы. Цвета берутся токенами из ui.css;
+   сам ui.css не трогаем. */
+
+.lead { font-size: 16px; line-height: 1.7; margin: 12px 0 0; max-width: 60ch; }
+
+/* карточки идут той же колонкой, что и текст; в .grid они разведены gap'ом —
+   гасим .card + .card из ui.css, иначе к gap добавляется ещё 12px */
+.grid { max-width: 68ch; }
+.grid > .card + .card { margin-top: 0; }
+.card .factnote { font-size: 13px; line-height: 1.6; margin: 10px 0 0; }
+
+/* узкая колонка + крупный интерлиньяж, как на политике конфиденциальности */
+.legal { max-width: 68ch; }
+.legal h2 {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700; letter-spacing: 0.02em;
+  margin: 36px 0 10px;
+  scroll-margin-top: 16px;
+}
+.legal p, .legal li { font-size: 16px; line-height: 1.75; }
+.legal p { margin: 0 0 14px; }
+.legal ul, .legal ol { margin: 0 0 14px; padding-left: 22px; }
+.legal li { margin: 0 0 10px; }
+.legal a { text-decoration: underline; text-underline-offset: 3px; }
+.legal .card h2 { margin-top: 6px; }
+.legal .card > :last-child { margin-bottom: 0; }
+/* плашка .future висит в правом верхнем углу — освобождаем ей строку */
+.legal .future { padding-top: 34px; }
+
+/* блок для правообладателя фото — юридически значимый сценарий, поэтому выделен
+   золотой рамкой из токенов, а не спрятан сноской внизу */
+.callout { border-color: var(--gold-border); }
+.callout__head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 4px; }
+.callout__head .label { margin: 0; }
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">◐</button>
+
+<header class="header">
+  <a class="logo" href="index.html">ArmReview</a>
+  <nav class="nav">
+    <a href="home.html">Турниры</a>
+    <a href="top.html">Топ-100</a>
+    <a href="athletes.html">Борцы</a>
+  </nav>
+</header>
+
+<main class="shell">
+  <a class="back" href="home.html">← На главную</a>
+
+  <p class="label">О проекте</p>
+  <h1>Контакты</h1>
+  <p class="lead muted">
+    По любым вопросам и обращениям пишите на почту ниже. Форм обратной связи на сайте нет: мы не просим
+    заполнять анкеты и не собираем ваши контакты.
+  </p>
+
+  <div class="grid grid-2 section">
+    <dl class="fact">
+      <dt>Почта для обращений</dt>
+      <dd>[адрес для обращений — уточнить]</dd>
+    </dl>
+    <dl class="fact">
+      <dt>Регистрация и формы</dt>
+      <dd>Нет</dd>
+    </dl>
+  </div>
+
+  <article class="legal section">
+
+    <!-- Правообладателям — первым блоком: это обращение, на которое надо реагировать быстро -->
+    <section id="rights">
+      <div class="card callout">
+        <div class="callout__head">
+          <p class="label">Правообладателям фото</p>
+          <span class="pill pill--gold">Убираем по обращению</span>
+        </div>
+        <h2>Как попросить убрать изображение</h2>
+        <p>
+          Если вы считаете, что фото или другой материал размещены без вашего разрешения, напишите нам:
+          укажите страницу и подтвердите права. Мы быстро уберём спорный материал.
+        </p>
+        <p>Чтобы разобраться без переписки в три круга, приложите к письму:</p>
+        <ol>
+          <li>ссылку на страницу, где размещено фото;</li>
+          <li>какое именно изображение на этой странице;</li>
+          <li>чем подтверждаются права — съёмка, договор с промоушеном, публикация в вашем аккаунте.</li>
+        </ol>
+        <p>Письмо на [адрес для обращений — уточнить] — тема «Фото».</p>
+        <p class="muted">
+          У каждого фото на сайте указан источник. Логотип, постеры и другую символику East vs West мы не
+          используем — только название турнира как название события.
+        </p>
+      </div>
+    </section>
+
+    <section id="data-error">
+      <div class="card">
+        <p class="label">Нашли ошибку в данных матча</p>
+        <p>
+          Турниры и матчи мы вносим вручную через день-два после события, поэтому ошибки в счёте, руке или дате
+          возможны. Напишите — поправим.
+        </p>
+        <p>Что помогает исправить быстро:</p>
+        <ul>
+          <li>ссылка на страницу матча или борца;</li>
+          <li>что именно не так — счёт, рука, дата, соперник, турнир;</li>
+          <li>откуда известно, как правильно: трансляция с таймкодом или публикация промоушена.</li>
+        </ul>
+        <p>Письмо на [адрес для обращений — уточнить] — тема «Ошибка в данных».</p>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>О проекте</h2>
+      <p>
+        ArmReview — неофициальный фан-проект. Он не связан с организаторами East vs West; название
+        турнира используется только как название события.
+      </p>
+      <p>
+        Сайт некоммерческий: рекламы нет, оценки не продаются и не заказываются. Мы просто считаем, как зрители
+        оценили матчи после турнира.
+      </p>
+
+      <!-- Публичное имя ответственного и оператора ПД ещё не выбрано — PROJECT.md § 4, siteConfig.ts -->
+      <div class="card future">
+        <p class="label">Кто ведёт сайт</p>
+        <p class="muted">
+          Публичное имя ответственного за сайт ещё не выбрано. Его нужно подставить до запуска голосования —
+          то же имя пойдёт в политику конфиденциальности как оператор персональных данных
+          ([ФИО оператора — уточнить]).
+        </p>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <h2>Данные</h2>
+      <p>
+        Что мы храним о зрителях — в <a href="privacy.html">политике конфиденциальности</a>. Если коротко:
+        оценки матча, случайный номер устройства в cookie и хеш IP-адреса, всё это — только против накрутки.
+        Имя, почту и телефон мы не собираем, регистрации нет.
+      </p>
+    </section>
+
+  </article>
+</main>
+
+<footer class="footer">
+  <a href="#">Конфиденциальность</a>
+  <a href="#">Контакты</a>
+</footer>
+
+<script>
+// Спойлер: инвариант продукта — счёт и статистика открываются только по кнопке.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-reveal]');
+  if (btn) btn.closest('.spoiler').dataset.open = 'true';
+  const chip = e.target.closest('.chip');
+  if (chip) {
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-selected', 'false'));
+    chip.setAttribute('aria-selected', 'true');
+  }
+});
+</script>
+</body>
+</html>
