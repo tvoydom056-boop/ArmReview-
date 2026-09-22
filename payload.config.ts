@@ -31,6 +31,8 @@ export default buildConfig({
   // STRUCTURE.md § 7: GraphQL не нужен, лишнюю поверхность API не открываем
   graphQL: { disable: true },
   db: sqliteAdapter({
+    // Ожидание блокировки внутри SQLite; повтор statement после BUSY не нужен (аудит § B).
+    busyTimeout: 1000,
     // Локально и на VPS — файл SQLite; на Vercel — libsql://… из Turso (файловая система там только для чтения)
     client: { url: process.env.DATABASE_URI || 'file:./armreview.db', authToken: process.env.DATABASE_AUTH_TOKEN },
     // В production схема применяется только миграциями: npm run payload migrate

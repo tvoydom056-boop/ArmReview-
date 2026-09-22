@@ -35,12 +35,18 @@ export async function POST(request: Request) {
   const existingDeviceId = await readDeviceId()
   const deviceId = existingDeviceId ?? createDeviceId()
 
-  const result = await castVote(parsed.data, {
-    deviceId,
-    ipHash: hashIp(ip, getEnv().IP_HASH_SALT),
-    now: new Date(),
-  })
+  try {
+    const result = await castVote(parsed.data, {
+      deviceId,
+      ipHash: hashIp(ip, getEnv().IP_HASH_SALT),
+      now: new Date(),
+    })
 
-  if (!existingDeviceId) await setDeviceCookie(deviceId)
-  return result.ok ? json({ ok: true }) : json({ error: result.code }, STATUS[result.code])
+    if (!existingDeviceId) await setDeviceCookie(deviceId)
+    return result.ok ? json({ ok: true }) : json({ error: result.code }, STATUS[result.code])
+  } catch {
+    // Ошибка драйвера может содержать SQL-параметры: не раскрываем и не логируем их.
+    console.error('vote: не удалось сохранить оценку')
+    return Response.json({ error: 'INTERNAL_ERROR' }, { status: 500 })
+  }
 }

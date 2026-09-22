@@ -52,6 +52,14 @@ try {
     }
   }
   console.log('PASS migration schema: all adapter tables/columns/types/nullability and declared index names/uniqueness match')
+  assert.deepEqual((await db.drizzle.all<{ name: string }>(sql`PRAGMA index_info('match_deviceId_idx')`)).map(c => c.name), ['match_id', 'device_id'])
+  assert.equal(db.busyTimeout, 1000)
+  console.log('EXPLAIN vote quotas', JSON.stringify(await db.drizzle.all(sql`
+    EXPLAIN QUERY PLAN SELECT
+      EXISTS(SELECT 1 FROM votes WHERE match_id = ${1} AND device_id = ${'audit'}),
+      (SELECT COUNT(*) FROM votes WHERE match_id = ${1} AND ip_hash = ${'audit'} AND created_at > ${'2026-01-01T00:00:00.000Z'}),
+      (SELECT COUNT(*) FROM votes WHERE ip_hash = ${'audit'} AND created_at > ${'2026-01-01T00:00:00.000Z'})
+  `)))
   const athlete1 = await payload.create({ collection: 'athletes', data: {
     name: 'Аудит Один', slug: `audit-one-${suffix}`, countryCode: 'RU', isFeatured: true,
   } })
@@ -92,6 +100,9 @@ try {
   assert.equal(await count(), 1)
   const stored = await payload.find({ collection: 'votes', where: { match: { equals: match.id } }, depth: 0 })
   assert.equal(stored.docs[0].spectacle, 2)
+  assert.equal(stored.docs[0].createdAt, now.toISOString())
+  assert.equal(stored.docs[0].updatedAt, now.toISOString())
+  assert.equal(stored.docs[0].isHidden, false)
   await payload.update({ collection: 'votes', id: stored.docs[0].id, data: { isHidden: true } })
   await castVote(input, ctx)
   assert.equal((await getRatingsByMatch()).has(match.id), false)
@@ -106,38 +117,8 @@ try {
   assert.deepEqual(await castVote({ ...input, matchId: String(noContest.id) }, ctx), { ok: false, code: 'NOT_VOTABLE' })
   console.log('PASS limits: sequential sixth device rejected; five votes score 4.3; no_contest rejected')
 
-  const concurrent = await makeMatch()
-  const sameDevice = await Promise.allSettled([0, 1].map(() => castVote({ ...input, matchId: String(concurrent.id) }, ctx)))
-  assert.equal(await count(concurrent.id), 1)
-  console.log('OBSERVED same-device concurrency', JSON.stringify(sameDevice.map(r => r.status === 'fulfilled' ? r.value : { rejected: true })))
-
-  const race = await makeMatch()
-  const raceResults = await Promise.allSettled(Array.from({ length: 8 }, (_, i) => castVote(
-    { ...input, matchId: String(race.id) }, { ...ctx, deviceId: `race-${suffix}-${i}`, ipHash: `race-${suffix}` },
-  )))
-  console.log('OBSERVED eight-device concurrency', JSON.stringify({ rows: await count(race.id),
-    responses: raceResults.map(r => r.status === 'fulfilled' ? r.value : { rejected: true }) }))
-
-  const oldMatch = await makeMatch()
-  const oldVote = await payload.create({ collection: 'votes', data: { match: oldMatch.id, ...scores,
-    deviceId: `old-${suffix}`, ipHash: `old-ip-${suffix}`, createdAt: '2020-01-01T00:00:00.000Z' } })
-  // Обновление ipHash не меняет createdAt — воспроизводим потерю свежего действия из окна лимита.
-  await castVote({ ...input, matchId: String(oldMatch.id) }, { ...ctx, deviceId: oldVote.deviceId, ipHash: `new-ip-${suffix}` })
-  const recent = await payload.count({ collection: 'votes', where: { ipHash: { equals: `new-ip-${suffix}` },
-    createdAt: { greater_than: new Date(now.getTime() - 3600000).toISOString() } } })
-  assert.equal(recent.totalDocs, 0)
-  console.log('OBSERVED old vote edited from new IP: recent count = 0')
-
-  const hourlyMatch = await makeMatch()
-  for (let i = 0; i < 60; i++) await payload.create({ collection: 'votes', data: {
-    match: hourlyMatch.id, ...scores, deviceId: `hour-${suffix}-${i}`, ipHash: `hour-ip-${suffix}`,
-  } })
-  assert.deepEqual(await castVote({ ...input, matchId: String(oldMatch.id) }, {
-    ...ctx, deviceId: oldVote.deviceId, ipHash: `hour-ip-${suffix}`,
-  }), { ok: false, code: 'RATE_LIMITED' })
-  console.log('OBSERVED old existing device cannot edit after changing to IP with 60 new votes/hour')
-  await assert.rejects(payload.delete({ collection: 'matches', id: hourlyMatch.id }))
-  console.log('OBSERVED deleting a match with votes fails (NOT NULL relationship + ON DELETE SET NULL)')
+  const { auditVoting } = await import('./audit-voting')
+  await auditVoting(payload, db, makeMatch)
 
   // PRAGMA читают только временную БД; raw SQL используется исключительно для диагностики.
   if ('all' in db.drizzle && typeof db.drizzle.all === 'function') {
