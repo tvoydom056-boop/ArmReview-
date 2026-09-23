@@ -1,0 +1,72 @@
+.card {
+  composes: card from '../../components/ui.module.css';
+  padding: 18px;
+}
+
+.record {
+  composes: record from '../../components/ui.module.css';
+  margin-bottom: 8px;
+}
+
+.score {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sub {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* строка шкалы с баром — design/ui.css .statline */
+.statline {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+}
+
+.weight {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  grid-column: 1 / -1;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.bar > i {
+  display: block;
+  width: var(--v, 0%);
+  height: 100%;
+  background: var(--gold);
+}
+
+.note {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}

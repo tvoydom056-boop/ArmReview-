@@ -1,0 +1,21 @@
+.card {
+  composes: card from './ui.module.css';
+  padding: 18px;
+}
+
+.record {
+  composes: record from './ui.module.css';
+  min-height: 96px;
+}
+
+.recordMain {
+  composes: recordMain from './ui.module.css';
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: uppercase;
+}

@@ -20,30 +20,21 @@
   margin: 0 0 10px;
 }
 
-/* крупный счёт — design/ui.css «РЕКОРД» */
 .record {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
+  composes: record from './ui.module.css';
 }
 
 .recordMain {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 52px;
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+  composes: recordMain from './ui.module.css';
 }
+
 
 .winPill {
   composes: pillGold from './ui.module.css';
 }
 
 .dash {
-  margin: 0 6px;
-  color: var(--muted);
+  composes: recordDash from './ui.module.css';
 }
 
 .hands {

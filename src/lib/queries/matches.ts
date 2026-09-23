@@ -1,12 +1,17 @@
+import type { Match } from '../../../payload-types'
 import { toMatchView, type MatchView } from '../matchView'
+import { getPhoto } from '../media'
 import { getPayloadClient } from '../payload'
 import { getVotingState, type VotingState } from '../votingWindow'
 import { formatEventDate } from '../formatDate'
 import { getRatingsByMatch, NO_VOTES } from './ratings'
 
+type AthletePhoto = { url: string; alt: string } | null
+
 export type MatchPanelData = {
   match: MatchView
   event: { title: string; slug: string; dateLabel: string }
+  photos: { athlete1: AthletePhoto; athlete2: AthletePhoto }
   votingState: VotingState
 }
 
@@ -17,7 +22,7 @@ export async function getMatchPanelData(id: number): Promise<MatchPanelData | nu
   const { docs } = await payload.find({
     collection: 'matches',
     where: { id: { equals: id } },
-    depth: 1,
+    depth: 2, // фото борцов для противостояния: матч → борец → media
     limit: 1,
   })
   const doc = docs[0]
@@ -30,6 +35,11 @@ export async function getMatchPanelData(id: number): Promise<MatchPanelData | nu
   return {
     match,
     event: { title: doc.event.title, slug: doc.event.slug, dateLabel: formatEventDate(doc.event.date) },
+    photos: { athlete1: getAthletePhoto(doc.athlete1), athlete2: getAthletePhoto(doc.athlete2) },
     votingState: getVotingState(doc.resultType, doc.event.date, new Date()),
   }
+}
+
+function getAthletePhoto(athlete: Match['athlete1']): AthletePhoto {
+  return typeof athlete === 'object' ? getPhoto(athlete.photo) : null
 }

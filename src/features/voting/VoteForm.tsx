@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
 
-import type { ScaleKey, ScaleValues } from '@/lib/rating'
+import { RATING_WEIGHTS, type ScaleKey, type ScaleValues } from '@/lib/rating'
 
 import { SCALES } from './scales'
 import { useVoteMutation } from './useVoteMutation'
@@ -40,7 +40,12 @@ export function VoteForm({ matchId }: { matchId: number }) {
     <form className={styles.form} onSubmit={handleSubmit}>
       {SCALES.map((scale) => (
         <fieldset key={scale.key} className={styles.scale}>
-          <legend className={styles.legend}>{scale.label}</legend>
+          <legend className={styles.legend}>
+            {scale.label}{' '}
+            <span className={styles.weight}>
+              · вес {RATING_WEIGHTS[scale.key].toLocaleString('ru-RU', { minimumFractionDigits: 2 })}
+            </span>
+          </legend>
           <p className={styles.hint}>{scale.hint}</p>
           <div className={styles.options}>
             {[1, 2, 3, 4, 5].map((value) => (

@@ -70,4 +70,24 @@
   opacity: 0.85;
 }
 
+/* крупный счёт — design/ui.css «РЕКОРД» */
+.record {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
 
+.recordMain {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.recordDash {
+  margin: 0 6px;
+  color: var(--muted);
+}

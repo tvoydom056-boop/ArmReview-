@@ -1,13 +1,21 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .event {
+  composes: label from '../../components/ui.module.css';
   margin: 0;
-  font-size: 14px;
-  color: var(--muted);
+}
+
+.label {
+  margin: 0 0 10px;
+}
+
+.card {
+  composes: card from '../../components/ui.module.css';
+  padding: 18px;
 }
 
 .notice {

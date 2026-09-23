@@ -15,7 +15,8 @@ const SMOOTHING_M = 5
 const DEFAULT_MEAN = 3.5
 const MIN_MATCHES_FOR_MEAN = 3
 
-export type MatchRating = { votes: number; score: number | null }
+// scales — средние по шкалам (окно матча, «Как оценили другие»); в списках не нужны
+export type MatchRating = { votes: number; score: number | null; scales?: ScaleValues }
 
 // Итог — взвешенная сумма шкал; работает и для одного голоса, и для средних по матчу
 export function computeTotal(scales: ScaleValues): number {

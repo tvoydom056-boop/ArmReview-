@@ -39,10 +39,10 @@ export async function getRatingsByMatch(): Promise<Map<number, MatchRating>> {
   const matches = z
     .array(rowSchema)
     .parse(rawRows)
-    .map((row) => ({ id: row.match_id, votes: row.votes, total: computeTotal(row) }))
+    .map(({ match_id, votes, ...scales }) => ({ id: match_id, votes, scales, total: computeTotal(scales) }))
 
   const globalMean = computeGlobalMean(matches)
   return new Map(
-    matches.map((m) => [m.id, { votes: m.votes, score: computeScore(m.votes, m.total, globalMean) }]),
+    matches.map((m) => [m.id, { votes: m.votes, score: computeScore(m.votes, m.total, globalMean), scales: m.scales }]),
   )
 }

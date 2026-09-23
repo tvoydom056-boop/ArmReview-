@@ -1,7 +1,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .scale {
@@ -15,9 +15,14 @@
   font-weight: 600;
 }
 
+.weight {
+  font-weight: 400;
+  color: var(--muted);
+}
+
 .hint {
   margin: 2px 0 8px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
 }
 
