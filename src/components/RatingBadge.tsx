@@ -3,8 +3,20 @@ import { MIN_VOTES_TO_SHOW, type MatchRating } from '@/lib/rating'
 
 import styles from './RatingBadge.module.css'
 
-// Балл или «Мало оценок · будь первым» (PROJECT.md § 5)
-export function RatingBadge({ rating }: { rating: MatchRating }) {
+// Балл или «Мало оценок · будь первым» (PROJECT.md § 5).
+// compact — строка карты матчей (design/event.html): балл над числом голосов, до 5 голосов — прочерк
+export function RatingBadge({ rating, compact = false }: { rating: MatchRating; compact?: boolean }) {
+  const votes = `${rating.votes} ${pluralize(rating.votes, ['голос', 'голоса', 'голосов'])}`
+
+  if (compact) {
+    return (
+      <span className={styles.compact}>
+        <strong className={styles.score}>{rating.score === null ? '—' : formatScore(rating.score)}</strong>
+        <span className={styles.votes}>{votes}</span>
+      </span>
+    )
+  }
+
   if (rating.score === null) {
     const text =
       rating.votes === 0
@@ -15,12 +27,12 @@ export function RatingBadge({ rating }: { rating: MatchRating }) {
 
   return (
     <span className={styles.badge}>
-      <strong className={styles.score}>
-        {rating.score.toLocaleString('ru-RU', { minimumFractionDigits: 1 })}
-      </strong>
-      <span className={styles.votes}>
-        {rating.votes} {pluralize(rating.votes, ['голос', 'голоса', 'голосов'])}
-      </span>
+      <strong className={styles.score}>{formatScore(rating.score)}</strong>
+      <span className={styles.votes}>{votes}</span>
     </span>
   )
+}
+
+function formatScore(score: number): string {
+  return score.toLocaleString('ru-RU', { minimumFractionDigits: 1 })
 }

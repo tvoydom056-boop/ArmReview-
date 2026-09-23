@@ -5,6 +5,7 @@ import { getPhoto } from './media'
 
 export type EventHeaderData = {
   title: string
+  dateIso: string
   dateLabel: string
   location: string | null
   poster: { url: string; alt: string } | null
@@ -15,6 +16,7 @@ export type EventHeaderData = {
 export function toEventHeader(event: Event): EventHeaderData {
   return {
     title: event.title,
+    dateIso: event.date,
     dateLabel: formatEventDate(event.date),
     location: event.location ?? null,
     poster: getPhoto(event.poster),

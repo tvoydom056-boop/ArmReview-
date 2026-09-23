@@ -4,16 +4,24 @@
   gap: 8px;
 }
 
+.compact {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+/* design/ui.css .ratingbadge */
 .score {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 1;
   color: var(--gold);
+  font-variant-numeric: tabular-nums;
 }
 
 .votes,
 .few {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
 }
