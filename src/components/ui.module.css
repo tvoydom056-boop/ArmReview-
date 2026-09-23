@@ -30,50 +30,36 @@
   background: var(--surface-hover);
 }
 
-/* неинтерактивный pill-тег */
-.tag {
-  display: inline-block;
-  padding: 2px 10px;
-  border: 1px solid var(--border-strong);
+/* неинтерактивная пилюля-тег (design/ui.css .pill) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
   border-radius: var(--radius-pill);
+  background: var(--surface-2);
   font-size: 12px;
-  color: var(--muted);
+  font-weight: 600;
 }
 
-/* pill-кнопка (чип): активный — инверсия «белый фон + чёрный текст» */
-.chip {
-  padding: 6px 14px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-pill);
-  background: transparent;
-  color: var(--text);
-  font: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color var(--transition);
+.pillGold {
+  composes: pill;
+  border-color: var(--gold-border);
+  background: var(--gold-bg);
+  color: var(--gold);
 }
 
-.chip:hover {
-  background: var(--surface-hover);
-}
-
-.chip[aria-expanded='true'],
-.chip[aria-pressed='true'] {
-  border-color: var(--text);
-  background: var(--text);
-  color: var(--bg);
-}
-
-/* основное действие: залитая pill-кнопка */
+/* основное действие: залитая pill-кнопка (design/ui.css .btn) */
 .action {
   display: inline-block;
-  padding: 6px 14px;
-  border: 0;
+  padding: 10px 22px;
+  border: 1px solid var(--text);
   border-radius: var(--radius-pill);
   background: var(--text);
   color: var(--bg);
   font: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -96,19 +82,3 @@
   font-weight: 700;
 }
 
-/* тонкий прогресс-бар: ширина — через --value, цвет — через --bar-color */
-.bar {
-  display: block;
-  height: 3px;
-  overflow: hidden;
-  border-radius: 2px;
-  background: var(--border-strong);
-}
-
-.bar::after {
-  content: '';
-  display: block;
-  width: var(--value, 0%);
-  height: 100%;
-  background: var(--bar-color, var(--win));
-}

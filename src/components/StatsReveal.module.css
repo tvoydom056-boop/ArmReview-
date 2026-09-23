@@ -6,59 +6,108 @@
   margin: 0 0 12px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-@media (min-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.cell {
+.card {
   composes: card from './ui.module.css';
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: baseline;
-  gap: 8px 12px;
-  padding: 12px 16px;
+  padding: 18px;
+}
+
+.card + .card {
+  margin-top: 12px;
 }
 
 .label {
   composes: label from './ui.module.css';
+  margin: 0 0 10px;
 }
 
-.value {
-  font-weight: 600;
+/* крупный счёт — design/ui.css «РЕКОРД» */
+.record {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
 }
 
-.percent {
-  min-width: 3ch;
+.recordMain {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 52px;
   font-weight: 700;
-  text-align: right;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.winPill {
+  composes: pillGold from './ui.module.css';
+}
+
+.dash {
+  margin: 0 6px;
+  color: var(--muted);
+}
+
+.hands {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .hands {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.handscore {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* W/L-полоса по руке: исход — сплошной заливкой (design/README.md «залито = результат») */
+.split {
+  display: flex;
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+}
+
+.splitA {
+  width: var(--a, 50%);
+  background: var(--win);
+}
+
+.splitB {
+  flex: 1;
+  background: var(--loss);
+}
+
+.splitEmpty {
+  opacity: 0.4;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.win {
   color: var(--win);
 }
 
-.bar {
-  composes: bar from './ui.module.css';
-  grid-column: 1 / -1;
-}
-
-.empty {
-  grid-column: 2 / -1;
-  color: var(--muted);
+.loss {
+  color: var(--loss);
 }
 
 .note {
-  margin: 0 0 12px;
+  margin: 12px 0 0;
   font-size: 13px;
   color: var(--muted);
-}
-
-.button {
-  composes: chip from './ui.module.css';
 }

@@ -19,7 +19,7 @@ export function MatchCard({ match, href, subtitle }: { match: MatchView; href?: 
         <Side athlete={match.athlete2} />
       </div>
       <ul className={styles.tags}>
-        {match.isTitle ? <li className={`${styles.tag} ${styles.title}`}>Титульный</li> : null}
+        {match.isTitle ? <li className={styles.titleTag}>Титульный</li> : null}
         <li className={styles.tag}>{getHandLabel(match.hand)}</li>
         {match.weightClass ? <li className={styles.tag}>{match.weightClass}</li> : null}
       </ul>

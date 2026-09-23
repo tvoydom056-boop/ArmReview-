@@ -40,14 +40,11 @@
 }
 
 .tag {
-  composes: tag from './ui.module.css';
+  composes: pill from './ui.module.css';
 }
 
-.tag.title {
-  border-color: var(--gold-border);
-  background: var(--gold-bg);
-  color: var(--gold);
-  font-weight: 700;
+.titleTag {
+  composes: pillGold from './ui.module.css';
 }
 
 .footer {
