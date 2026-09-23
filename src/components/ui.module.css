@@ -91,3 +91,11 @@
   margin: 0 6px;
   color: var(--muted);
 }
+
+/* второстепенное действие — design/ui.css .btn--ghost */
+.actionGhost {
+  composes: action;
+  border-color: var(--border-strong);
+  background: transparent;
+  color: var(--text);
+}

@@ -17,8 +17,3 @@
   composes: card from '../../components/ui.module.css';
   padding: 18px;
 }
-
-.notice {
-  margin: 0;
-  color: var(--muted);
-}

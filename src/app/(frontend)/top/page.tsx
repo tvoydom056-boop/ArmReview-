@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 
 import { CountryFlag } from '@/components/CountryFlag'
+import { EmptyState } from '@/components/EmptyState'
 import { RatingBadge } from '@/components/RatingBadge'
 import { SCALES } from '@/features/voting/scales'
 import { getHandLabel, type AthleteRef } from '@/lib/matchView'
@@ -31,7 +32,11 @@ export default async function TopPage() {
         В топ попадают матчи от 5 голосов.
       </p>
       {top.length === 0 ? (
-        <p className={styles.empty}>Пока ни у одного матча нет балла — оцените матчи, чтобы топ появился.</p>
+        <EmptyState
+          title="Рейтинг ещё собирается"
+          hint="Матч попадает в топ, когда его оценили минимум 5 человек. Пока таких нет — помогите набрать первые оценки."
+          actions={[{ href: '/', label: 'Выбрать матч', primary: true }]}
+        />
       ) : (
         <ol className={styles.list}>
           {top.map(({ match, eventTitle }, i) => (

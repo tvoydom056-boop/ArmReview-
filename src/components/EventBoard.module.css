@@ -82,10 +82,6 @@
   color: var(--muted);
 }
 
-.empty {
-  color: var(--muted);
-}
-
 .list {
   display: flex;
   flex-direction: column;

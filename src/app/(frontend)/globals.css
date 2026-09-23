@@ -17,6 +17,7 @@
   /* акценты — только для данных */
   --win: #15803d;
   --loss: #b91c1c;
+  --warn: #a16207;
   --gold: #8a5a00;
   --gold-bg: rgb(234 179 8 / 0.16);
   --gold-border: rgb(161 98 7 / 0.45);
@@ -56,6 +57,7 @@
 
     --win: #22c55e;
     --loss: #ef4444;
+    --warn: #eab308;
     --gold: #f5c518;
     --gold-bg: rgb(245 197 24 / 0.14);
     --gold-border: rgb(245 197 24 / 0.45);
@@ -81,6 +83,7 @@
 
   --win: #22c55e;
   --loss: #ef4444;
+  --warn: #eab308;
   --gold: #f5c518;
   --gold-bg: rgb(245 197 24 / 0.14);
   --gold-border: rgb(245 197 24 / 0.45);

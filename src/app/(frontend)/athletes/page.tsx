@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { AthleteCard } from '@/components/AthleteCard'
+import { EmptyState } from '@/components/EmptyState'
 import { getPhoto } from '@/lib/media'
 import { getPayloadClient } from '@/lib/payload'
 
@@ -26,7 +27,7 @@ export default async function AthletesPage() {
     <>
       <h1 className={styles.title}>Борцы</h1>
       {athletes.length === 0 ? (
-        <p className={styles.empty}>Пока никого нет.</p>
+        <EmptyState title="Борцов пока нет" hint="Карточки появятся по мере разбора турниров." />
       ) : (
         <ul className={styles.grid}>
           {athletes.map((a, i) => (

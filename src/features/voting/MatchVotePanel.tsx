@@ -2,15 +2,25 @@ import Link from 'next/link'
 
 import { MatchResult } from '@/components/MatchResult'
 import { MatchVersus } from '@/components/MatchVersus'
+import { Notice } from '@/components/Notice'
 import type { MatchPanelData } from '@/lib/queries/matches'
 
 import styles from './MatchVotePanel.module.css'
 import { RatingReveal } from './RatingReveal'
 import { VoteForm } from './VoteForm'
 
+// «Ещё рано» — обещание, «нельзя» — точка: выглядят по-разному (design/states.html § 4)
 const NOTICES = {
-  too_early: 'Голосование откроется после турнира.',
-  not_votable: 'За этот матч голосовать нельзя.',
+  too_early: {
+    tone: 'soon',
+    title: 'Голосование ещё не началось',
+    text: 'Оценки открываются в 00:00 МСК на следующий день после турнира — когда все посмотрят запись.',
+  },
+  not_votable: {
+    tone: 'neutral',
+    title: 'Голосовать за этот матч нельзя',
+    text: 'Матч не состоялся — оценивать нечего.',
+  },
 } as const
 
 // Окно матча (design/match.html): противостояние, результат под спойлером, форма оценки,
@@ -34,7 +44,7 @@ export function MatchVotePanel({ data }: { data: MatchPanelData }) {
           {votingState === 'open' ? (
             <VoteForm matchId={match.id} />
           ) : (
-            <p className={styles.notice}>{NOTICES[votingState]}</p>
+            <Notice {...NOTICES[votingState]} />
           )}
         </div>
       </section>

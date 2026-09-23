@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { EmptyState } from '@/components/EmptyState'
 import { formatEventDate } from '@/lib/formatDate'
 import { getEvents } from '@/lib/queries/events'
 
@@ -16,7 +17,7 @@ export default async function EventsPage() {
     <>
       <h1 className={styles.title}>Турниры</h1>
       {events.length === 0 ? (
-        <p className={styles.empty}>Турниров пока нет.</p>
+        <EmptyState title="Турниров пока нет" hint="Первый турнир появится здесь, как только мы внесём его карту матчей." />
       ) : (
         <ul className={styles.list}>
           {events.map((e) => (

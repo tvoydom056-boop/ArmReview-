@@ -14,11 +14,6 @@
   color: var(--muted);
 }
 
-.empty {
-  margin: 0 0 20px;
-  color: var(--muted);
-}
-
 .list {
   display: flex;
   flex-direction: column;

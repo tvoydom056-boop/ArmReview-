@@ -5,6 +5,7 @@ import type { MatchView } from '@/lib/matchView'
 import { pluralize } from '@/lib/plural'
 import { isVotingOpen } from '@/lib/votingWindow'
 
+import { EmptyState } from './EmptyState'
 import styles from './EventBoard.module.css'
 import { MatchRow } from './MatchRow'
 
@@ -48,7 +49,11 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
           {matches.length > 0 ? <span className={styles.sectionSub}>по порядку в карте</span> : null}
         </div>
         {matches.length === 0 ? (
-          <p className={styles.empty}>Матчи ещё не внесены.</p>
+          <EmptyState
+            title="Карта матчей ещё не объявлена"
+            hint="Пары появятся здесь, как только организаторы их объявят."
+            actions={[{ href: '/events', label: 'Все турниры' }]}
+          />
         ) : (
           <>
             <p className={styles.note}>

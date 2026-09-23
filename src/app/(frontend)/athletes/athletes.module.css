@@ -3,10 +3,6 @@
   font-size: 36px;
 }
 
-.empty {
-  color: var(--muted);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

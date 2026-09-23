@@ -1,0 +1,52 @@
+/* design/states.html .empty */
+.card {
+  composes: card from './ui.module.css';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 12px;
+  text-align: center;
+}
+
+.code {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.hint {
+  max-width: 36ch;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.action {
+  composes: action from './ui.module.css';
+}
+
+.ghost {
+  composes: actionGhost from './ui.module.css';
+}
