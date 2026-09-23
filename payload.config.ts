@@ -16,6 +16,8 @@ import { Users } from './src/collections/Users'
 import { Votes } from './src/collections/Votes'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
+// Локально и на VPS — файл SQLite; на Vercel — libsql://… из Turso (файловая система там только для чтения)
+const databaseUri = process.env.DATABASE_URI || 'file:./armreview.db'
 
 export default buildConfig({
   admin: {
@@ -31,10 +33,11 @@ export default buildConfig({
   // STRUCTURE.md § 7: GraphQL не нужен, лишнюю поверхность API не открываем
   graphQL: { disable: true },
   db: sqliteAdapter({
-    // Ожидание блокировки внутри SQLite; повтор statement после BUSY не нужен (аудит § B).
-    busyTimeout: 1000,
-    // Локально и на VPS — файл SQLite; на Vercel — libsql://… из Turso (файловая система там только для чтения)
-    client: { url: process.env.DATABASE_URI || 'file:./armreview.db', authToken: process.env.DATABASE_AUTH_TOKEN },
+    // Ожидание блокировки файла SQLite; повтор statement после BUSY не нужен (аудит § B).
+    // Только для file: — адаптер шлёт PRAGMA busy_timeout при подключении, а на удалённой Turso
+    // блокировками управляет сервер и эта PRAGMA не проверена (аудит: «Turso не проверен»)
+    busyTimeout: databaseUri.startsWith('file:') ? 1000 : 0,
+    client: { url: databaseUri, authToken: process.env.DATABASE_AUTH_TOKEN },
     // В production схема применяется только миграциями: npm run payload migrate
     prodMigrations: migrations,
   }),
