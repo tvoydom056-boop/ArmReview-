@@ -2,10 +2,12 @@ import type { ReactNode } from 'react'
 
 import styles from './LegalPage.module.css'
 
-export function LegalPage({ title, children }: { title: string; children: ReactNode }) {
+// Текстовая страница — типографика design/privacy.html, design/contacts.html (.legal)
+export function LegalPage({ kicker, title, children }: { kicker: string; title: string; children: ReactNode }) {
   return (
     <article className={styles.page}>
-      <h1>{title}</h1>
+      <p className={styles.kicker}>{kicker}</p>
+      <h1 className={styles.title}>{title}</h1>
       {children}
     </article>
   )

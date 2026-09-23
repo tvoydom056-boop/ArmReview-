@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: 'Контакты' }
 
 export default function ContactsPage() {
   return (
-    <LegalPage title="Контакты">
+    <LegalPage kicker="О проекте" title="Контакты">
       <p>По любым вопросам и обращениям: {siteConfig.contactEmail}.</p>
 
       <h2>Правообладателям</h2>

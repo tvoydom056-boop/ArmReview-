@@ -1,9 +1,19 @@
-.title {
+.kicker {
+  composes: label from '../../../components/ui.module.css';
   margin: 0 0 8px;
-  font-size: 36px;
 }
 
-.note,
+.title {
+  margin: 0;
+}
+
+.lead {
+  max-width: 68ch;
+  margin: 10px 0 24px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
 .empty {
   margin: 0 0 20px;
   color: var(--muted);
@@ -12,27 +22,126 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
-  counter-reset: rank;
 }
 
-.item {
+/* строка места — design/ui.css .matchrow + .rank */
+.row {
   display: grid;
-  grid-template-columns: 32px 1fr;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
   gap: 12px;
-  counter-increment: rank;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+  text-decoration: none;
+  transition: background-color var(--transition);
 }
 
-.item::before {
-  content: counter(rank);
-  padding-top: 12px;
+.row:hover {
+  background: var(--surface-hover);
+}
+
+.rank {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1;
   color: var(--muted);
-  text-align: right;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fighter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* методика: две карточки, с 720px — в ряд (design/ui.css .grid-2) */
+.method {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+@media (min-width: 720px) {
+  .method {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.card {
+  composes: card from '../../../components/ui.module.css';
+  padding: 18px;
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+}
+
+/* составная полоса — design/ui.css .stack; оттенок доли — через --tone */
+.stack {
+  display: flex;
+  height: 14px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+}
+
+.stack > span {
+  height: 100%;
+  background: color-mix(in srgb, var(--gold) var(--tone), transparent);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legend b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--gold) var(--tone), transparent);
+}
+
+.note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.note + .note {
+  margin-top: 10px;
 }

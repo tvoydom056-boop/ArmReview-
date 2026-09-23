@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: 'Политика конфиденц�
 // и подстановку данных оператора (siteConfig) нужно сделать до запуска голосования.
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Политика конфиденциальности">
+    <LegalPage kicker="Юридическая информация" title="Политика конфиденциальности">
       <p>
         Оператор персональных данных: {siteConfig.operatorName}. Обращения — {siteConfig.contactEmail}.
       </p>
