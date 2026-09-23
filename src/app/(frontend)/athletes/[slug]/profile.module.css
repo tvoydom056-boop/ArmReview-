@@ -10,21 +10,36 @@
   color: var(--text);
 }
 
+/* шапка борца — design/ui.css .hero, без подсветки по типу борца (нет данных, § 1 плана) */
 .head {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+  composes: card from '../../../../components/ui.module.css';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 18px;
+  text-align: center;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 720px) {
   .head {
-    grid-template-columns: 240px 1fr;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 26px;
+    text-align: left;
   }
+}
+
+/* во всю ширину шапки, иначе в колонке по центру факты сжимаются по одному в ряд */
+.info {
+  width: 100%;
+  min-width: 0;
 }
 
 .name {
   margin: 0;
-  font-size: 40px;
+  overflow-wrap: anywhere;
 }
 
 .nameEn {
@@ -34,9 +49,18 @@
 
 .country {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
   margin: 12px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (min-width: 720px) {
+  .country {
+    justify-content: flex-start;
+  }
 }
 
 .facts {

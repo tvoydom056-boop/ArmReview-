@@ -36,6 +36,7 @@ export default async function AthletesPage() {
                 slug={a.slug}
                 name={a.name}
                 countryCode={a.countryCode}
+                weightKg={a.weightKg ?? null}
                 photo={getPhoto(a.photo)}
                 isFeatured={Boolean(a.isFeatured)}
               />

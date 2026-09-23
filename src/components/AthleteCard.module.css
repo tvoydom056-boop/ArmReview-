@@ -1,26 +1,40 @@
 .card {
   composes: cardInteractive from './ui.module.css';
-  display: block;
-  overflow: hidden;
-}
-
-.body {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 12px;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 16px 12px;
+  text-align: center;
 }
 
 .name {
+  font-family: var(--font-display);
+  font-size: 17px;
   font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
 }
 
 .badge {
-  composes: metric from './ui.module.css';
+  composes: pillGold from './ui.module.css';
+  margin-top: auto;
+}
+
+/* мельче базовой пилюли, чтобы влезть в одну строку в две колонки на 375px (design/athletes.html);
+   через .card — специфичнее композиции, порядок подключения CSS не важен */
+.card .badge {
+  padding: 4px 10px;
+  font-size: 11px;
+  white-space: nowrap;
 }

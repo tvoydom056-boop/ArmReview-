@@ -8,22 +8,23 @@ type Props = {
   slug: string
   name: string
   countryCode: string
+  weightKg: number | null
   photo: { url: string; alt: string } | null
   isFeatured: boolean
   eager?: boolean
 }
 
-export function AthleteCard({ slug, name, countryCode, photo, isFeatured, eager }: Props) {
+// Карточка в списке — design/athletes.html .athletecard (бейдж стиля — после athlete-stats-data-model)
+export function AthleteCard({ slug, name, countryCode, weightKg, photo, isFeatured, eager }: Props) {
   return (
     <Link href={`/athletes/${slug}`} className={styles.card}>
       <AthletePhoto photo={photo} name={name} eager={eager} />
-      <div className={styles.body}>
-        <span className={styles.name}>{name}</span>
-        <span className={styles.meta}>
-          <CountryFlag code={countryCode} />
-          {isFeatured ? <span className={styles.badge}>профиль</span> : null}
-        </span>
-      </div>
+      <span className={styles.name}>{name}</span>
+      <span className={styles.meta}>
+        <CountryFlag code={countryCode} />
+        {weightKg ? <span>{weightKg} кг</span> : null}
+      </span>
+      {isFeatured ? <span className={styles.badge}>Подробный профиль</span> : null}
     </Link>
   )
 }

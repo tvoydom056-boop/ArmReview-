@@ -55,7 +55,7 @@ export default async function AthleteProfilePage({ params }: Props) {
       </Link>
       <div className={styles.head}>
         <AthletePhoto photo={photo} name={athlete.name} size="profile" />
-        <div>
+        <div className={styles.info}>
           <h1 className={styles.name}>{athlete.name}</h1>
           {athlete.nameEn ? <p className={styles.nameEn}>{athlete.nameEn}</p> : null}
           <p className={styles.country}>

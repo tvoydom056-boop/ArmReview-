@@ -10,6 +10,7 @@ type Props = {
   eager?: boolean
 }
 
+// Круглое фото — во всех макетах design/ (.avatar, .athletecard__photo), вопрос B плана restyle-2026-09
 export function AthletePhoto({ photo, name, size = 'card', eager = size === 'profile' }: Props) {
   return (
     <div className={`${styles.frame} ${styles[size]}`}>
@@ -18,7 +19,7 @@ export function AthletePhoto({ photo, name, size = 'card', eager = size === 'pro
           src={photo.url}
           alt={photo.alt || name}
           fill
-          sizes="240px"
+          sizes="150px"
           className={styles.img}
           loading={eager ? 'eager' : undefined}
           unoptimized
@@ -26,9 +27,19 @@ export function AthletePhoto({ photo, name, size = 'card', eager = size === 'pro
       ) : (
         // TODO(вопрос 8): до ответа промоушена — заглушка вместо фото
         <span className={styles.placeholder} aria-label="Фото пока нет">
-          {name.trim().charAt(0).toUpperCase()}
+          {getInitials(name)}
         </span>
       )}
     </div>
   )
+}
+
+// «Леван Сагинашвили» → «ЛС»
+function getInitials(name: string): string {
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word) => word.charAt(0).toUpperCase())
+    .join('')
 }

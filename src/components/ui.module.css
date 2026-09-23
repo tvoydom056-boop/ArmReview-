@@ -70,15 +70,4 @@
   opacity: 0.85;
 }
 
-/* пилюля-метрика: золотой полупрозрачный фон + золотая обводка */
-.metric {
-  display: inline-block;
-  padding: 2px 10px;
-  border: 1px solid var(--gold-border);
-  border-radius: var(--radius-pill);
-  background: var(--gold-bg);
-  color: var(--gold);
-  font-size: 12px;
-  font-weight: 700;
-}
 
