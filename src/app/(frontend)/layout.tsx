@@ -4,6 +4,7 @@ import { Oswald } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 import { CookieBanner } from '@/components/CookieBanner'
+import { NavLink } from '@/components/NavLink'
 import { Providers } from '@/components/Providers'
 import { getEnv } from '@/lib/env'
 import { siteConfig } from '@/lib/siteConfig'
@@ -14,7 +15,7 @@ import './globals.css'
 
 const display = Oswald({
   subsets: ['latin', 'cyrillic'],
-  weight: ['500', '700'],
+  weight: ['500', '600', '700'],
   variable: '--font-oswald',
   display: 'swap',
 })
@@ -56,9 +57,9 @@ export default function FrontendLayout({
               {siteConfig.name}
             </Link>
             <nav className="site-nav">
-              <Link href="/events">Турниры</Link>
-              <Link href="/top">Топ-100</Link>
-              <Link href="/athletes">Борцы</Link>
+              <NavLink href="/events">Турниры</NavLink>
+              <NavLink href="/top">Топ-100</NavLink>
+              <NavLink href="/athletes">Борцы</NavLink>
             </nav>
           </header>
           <main className="site-main">{children}</main>

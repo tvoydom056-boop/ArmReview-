@@ -1,7 +1,7 @@
 .frame {
   position: relative;
   overflow: hidden;
-  background: var(--surface-hover);
+  background: var(--surface-2);
   aspect-ratio: 4 / 5;
 }
 
