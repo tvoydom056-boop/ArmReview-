@@ -69,9 +69,10 @@ sudo install -d -o armreview -g armreview -m 700 /var/backups/armreview
 sudo install -d -o armreview -g armreview -m 755 /opt/armreview/media
 sudo chmod +x deploy/backup.sh
 sudo -u armreview /opt/armreview/deploy/backup.sh  # первый запуск проверить до настройки cron
-sudo -u armreview crontab -e     # добавить: 0 4 * * * /opt/armreview/deploy/backup.sh
+sudo timedatectl set-timezone Europe/Moscow   # иначе cron считает «00» по UTC (= 03:00 МСК)
+sudo -u armreview crontab -e     # добавить: 0 0 * * * /opt/armreview/deploy/backup.sh
 ```
-Копии лежат в `/var/backups/armreview` (14 дней). Раз в неделю скачивайте их на свой компьютер: бэкап на том же диске не спасёт при потере сервера. Проверьте восстановление хотя бы один раз.
+Бэкап — ежедневно в 00:00 МСК. Копии лежат в `/var/backups/armreview` (14 дней). Раз в неделю скачивайте их на свой компьютер: бэкап на том же диске не спасёт при потере сервера. Проверьте восстановление хотя бы один раз.
 
 Скрипт рассчитан на `DATABASE_URI=file:./armreview.db` и локальную `media/`. При другом пути
 исправить `APP_DIR`/путь БД до включения cron. `.backup` даёт согласованную SQLite-копию,

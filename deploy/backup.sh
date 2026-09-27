@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Ежедневный бэкап базы SQLite и загруженных картинок. Запуск из cron под пользователем armreview:
-#   0 4 * * * /opt/armreview/deploy/backup.sh
+#   0 0 * * * /opt/armreview/deploy/backup.sh   (00:00 МСК: часовой пояс сервера — Europe/Moscow, DEPLOY.md § 5)
 # Нужен пакет sqlite3 (apt install sqlite3): .backup делает согласованную копию, пока сайт работает.
 set -euo pipefail
 
