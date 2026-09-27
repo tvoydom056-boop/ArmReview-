@@ -9,7 +9,7 @@
 
 ## Приём голоса (`features/voting/`)
 
-Порядок в `castVote()` (`service.ts`): honeypot → «слишком быстро» → матч найден → `NOT_VOTABLE` → `TOO_EARLY` → атомарные квоты/upsert в `writeVote.ts`. Схема Zod проверяется раньше, в роуте `/api/vote`.
+Порядок в `castVote()` (`service.ts`): honeypot → «слишком быстро» → матч найден → `NOT_VOTABLE` → `TOO_EARLY` → атомарные квоты/upsert в `writeVote.ts`. Раньше, в роуте `/api/vote`: проверка «запрос со своего сайта и JSON» (`lib/sameOrigin.ts`, [аудит S2](security-audit-2026-09.md)) → схема Zod.
 
 | # | WHEN | THEN | Проверка |
 |---|---|---|---|
@@ -25,6 +25,8 @@
 | 9 | два одновременных запроса с одним `deviceId` | одна запись, оба ответа успешны | B3: независимые соединения + HTTP |
 | 10 | голос сохранён | в `votes` только `ipHash`, сырого IP нет нигде, в т.ч. в логах | T хеш не содержит IP; **M** логи |
 | 11 | анонимный `GET` к коллекции `votes` | данные не отдаются | M |
+| 11а | запрос с чужого сайта (`Sec-Fetch-Site` ≠ `same-origin` или `Origin` ≠ `Host`) | `403`, голос не записан | T `sameOrigin.test.ts` + HTTP `audit-security-http.mjs` |
+| 11б | тело не `application/json` | `415` | T `sameOrigin.test.ts` + HTTP |
 
 ## Рейтинг (`lib/rating.ts`, `lib/queries/ratings.ts`)
 

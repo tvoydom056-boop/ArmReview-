@@ -4,6 +4,7 @@ import { getClientIp } from '@/lib/clientIp'
 import { createDeviceId, readDeviceId, setDeviceCookie } from '@/lib/deviceId'
 import { getEnv } from '@/lib/env'
 import { hashIp } from '@/lib/ipHash'
+import { checkSameOriginJson } from '@/lib/sameOrigin'
 import type { VoteErrorCode, VoteResponse } from '@/types/api'
 
 // Не /api/votes: этот путь занят REST-коллекцией votes (админка Payload ходит туда за списком)
@@ -18,6 +19,11 @@ const json = (body: VoteResponse, status = 200) => Response.json(body, { status 
 
 // Тонкий контроллер: разбор запроса → castVote → ответ. Правил здесь нет.
 export async function POST(request: Request) {
+  // До разбора тела. Свой интерфейс эти коды не получает, поэтому их нет в types/api.ts
+  const origin = checkSameOriginJson(request.headers)
+  if (origin === 'cross_origin') return Response.json({ error: 'FORBIDDEN' }, { status: 403 })
+  if (origin === 'not_json') return Response.json({ error: 'UNSUPPORTED_MEDIA_TYPE' }, { status: 415 })
+
   const body: unknown = await request.json().catch(() => null)
   const parsed = voteInputSchema.safeParse(body)
   if (!parsed.success) return json({ error: 'INVALID_INPUT' }, STATUS.INVALID_INPUT)

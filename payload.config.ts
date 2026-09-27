@@ -18,6 +18,11 @@ import { Votes } from './src/collections/Votes'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 // Локально и на VPS — файл SQLite; на Vercel — libsql://… из Turso (файловая система там только для чтения)
 const databaseUri = process.env.DATABASE_URI || 'file:./armreview.db'
+// Cookie админа принимаем только с Origin нашего сайта; пустой список = с любого (аудит S5).
+// В dev не задаём: админка должна работать на любом порту. serverURL не задаём — он меняет адрес API
+// в админке и нужен только для писем (аудит S14)
+const siteUrl = process.env.SITE_URL
+const csrf = process.env.NODE_ENV === 'production' && siteUrl ? [new URL(siteUrl).origin] : []
 
 export default buildConfig({
   admin: {
@@ -25,6 +30,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname, 'src') },
   },
   collections: [Athletes, Events, Matches, Votes, Media, Users],
+  csrf,
   editor: lexicalEditor(),
   // Админкой пользуется Влад — интерфейс на русском
   i18n: { supportedLanguages: { ru }, fallbackLanguage: 'ru' },
