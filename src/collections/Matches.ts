@@ -3,7 +3,7 @@ import type { CollectionConfig, RelationshipFieldSingleValidation } from 'payloa
 import { formatMatchTitle, validateDifferentAthletes, validateWinner } from '@/lib/matchRules'
 import { refId } from '@/lib/refId'
 
-import { anyone } from './access'
+import { anyone, isAdminField } from './access'
 
 const differentAthletes: RelationshipFieldSingleValidation = (value, { siblingData }) =>
   validateDifferentAthletes(siblingData, value)
@@ -79,6 +79,13 @@ export const Matches: CollectionConfig = {
       ],
     },
     { name: 'cardOrder', type: 'number', label: 'Порядок в карте матчей' },
-    { name: 'notes', type: 'textarea', label: 'Заметки' },
+    {
+      name: 'notes',
+      type: 'textarea',
+      label: 'Заметки',
+      // Публичный REST отдавал поле анониму (аудит S10); на сайте заметки не выводятся
+      access: { read: isAdminField },
+      admin: { description: 'Внутренние: на сайте и в публичном API не показываются' },
+    },
   ],
 }

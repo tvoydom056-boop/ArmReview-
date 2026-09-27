@@ -1,13 +1,22 @@
 import { z } from 'zod'
 
+// Слабый секрет или заглушка из .env.example (скопировали файл и забыли сгенерировать) — не стартуем
+// (docs/changes/security-audit-2026-09.md, S14)
+const secret = (min: number) =>
+  z
+    .string()
+    .min(min, `нужна длинная случайная строка (от ${min} символов)`)
+    .refine((value) => !value.startsWith('change-me'), 'замените заглушку из .env.example случайной строкой')
+
 const envSchema = z.object({
   DATABASE_URI: z.string().min(1),
   // Токен Turso: нужен только для libsql://…, для локального файла не нужен
   DATABASE_AUTH_TOKEN: z.string().optional(),
-  PAYLOAD_SECRET: z.string().min(1),
+  // Ключ подписи токенов админки: короткий подбирается
+  PAYLOAD_SECRET: secret(32),
   // Публичный адрес сайта для абсолютных ссылок в OG-превью
   SITE_URL: z.url().default('http://localhost:3000'),
-  IP_HASH_SALT: z.string().min(16, 'IP_HASH_SALT должен быть длинной случайной строкой (от 16 символов)'),
+  IP_HASH_SALT: secret(16),
 })
 
 // Turso без токена не пустит — лучше упасть при старте с понятным текстом, чем на первом запросе
