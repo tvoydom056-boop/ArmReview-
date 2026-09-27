@@ -1,0 +1,20 @@
+# Обновления зависимостей (docs/changes/ops-readiness.md, этап 1). PR с версиями — в dev, как обычная
+# разработка; security-обновления GitHub всегда открывает в ветку по умолчанию
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    groups:
+      # Все пакеты Payload обязаны быть одной версии — обновляем их одним PR
+      payload:
+        patterns: ["payload", "@payloadcms/*"]
+      next-react:
+        patterns: ["next", "eslint-config-next", "react", "react-dom", "@types/react", "@types/react-dom"]
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: monthly

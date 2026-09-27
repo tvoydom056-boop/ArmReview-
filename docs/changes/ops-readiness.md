@@ -52,6 +52,12 @@
 
 ### Этап 1 — CI и обновления зависимостей (≈2 ч)
 
+**Статус 2026-09-27:** 1.1, 1.2, 1.4 сделаны (`.github/workflows/ci.yml`, `.github/dependabot.yml`,
+DEPLOY.md § 8). Actions: `checkout@v7`, `setup-node@v7`, `cache@v6` (последние на 2026-09-27).
+Dependabot шлёт PR с версиями в `dev`. Шаги CI прогнаны локально в чистом worktree (HEAD + эти файлы,
+Node 20): `npm ci`, lint, tsc, 51 тест, `payload migrate` на пустой базе (3 миграции), `build` — всё
+зелёное. На GitHub не запускался — нужен push. 1.3 (настройки GitHub) — Danil.
+
 **1.1 `.github/workflows/ci.yml`** — на `pull_request` в `main` и `push` в `dev`/`main`:
 1. `checkout`, `setup-node` с `node-version-file: .nvmrc` и `cache: npm`;
 2. `npm ci` → `npm run lint` → `npx tsc --noEmit` → `npm test`;
@@ -86,6 +92,10 @@ updates:
 Записать в `DEPLOY.md`.
 
 ### Этап 2 — Node 24 LTS (≈1 ч)
+
+**Статус 2026-09-27:** 2.1, 2.2 сделаны (`.nvmrc` = 24, `engines.node` = `>=24`, `setup_24.x` в DEPLOY.md).
+На Node 24 проект ещё не собирался — это покажет первый прогон CI или 2.3. До перехода `npm` на Node 20
+печатает предупреждение `EBADENGINE` — работе не мешает.
 
 | # | Задача | Кто |
 |---|---|---|

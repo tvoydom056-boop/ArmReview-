@@ -1,0 +1,58 @@
+# Проверки из AGENTS.md § 2 на каждый PR в main и push в dev/main (docs/changes/ops-readiness.md, этап 1)
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [dev, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Только фиктивные значения: боевые секреты в CI не попадают. База — временный файл
+      DATABASE_URI: file:./ci.db
+      PAYLOAD_SECRET: ci-only-payload-secret-0123456789abcdef
+      IP_HASH_SALT: ci-only-ip-hash-salt-0123
+      SITE_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+      # Ловит миграцию, которая не применяется к пустой базе (ops-readiness.md, этап 1)
+      - name: payload migrate (пустая база)
+        run: npx payload migrate
+      # Кеш сборки — по node_modules/next/dist/docs/01-app/02-guides/ci-build-caching.md
+      - uses: actions/cache@v6
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**', 'payload.config.ts', 'next.config.mjs') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+      - run: npm run build
+
+  # Отчёт, а не блокировка (ops-readiness.md, вопрос 9): уязвимости закрывает Dependabot + правило реакции
+  audit:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - run: npm audit --omit=dev --audit-level=high

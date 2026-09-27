@@ -13,8 +13,8 @@ Docker и отдельная база не нужны.
 ## 1. Сервер
 ```bash
 sudo apt update && sudo apt install -y curl sqlite3 ufw debian-keyring debian-archive-keyring apt-transport-https
-# Node 20 (см. engines в package.json)
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install -y nodejs
+# Node 24 LTS (см. .nvmrc и engines в package.json; Node 20 без патчей с 30.04.2026)
+curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash - && sudo apt install -y nodejs
 # Caddy: https://caddyserver.com/docs/install#debian-ubuntu-raspbian
 sudo useradd --system --create-home --shell /bin/bash armreview
 sudo ufw allow OpenSSH && sudo ufw allow 80 && sudo ufw allow 443 && sudo ufw enable
@@ -127,6 +127,13 @@ sudo systemctl restart armreview
 - `curl -I https://домен/admin` без пароля Caddy → `401`; с паролем админка открывается, вход и
   сохранение документа работают.
 - Тело больше 16 КБ в `/api/vote` → `413`: `head -c 20000 /dev/zero | curl -s -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' --data-binary @- https://домен/api/vote`.
+
+## 8. Обновления безопасности
+- Источники: Dependabot (alerts + security updates в настройках GitHub), Watch → Security advisories
+  у `vercel/next.js` и `payloadcms/payload`, блог Next.js — там анонсы security-релизов за неделю.
+  `npm audit` критические уязвимости Next показывает с опозданием — на него одного не полагаться.
+- Срок: **critical — до 48 ч, high — до 7 дней**, остальное — с плановыми обновлениями.
+- Порядок: обновление в `dev` → CI зелёный → слияние в `main` → выкладка по § 6.
 
 ## Юридическое (делает владелец сайта)
 Уведомление Роскомнадзора об обработке персональных данных, вычитка `/privacy`, срок хранения данных (`TODO` в тексте политики).
