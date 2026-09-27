@@ -35,7 +35,7 @@ run() { # $1 — имя сценария, дальше — переменные 
   CASE=$ROOT/$name; mkdir -p "$CASE/app/media" "$CASE/backups" "$CASE/remote"
   echo "fake-db" > "$CASE/app/armreview.db"; echo "photo" > "$CASE/app/media/a.jpg"
   : > "$CASE/pings"
-  env -i PATH="$BIN:/usr/bin:/bin" HOME="$CASE" APP_DIR="$CASE/app" BACKUP_DIR="$CASE/backups" \
+  env -i PATH="$BIN:/usr/bin:/bin" HOME="$CASE" DATA_DIR="$CASE/app" BACKUP_DIR="$CASE/backups" \
     REMOTE_DIR="$CASE/remote" PING_LOG="$CASE/pings" "$@" \
     bash "$SCRIPT" > "$CASE/out" 2>&1
   CODE=$?

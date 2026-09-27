@@ -7,9 +7,10 @@
 # Нужны sqlite3 (.backup даёт согласованную копию работающей базы), rclone, curl.
 set -euo pipefail
 
-APP_DIR=${APP_DIR:-/opt/armreview}
-DB_PATH=${DB_PATH:-$APP_DIR/armreview.db}
-MEDIA_DIR=${MEDIA_DIR:-$APP_DIR/media}
+# Данные — вне папок релизов (DEPLOY.md § 2)
+DATA_DIR=${DATA_DIR:-/var/lib/armreview}
+DB_PATH=${DB_PATH:-$DATA_DIR/armreview.db}
+MEDIA_DIR=${MEDIA_DIR:-$DATA_DIR/media}
 BACKUP_DIR=${BACKUP_DIR:-/var/backups/armreview}
 KEEP_DAYS=${KEEP_DAYS:-14}
 BACKUP_PING_URL=${BACKUP_PING_URL:-}

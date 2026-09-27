@@ -2,8 +2,15 @@
 
 Вариант на Vercel + Turso — в `VERCEL.md`.
 
-Схема: Caddy (HTTPS, порты 80/443) → Next.js на `127.0.0.1:3000` → SQLite-файл рядом с приложением.
-Docker и отдельная база не нужны.
+Схема: Caddy (HTTPS, порты 80/443) → Next.js на `127.0.0.1:3000` → SQLite-файл в `/var/lib/armreview`.
+Docker и отдельная база не нужны. Раскладка — под выкатку с откатом (`deploy/release.sh`, § 6):
+```
+/opt/armreview/repo.git            зеркало GitHub-репозитория
+/opt/armreview/releases/<дата>-<sha>/   код, node_modules, .next — по папке на релиз, 3 последних
+/opt/armreview/current -> releases/…    активный релиз; на него смотрит systemd
+/opt/armreview/shared/.env         секреты и пути, общие для всех релизов (права 600)
+/var/lib/armreview/armreview.db    база, /var/lib/armreview/media — картинки (не зависят от релиза)
+```
 
 ## 0. Перед началом
 - Домен с A-записью на IP сервера.
@@ -22,36 +29,34 @@ sudo ufw allow OpenSSH && sudo ufw allow 80 && sudo ufw allow 443 && sudo ufw en
 
 ## 2. Приложение
 ```bash
-sudo mkdir -p /opt/armreview && sudo chown armreview: /opt/armreview
-sudo -u armreview git clone https://github.com/tvoydom056-boop/ArmReview-.git /opt/armreview
-cd /opt/armreview
-sudo -u armreview cp .env.example .env && sudo chmod 600 .env
+sudo install -d -o armreview -g armreview /opt/armreview /opt/armreview/releases /opt/armreview/shared
+sudo install -d -o armreview -g armreview -m 750 /var/lib/armreview /var/lib/armreview/media
+sudo -u armreview git clone --mirror https://github.com/tvoydom056-boop/ArmReview-.git /opt/armreview/repo.git
+sudo -u armreview git -C /opt/armreview/repo.git show main:.env.example > /tmp/env.example
+sudo install -m 600 -o armreview -g armreview /tmp/env.example /opt/armreview/shared/.env && rm /tmp/env.example
 ```
-В `.env` задать (значения генерировать: `openssl rand -hex 32`):
-- `PAYLOAD_SECRET` — длинная случайная строка;
+В `/opt/armreview/shared/.env` задать (значения генерировать: `openssl rand -hex 32`):
+- `PAYLOAD_SECRET` — длинная случайная строка (от 32 символов);
 - `IP_HASH_SALT` — другая случайная строка (≥16 символов). **Не менять после запуска**, иначе лимиты по IP «забудут» старые хеши;
-- `DATABASE_URI=file:./armreview.db`;
+- `DATABASE_URI=file:///var/lib/armreview/armreview.db` и `MEDIA_DIR=/var/lib/armreview/media` —
+  данные вне папок релизов, иначе они «уедут» при следующей выкатке;
 - `SITE_URL=https://ваш-домен` — иначе в OG-превью будут ссылки на localhost.
 
-```bash
-sudo -u armreview npm ci
-sudo -u armreview npm run build
-sudo -u armreview npx payload migrate   # создаёт таблицы (в production схема ставится ТОЛЬКО миграциями)
-```
-
 ## 3. Сервис и Caddy
-До открытия Caddy для внешних посетителей создать первого администратора: запустить сервис,
-подключиться SSH-туннелем `ssh -L 3107:127.0.0.1:3000 пользователь@сервер` и открыть
-`http://localhost:3107/admin`. Bootstrap пустой базы доступен без авторизации — нельзя оставлять
-публичный сайт без первого администратора. После создания проверить, что повторная регистрация
-первого пользователя запрещена, затем публиковать Caddy.
-
+Юнит ставится до первого релиза: `release.sh` сам его запустит и проверит `/api/health`.
 ```bash
-sudo cp deploy/armreview.service /etc/systemd/system/
-sudo systemctl daemon-reload && sudo systemctl enable --now armreview
+sudo -u armreview git -C /opt/armreview/repo.git show main:deploy/armreview.service | sudo tee /etc/systemd/system/armreview.service > /dev/null
+sudo systemctl daemon-reload && sudo systemctl enable armreview
+sudo -u armreview git -C /opt/armreview/repo.git show main:deploy/release.sh > /tmp/release.sh
+sudo bash /tmp/release.sh main && rm /tmp/release.sh   # первый релиз: код, npm ci, build, миграции (создают таблицы), запуск
+cd /opt/armreview/current                              # дальше команды — из активного релиза
 ```
 
-Теперь создать администратора через SSH-туннель, как описано выше. Только после этого:
+До открытия Caddy для внешних посетителей создать первого администратора: подключиться
+SSH-туннелем `ssh -L 3107:127.0.0.1:3000 пользователь@сервер` и открыть `http://localhost:3107/admin`.
+Bootstrap пустой базы доступен без авторизации — нельзя оставлять публичный сайт без первого
+администратора. После создания проверить, что повторная регистрация первого пользователя
+запрещена. Только после этого:
 
 ```bash
 caddy hash-password                                      # два раза: для Влада и для себя; пароль вводится в запросе
@@ -88,7 +93,6 @@ cookie админа принимается лишь с адреса из `SITE_U
 sudo apt install -y sqlite3
 sudo -v ; curl https://rclone.org/install.sh | sudo bash   # свежий rclone: в репозитории Ubuntu версия старее
 sudo install -d -o armreview -g armreview -m 700 /var/backups/armreview
-sudo install -d -o armreview -g armreview -m 755 /opt/armreview/media
 sudo -u armreview -H rclone config                         # два remote — см. ниже
 sudo install -d -m 755 /etc/armreview
 sudo install -m 600 -o root -g root deploy/backup.env.example /etc/armreview/backup.env   # вписать BACKUP_PING_URL
@@ -114,8 +118,8 @@ sudo -u armreview -H rclone ls armreview-crypt:daily
 sudo systemctl enable --now armreview-backup.timer
 systemctl list-timers armreview-backup.timer        # следующий запуск — 00:00 МСК
 ```
-Пути по умолчанию — `/opt/armreview/armreview.db` и `/opt/armreview/media`; другие задаются
-`DB_PATH` / `MEDIA_DIR` в `backup.env`. `.backup` даёт согласованную копию работающей базы, но БД и
+Пути по умолчанию — `/var/lib/armreview/armreview.db` и `/var/lib/armreview/media`; другие задаются
+`DB_PATH` / `MEDIA_DIR` в `backup.env`. Скрипт берётся из активного релиза (`/opt/armreview/current/deploy/`). `.backup` даёт согласованную копию работающей базы, но БД и
 `media` снимаются не одной транзакцией: в 00:00 не редактировать и не удалять картинки в админке.
 Секреты `.env` и пароль `crypt` в бэкап не входят — они в менеджере паролей.
 
@@ -136,19 +140,25 @@ systemctl list-timers armreview-backup.timer        # следующий зап�
 Эти шаги — инструкция, не подтверждение выполненного восстановления VPS.
 
 ## 6. Обновление сайта
-До миграций сделать и проверить свежую резервную копию. Проверять новый набор миграций
-на восстановленной копии, не запускать dev-сервер на production-БД. Учесть: `prodMigrations`
-применяется при инициализации Payload, поэтому сборка/запуск с рабочим `DATABASE_URI` не является
-гарантированно читающей операцией. Целевой отдельный шаг миграций — в
-[плане аудита](../docs/changes/project-audit.md).
-
 ```bash
-cd /opt/armreview
-sudo -u armreview git pull
-sudo -u armreview npm ci
-sudo -u armreview npm run build
-sudo -u armreview npx payload migrate   # если менялись коллекции (перед этим на разработке: npm run payload migrate:create)
-sudo systemctl restart armreview
+sudo bash /opt/armreview/current/deploy/release.sh main
+```
+Скрипт ([release-rollback.md](../docs/changes/release-rollback.md)): бэкап через
+`armreview-backup.service` → код коммита в новую `releases/<дата>-<sha>` → `npm ci` и `build` (сайт всё
+это время работает на прежнем релизе) → `payload migrate:status` и `migrate` → атомарное переключение
+`current` → перезапуск → ждёт `200` от `/api/health` до 30 с. Не дождался — сам переключает `current`
+обратно и перезапускает прежний релиз. Сбой сборки или миграции — `current` не трогается.
+
+**Миграции не откатываются** (в SQLite они без транзакций): после отката кода или упавшей миграции,
+если прежний код с базой не работает, — восстановить базу из бэкапа, сделанного в начале этого релиза (§ 5).
+Проверять новый набор миграций на восстановленной копии (стенд), dev-сервер на production-БД не запускать.
+Схему меняем в два релиза: добавить → перенести данные → удалить старое.
+
+Ручной откат кода на предыдущий релиз, если понадобится после успешной выкатки:
+```bash
+ls -1 /opt/armreview/releases                                  # выбрать папку
+sudo ln -sfn /opt/armreview/releases/ПАПКА /opt/armreview/current.next && sudo mv -Tf /opt/armreview/current.next /opt/armreview/current
+sudo systemctl restart armreview && curl -fsS http://127.0.0.1:3000/api/health
 ```
 
 ## 7. Проверка после запуска

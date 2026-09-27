@@ -105,6 +105,9 @@ updates:
 
 ### Этап 3 — миграции явным шагом (этап C аудита, ≈полдня)
 
+**Статус 2026-09-27:** п. 1, 3, 4 — в `deploy/release.sh` и DEPLOY.md § 6 ([release-rollback.md](release-rollback.md)).
+п. 2 (убрать `prodMigrations`) — после проверки чистого bootstrap на стенде.
+
 1. **Порядок релиза:** бэкап → сборка → `payload migrate:status` (записать вывод) → `payload migrate` →
    перезапуск. `prodMigrations` при старте после этого ничего не находит.
 2. **Удаление `prodMigrations`** из `payload.config.ts` — отдельным шагом, после проверки чистого
@@ -115,6 +118,10 @@ updates:
    типа) — в два релиза: добавить → перенести данные → удалить старое.
 
 ### Этап 4 — релизы с откатом (≈1 день)
+
+**Статус 2026-09-27:** реализовано — [release-rollback.md](release-rollback.md): раскладка, `MEDIA_DIR`,
+`release.sh` + тест в CI, DEPLOY.md § 2, 3, 6. Код берётся из зеркала `repo.git` через `git archive`.
+Сборка — на сервере (вопрос 4 — по умолчанию). На сервере не проверено.
 
 **Раскладка на сервере:**
 ```
@@ -224,6 +231,9 @@ RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 `systemd-analyze security armreview` до и после.
 
 ### Этап 7 — мониторинг (≈2 ч)
+
+**Статус 2026-09-27:** п. 1 (`/api/health`) — сделано, [release-rollback.md](release-rollback.md).
+п. 2–3 (внешний сервис, тревога по диску) — Danil.
 
 1. **`/api/health`** (код, AGENTS.md § 3: роут → `lib/`): `200 {"ok":true}` после простого запроса
    к БД, `503` при ошибке; `Cache-Control: no-store`; наружу никаких данных.

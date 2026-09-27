@@ -5,9 +5,11 @@ After=network.target
 [Service]
 Type=simple
 User=armreview
-WorkingDirectory=/opt/armreview
-# Секреты (PAYLOAD_SECRET, IP_HASH_SALT, DATABASE_URI, SITE_URL) лежат в /opt/armreview/.env, права 600
-EnvironmentFile=/opt/armreview/.env
+# current — симлинк на активный релиз (deploy/release.sh); systemd разворачивает его при старте
+WorkingDirectory=/opt/armreview/current
+# Секреты и пути (PAYLOAD_SECRET, IP_HASH_SALT, DATABASE_URI, MEDIA_DIR, SITE_URL) — общие для всех
+# релизов, права 600
+EnvironmentFile=/opt/armreview/shared/.env
 Environment=NODE_ENV=production
 ExecStart=/usr/bin/npm run start -- -H 127.0.0.1 -p 3000
 Restart=on-failure

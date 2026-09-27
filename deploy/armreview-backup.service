@@ -9,8 +9,8 @@ User=armreview
 Group=armreview
 # BACKUP_REMOTE, BACKUP_PING_URL; файл root:root 600 — systemd читает его до смены пользователя
 EnvironmentFile=/etc/armreview/backup.env
-# Через bash явно: бит исполнения из git с Windows не приходит, а chmod ломал бы git pull
-ExecStart=/usr/bin/bash /opt/armreview/deploy/backup.sh
+# Через bash явно: бит исполнения из git с Windows не приходит. Скрипт — из активного релиза
+ExecStart=/usr/bin/bash /opt/armreview/current/deploy/backup.sh
 TimeoutStartSec=1h
 # Бэкап не должен отнимать ресурсы у сайта
 Nice=10
