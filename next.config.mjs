@@ -4,6 +4,8 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   // не генерировать AGENTS.md / CLAUDE.md в корне проекта
   agentRules: false,
+  // Не раскрываем стек: без этого Next и Payload отдают X-Powered-By: Next.js, Payload (аудит S9)
+  poweredByHeader: false,
   // Шрифты для OG-картинок читаются с диска (lib/ogFont.ts) — на Vercel их надо явно положить в сборку функции
   outputFileTracingIncludes: { '/**/*': ['./src/assets/fonts/**/*'] },
 }

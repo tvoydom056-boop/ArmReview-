@@ -1,6 +1,36 @@
 # Замените example.ru на настоящий домен. Caddy сам получит и продлит HTTPS-сертификат.
+# Перед reload: sudo caddy validate --config /etc/caddy/Caddyfile
 example.ru {
 	encode gzip zstd
+
+	# Лимит тела запроса (аудит S7): голос — пара сотен байт, фото из админки — до 10 МБ
+	@vote path /api/vote
+	request_body @vote {
+		max_size 16KB
+	}
+	request_body {
+		max_size 10MB
+	}
+
+	# Второй замок перед входом в админку (аудит S6): перебор паролей, блокировка аккаунта
+	# снаружи (5 неверных паролей = 10 минут), гонка за первого администратора (аудит F7).
+	# Хеши паролей: caddy hash-password (спросит пароль сам — в историю shell он не попадёт)
+	@admin path /admin /admin/* /api/users /api/users/*
+	basic_auth @admin {
+		vlad ХЕШ_ПАРОЛЯ_ВЛАДА
+		danil ХЕШ_ПАРОЛЯ_DANIL
+	}
+
+	# Заголовки безопасности (аудит S9). HSTS без preload: из preload-списка быстро не выйти.
+	# CSP нет — админке Payload нужны inline-стили, это отдельная задача
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+		-Server
+		-X-Powered-By
+	}
 
 	# Приложение слушает только localhost, наружу торчит один Caddy
 	reverse_proxy 127.0.0.1:3000 {
@@ -8,4 +38,9 @@ example.ru {
 		# header_up ПЕРЕЗАПИСЫВАЕТ значение, присланное клиентом, — подделать IP нельзя.
 		header_up X-Client-IP {remote_host}
 	}
+
+	# Access-логи не включаем: сырой IP не логируем (AGENTS.md § 7). Если нужны для отладки —
+	# только с маскированием: log { format filter { request>remote_ip ip_mask 16 32
+	#   request>client_ip ip_mask 16 32
+	#   request>headers>Cookie delete } }
 }

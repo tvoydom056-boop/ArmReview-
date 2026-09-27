@@ -54,10 +54,17 @@ sudo systemctl daemon-reload && sudo systemctl enable --now armreview
 Теперь создать администратора через SSH-туннель, как описано выше. Только после этого:
 
 ```bash
-sudo cp deploy/Caddyfile.example /etc/caddy/Caddyfile   # заменить example.ru на домен
+caddy hash-password                                      # два раза: для Влада и для себя; пароль вводится в запросе
+sudo cp deploy/Caddyfile.example /etc/caddy/Caddyfile   # заменить example.ru на домен, ХЕШ_ПАРОЛЯ_* на хеши
+sudo caddy validate --config /etc/caddy/Caddyfile
 sudo systemctl reload caddy
 ```
 Проверка: `systemctl status armreview`, `journalctl -u armreview -f`, открыть `https://домен`.
+
+`/admin` и `/api/users*` закрыты паролем Caddy (`basic_auth`) — это второй замок поверх входа
+Payload. Через SSH-туннель в production работает только создание первого администратора:
+cookie админа принимается лишь с адреса из `SITE_URL` (`csrf` в `payload.config.ts`), поэтому
+контент заводить уже через `https://домен/admin`.
 
 ## 4. Первый администратор
 Первого пользователя создать до публичного доступа, как описано выше (пароль вводите вы сами).
@@ -115,6 +122,11 @@ sudo systemctl restart armreview
 - В `/api/vote` в БД в `ipHash` лежит хеш, не IP; если в логах ошибка про `X-Client-IP` — Caddy настроен без `header_up`.
 - `https://домен/opengraph-image` открывается картинкой; `manifest.webmanifest` отдаёт 200.
 - Порт 3000 снаружи закрыт: `curl http://IP:3000` не отвечает.
+- `curl -I https://домен` — есть `Strict-Transport-Security`, `X-Content-Type-Options`, `X-Frame-Options`;
+  нет `Server` и `X-Powered-By`.
+- `curl -I https://домен/admin` без пароля Caddy → `401`; с паролем админка открывается, вход и
+  сохранение документа работают.
+- Тело больше 16 КБ в `/api/vote` → `413`: `head -c 20000 /dev/zero | curl -s -o /dev/null -w '%{http_code}' -H 'Content-Type: application/json' --data-binary @- https://домен/api/vote`.
 
 ## Юридическое (делает владелец сайта)
 Уведомление Роскомнадзора об обработке персональных данных, вычитка `/privacy`, срок хранения данных (`TODO` в тексте политики).

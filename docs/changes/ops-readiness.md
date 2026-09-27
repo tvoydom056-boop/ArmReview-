@@ -164,7 +164,9 @@ updates:
 
 **6.3 Ресурсы:** swap 2–4 ГБ; `journald` — `SystemMaxUse=500M`.
 
-**6.4 Caddyfile:**
+**6.4 Caddyfile:** реализовано 2026-09-27 в `deploy/Caddyfile.example` вместе с пунктами S6, S7, S9
+[аудита безопасности](security-audit-2026-09.md) (добавлены `basic_auth` на админку и лимит 16 КБ
+для `/api/vote`). Ниже — исходное предложение, актуален файл:
 ```caddy
 example.ru {
 	encode gzip zstd
