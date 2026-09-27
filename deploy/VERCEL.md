@@ -30,7 +30,7 @@
 | `DATABASE_AUTH_TOKEN` | токен Turso |
 | `PAYLOAD_SECRET` | случайная строка: `openssl rand -hex 32` |
 | `IP_HASH_SALT` | другая случайная строка (≥16 символов); после запуска не менять |
-| `SITE_URL` | адрес сайта, например `https://armreview.vercel.app` (без слэша в конце) |
+| `SITE_URL` | адрес сайта, например `https://arm-review.vercel.app` (без слэша в конце) |
 | `BLOB_READ_WRITE_TOKEN` | появится сам после подключения Blob |
 
    `SITE_URL` до первого деплоя неизвестен — впишите ожидаемый адрес `https://<имя-проекта>.vercel.app`, после деплоя проверьте и при необходимости поправьте и сделайте Redeploy.
