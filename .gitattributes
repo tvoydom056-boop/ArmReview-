@@ -1,0 +1,4 @@
+# Скрипты и конфиги для Linux-сервера — всегда LF, даже в рабочей копии на Windows
+# (core.autocrlf=true иначе даёт CRLF, и bash в WSL падает на $'\r')
+*.sh text eol=lf
+deploy/* text eol=lf

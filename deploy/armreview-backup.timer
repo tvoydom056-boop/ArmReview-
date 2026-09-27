@@ -1,0 +1,11 @@
+[Unit]
+Description=ArmReview: ежедневный бэкап в 00:00 МСК
+
+[Timer]
+# Часовой пояс — в самом расписании: не зависит от пояса сервера
+OnCalendar=*-*-* 00:00:00 Europe/Moscow
+# Сервер был выключен в 00:00 — бэкап сразу после включения
+Persistent=true
+
+[Install]
+WantedBy=timers.target

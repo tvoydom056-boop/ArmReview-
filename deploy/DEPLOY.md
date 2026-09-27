@@ -71,26 +71,60 @@ cookie админа принимается лишь с адреса из `SITE_U
 Дальше в админке завести борцов, турнир и матчи. Демо-данные (`npm run seed`) на боевой сервер **не запускать**.
 
 ## 5. Бэкапы
+Ежедневно в 00:00 МСК (`armreview-backup.timer`): копия БД и `media` — локально на 14 дней и
+**вне сервера** — зашифрованно, в S3-хранилище в РФ у другого провайдера, на 30 дней.
+Потеря при гибели сервера — до суток. Решения и сценарии — [offsite-backup.md](../docs/changes/offsite-backup.md).
+
+### 5.1 Хранилище (один раз, в кабинете провайдера)
+Пример — Yandex Object Storage; у другого S3-провайдера шаги те же.
+1. Приватный бакет в регионе РФ. **Провайдер — не тот, где VPS**: иначе одна авария заберёт и сайт, и копии.
+2. Включить **версионирование**. Правило жизненного цикла: удалять объекты и устаревшие версии старше 30 дней.
+3. Сервисный аккаунт с ролью `storage.uploader` только на этот бакет (загружает и читает, **удалять
+   не может**) и статический ключ — он пойдёт на сервер. Для восстановления — отдельный ключ с
+   чтением; на сервере его не хранить.
+
+### 5.2 Сервер
 ```bash
+sudo apt install -y sqlite3
+sudo -v ; curl https://rclone.org/install.sh | sudo bash   # свежий rclone: в репозитории Ubuntu версия старее
 sudo install -d -o armreview -g armreview -m 700 /var/backups/armreview
 sudo install -d -o armreview -g armreview -m 755 /opt/armreview/media
-sudo chmod +x deploy/backup.sh
-sudo -u armreview /opt/armreview/deploy/backup.sh  # первый запуск проверить до настройки cron
-sudo timedatectl set-timezone Europe/Moscow   # иначе cron считает «00» по UTC (= 03:00 МСК)
-sudo -u armreview crontab -e     # добавить: 0 0 * * * /opt/armreview/deploy/backup.sh
+sudo -u armreview -H rclone config                         # два remote — см. ниже
+sudo install -d -m 755 /etc/armreview
+sudo install -m 600 -o root -g root deploy/backup.env.example /etc/armreview/backup.env   # вписать BACKUP_PING_URL
 ```
-Бэкап — ежедневно в 00:00 МСК. Копии лежат в `/var/backups/armreview` (14 дней). Раз в неделю скачивайте их на свой компьютер: бэкап на том же диске не спасёт при потере сервера. Проверьте восстановление хотя бы один раз.
+`rclone config` под `armreview` (файл `~armreview/.config/rclone/rclone.conf`, права 600):
+- `armreview-s3` — тип `s3`; для Yandex endpoint `https://storage.yandexcloud.net`, регион `ru-central1`
+  ([инструкция Yandex](https://yandex.cloud/ru/docs/storage/tools/rclone)); ключ из 5.1; **`no_check_bucket = true`**
+  (ключ не может создавать бакеты);
+- `armreview-crypt` — тип `crypt`, remote `armreview-s3:ИМЯ_БАКЕТА/armreview`, пароль и соль сгенерировать.
+  **Пароль и соль — сразу в менеджер паролей**: без них копии не расшифровать никому, включая нас.
 
-Скрипт рассчитан на `DATABASE_URI=file:./armreview.db` и локальную `media/`. При другом пути
-исправить `APP_DIR`/путь БД до включения cron. `.backup` даёт согласованную SQLite-копию,
-но БД и `media` снимаются не одной транзакцией: на время снимка исключить редактирование/удаление
-изображений в админке. Ожидаемая потеря при ночном бэкапе — до суток, при еженедельном выносе
-копии и потере сервера — до недели. Выбрать приемлемую частоту внешнего копирования явно.
+Мониторинг: в сервисе пингов (Healthchecks.io или свой экземпляр) — проверка с периодом 1 сутки и
+запасом 1 ч; её адрес — в `BACKUP_PING_URL`. Нет пинга к 01:00 или пришёл `/fail` — уведомление.
+
+### 5.3 Таймер и первый запуск
+Если раньше настраивали cron со строкой `backup.sh` — удалить её: `sudo -u armreview crontab -e`.
+```bash
+sudo cp deploy/armreview-backup.service deploy/armreview-backup.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl start armreview-backup.service       # первый запуск вручную
+journalctl -u armreview-backup -n 20                # ждём «выгружен armreview-…db» и «выгружен media-…»
+sudo -u armreview -H rclone ls armreview-crypt:daily
+sudo systemctl enable --now armreview-backup.timer
+systemctl list-timers armreview-backup.timer        # следующий запуск — 00:00 МСК
+```
+Пути по умолчанию — `/opt/armreview/armreview.db` и `/opt/armreview/media`; другие задаются
+`DB_PATH` / `MEDIA_DIR` в `backup.env`. `.backup` даёт согласованную копию работающей базы, но БД и
+`media` снимаются не одной транзакцией: в 00:00 не редактировать и не удалять картинки в админке.
+Секреты `.env` и пароль `crypt` в бэкап не входят — они в менеджере паролей.
 
 ### Проверка восстановления (на отдельном стенде)
 
-1. Взять пару `armreview-ДАТА.db` и `media-ДАТА.tar.gz` из внешнего хранилища; развернуть
-   код того же релиза в отдельную директорию, без production-токенов и входящего трафика.
+1. На машине стенда настроить rclone: `armreview-s3` с ключом **чтения** из 5.1 и `armreview-crypt` с
+   паролем и солью из менеджера паролей. Скачать пару за нужную дату:
+   `rclone copy armreview-crypt:daily . --include "*-ДАТА.*"`. Развернуть код того же релиза в
+   отдельную директорию, без production-токенов и входящего трафика.
 2. Скопировать БД под новым именем, выполнить `sqlite3 путь-к-копии.db 'PRAGMA integrity_check;'`
    (ожидается `ok`) и `PRAGMA foreign_key_check;` (пустой результат).
 3. Распаковать media только в каталог тестового стенда; задать `DATABASE_URI` на копию и

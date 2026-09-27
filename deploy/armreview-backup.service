@@ -1,0 +1,19 @@
+[Unit]
+Description=ArmReview: бэкап БД и картинок вне сервера (docs/changes/offsite-backup.md)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=armreview
+Group=armreview
+# BACKUP_REMOTE, BACKUP_PING_URL; файл root:root 600 — systemd читает его до смены пользователя
+EnvironmentFile=/etc/armreview/backup.env
+# Через bash явно: бит исполнения из git с Windows не приходит, а chmod ломал бы git pull
+ExecStart=/usr/bin/bash /opt/armreview/deploy/backup.sh
+TimeoutStartSec=1h
+# Бэкап не должен отнимать ресурсы у сайта
+Nice=10
+IOSchedulingClass=idle
+NoNewPrivileges=true
+PrivateTmp=true
