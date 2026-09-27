@@ -6,6 +6,7 @@ import { cache } from 'react'
 import { EventBoard } from '@/components/EventBoard'
 import { toEventHeader } from '@/lib/eventView'
 import { getEventBySlug, getEventMatches } from '@/lib/queries/events'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
 import styles from './event.module.css'
 
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: event.title,
     openGraph: {
       title: event.title,
-      description: 'Карта матчей и оценки зрителей',
+      description: VOTING_ENABLED ? 'Карта матчей и оценки зрителей' : 'Карта матчей',
       ...(poster ? { images: [poster.url] } : {}),
     },
   }

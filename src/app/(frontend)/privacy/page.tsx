@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { LegalPage } from '@/components/LegalPage'
-import { siteConfig } from '@/lib/siteConfig'
+import { VOTING_ENABLED, siteConfig } from '@/lib/siteConfig'
 
 export const metadata: Metadata = { title: 'Политика конфиденциальности' }
 
@@ -10,6 +10,44 @@ export const metadata: Metadata = { title: 'Политика конфиденц�
 export default function PrivacyPage() {
   return (
     <LegalPage kicker="Юридическая информация" title="Политика конфиденциальности">
+      {VOTING_ENABLED ? <VotingPolicy /> : <AlphaPolicy />}
+    </LegalPage>
+  )
+}
+
+// Альфа без голосования: о посетителях сайт ничего не хранит (docs/changes/alpha-scope.md § 2)
+function AlphaPolicy() {
+  return (
+    <>
+      <p>Вопросы и обращения — {siteConfig.contactEmail}.</p>
+
+      <h2>Что мы храним о посетителях</h2>
+      <p>
+        Ничего. Регистрации нет, имя, почту и телефон мы не собираем, cookie посетителям не ставим. IP-адреса
+        мы не сохраняем и не записываем в журналы.
+      </p>
+      <p>
+        Выбор светлой или тёмной темы хранится только в вашем браузере (<code>localStorage</code>) и на сервер
+        не передаётся. Cookie входа ставится только администраторам сайта.
+      </p>
+
+      <h2>Сведения о спортсменах</h2>
+      <p>
+        Профили содержат сведения о спортсменах из открытых источников: имя, страну, год рождения, рост, вес,
+        фотографию с указанием источника и результаты публичных турниров. Если вы спортсмен или правообладатель
+        фотографии и хотите исправить или убрать сведения — напишите по адресу выше.
+      </p>
+
+      <h2>Где хранится</h2>
+      {/* TODO: подтвердить после выбора хостинга (PROJECT.md § 10) — сервер должен быть в РФ */}
+      <p>Данные сайта хранятся на сервере на территории Российской Федерации.</p>
+    </>
+  )
+}
+
+function VotingPolicy() {
+  return (
+    <>
       <p>
         Оператор персональных данных: {siteConfig.operatorName}. Обращения — {siteConfig.contactEmail}.
       </p>
@@ -53,6 +91,6 @@ export default function PrivacyPage() {
         Вы можете запросить сведения о данных или их удаление, написав по адресу выше. Так как данные не
         связаны с именем, укажите в письме время и матч, за который голосовали.
       </p>
-    </LegalPage>
+    </>
   )
 }

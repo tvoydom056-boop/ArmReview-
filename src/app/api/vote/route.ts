@@ -5,6 +5,7 @@ import { createDeviceId, readDeviceId, setDeviceCookie } from '@/lib/deviceId'
 import { getEnv } from '@/lib/env'
 import { hashIp } from '@/lib/ipHash'
 import { checkSameOriginJson } from '@/lib/sameOrigin'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 import type { VoteErrorCode, VoteResponse } from '@/types/api'
 
 // Не /api/votes: этот путь занят REST-коллекцией votes (админка Payload ходит туда за списком)
@@ -19,6 +20,9 @@ const json = (body: VoteResponse, status = 200) => Response.json(body, { status 
 
 // Тонкий контроллер: разбор запроса → castVote → ответ. Правил здесь нет.
 export async function POST(request: Request) {
+  // Альфа: маршрута как будто нет — ни голоса, ни ipHash, ни cookie (alpha-scope.md § 1)
+  if (!VOTING_ENABLED) return new Response(null, { status: 404 })
+
   // До разбора тела. Свой интерфейс эти коды не получает, поэтому их нет в types/api.ts
   const origin = checkSameOriginJson(request.headers)
   if (origin === 'cross_origin') return Response.json({ error: 'FORBIDDEN' }, { status: 403 })

@@ -112,6 +112,21 @@ if ((await findId('events', 'east-vs-west-ii')) === null) {
 await payload.update({ collection: 'athletes', id: ivan, data: { mainTechnique: 'posting_top_roll', nickname: 'Тестовый' } })
 await payload.update({ collection: 'athletes', id: john, data: { mainTechnique: 'hook' } })
 
+// «Как борется» (docs/changes/alpha-scope.md § 3): у известного борца и у обычного — виден у обоих
+await payload.update({
+  collection: 'athletes',
+  id: ivan,
+  data: {
+    scoutingReport:
+      'Тестовый текст. Аутсайдер: быстрый старт и сильные пальцы.\nЕсли остановить на старте — в долгой борьбе теряется.',
+  },
+})
+await payload.update({
+  collection: 'athletes',
+  id: giorgi,
+  data: { scoutingReport: 'Тестовый текст: выносливый крюковик, любит затяжную борьбу.' },
+})
+
 // Турнир 3 — техники: пусто → подставится основная техника борца (хук Matches.beforeChange)
 if ((await findId('events', 'east-vs-west-iii')) === null) {
   const event = await payload.create({

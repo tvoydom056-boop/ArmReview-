@@ -126,6 +126,13 @@ export default async function AthleteProfilePage({ params }: Props) {
           ) : null}
         </div>
       </section>
+      {/* П4: ответ на цель альфы — сразу под шапкой, у любого борца (docs/changes/alpha-scope.md § 3) */}
+      {athlete.scoutingReport ? (
+        <section className={styles.section}>
+          <h2>Как борется</h2>
+          <p className={styles.text}>{athlete.scoutingReport}</p>
+        </section>
+      ) : null}
       {featured ? (
         <section className={styles.section}>
           <StyleScale profile={styleProfile} />
@@ -134,7 +141,7 @@ export default async function AthleteProfilePage({ params }: Props) {
       {featured && athlete.achievements ? (
         <section className={styles.section}>
           <h2>Достижения</h2>
-          <p className={styles.achievements}>{athlete.achievements}</p>
+          <p className={styles.text}>{athlete.achievements}</p>
         </section>
       ) : null}
       {history.length > 0 ? (

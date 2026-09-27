@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import type { CSSProperties } from 'react'
 
 import { CountryFlag } from '@/components/CountryFlag'
@@ -9,6 +10,7 @@ import { SCALES } from '@/features/voting/scales'
 import { getHandLabel, type AthleteRef } from '@/lib/matchView'
 import { getTopMatches } from '@/lib/queries/top'
 import { RATING_WEIGHTS } from '@/lib/rating'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
 import styles from './top.module.css'
 
@@ -20,6 +22,8 @@ const SHARE_TONES = ['100%', '72%', '48%', '28%']
 
 // design/top.html без пьедестала топ-3 (вопрос E плана restyle-2026-09 — отдельной задачей)
 export default async function TopPage() {
+  // топ складывается из голосов — в альфе его нет (alpha-scope.md § 1)
+  if (!VOTING_ENABLED) notFound()
   const top = await getTopMatches(100)
 
   return (

@@ -1,4 +1,5 @@
 import type { MatchOutcome } from '@/lib/matchView'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
 import styles from './MatchResult.module.css'
 import { Spoiler } from './Spoiler'
@@ -12,7 +13,11 @@ export function MatchResult({ outcome }: { outcome: MatchOutcome }) {
     <div className={styles.card}>
       <Spoiler
         action="Показать результат"
-        hint="Не смотрел турнир? Оцени матч, не подглядывая в результат."
+        hint={
+          VOTING_ENABLED
+            ? 'Не смотрел турнир? Оцени матч, не подглядывая в результат.'
+            : 'Результат спрятан, чтобы не испортить просмотр записи.'
+        }
         placeholder={<Result outcome={PLACEHOLDER} />}
       >
         <Result outcome={outcome} />

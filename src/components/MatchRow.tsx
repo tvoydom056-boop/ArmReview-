@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { getHandLabel, type AthleteRef, type MatchOutcome, type MatchView } from '@/lib/matchView'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
 import { CountryFlag } from './CountryFlag'
 import styles from './MatchRow.module.css'
@@ -34,7 +35,7 @@ export function MatchRow({ match, cardNo }: { match: MatchView; cardNo: number }
         </div>
       </div>
       <div className={styles.result}>
-        <RatingBadge rating={match.rating} compact />
+        {VOTING_ENABLED ? <RatingBadge rating={match.rating} compact /> : null}
         <div className={styles.spoiler}>
           <Spoiler variant="compact" action="Счёт" placeholder={<Outcome outcome={PLACEHOLDER} />}>
             <Outcome outcome={match.outcome} />

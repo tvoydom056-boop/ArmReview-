@@ -4,6 +4,7 @@ import { cache } from 'react'
 
 import { MatchVotePanel } from '@/features/voting/MatchVotePanel'
 import { getMatchPanelData } from '@/lib/queries/matches'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = `${data.match.athlete1.name} vs ${data.match.athlete2.name}`
   return {
     title,
-    openGraph: { title, description: `Оцени матч · ${data.event.title}` },
+    openGraph: { title, description: VOTING_ENABLED ? `Оцени матч · ${data.event.title}` : data.event.title },
   }
 }
 

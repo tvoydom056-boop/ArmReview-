@@ -209,7 +209,8 @@
   margin: 0 0 8px;
 }
 
-.achievements {
+/* «Как борется» и «Достижения»: переносы строк из админки */
+.text {
   margin: 0;
   white-space: pre-line;
 }

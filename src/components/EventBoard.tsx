@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { EventHeaderData } from '@/lib/eventView'
 import type { MatchView } from '@/lib/matchView'
 import { pluralize } from '@/lib/plural'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 import { isVotingOpen } from '@/lib/votingWindow'
 
 import { EmptyState } from './EmptyState'
@@ -33,9 +34,11 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
               : ''}
           </p>
           <div className={styles.pills}>
-            <span className={styles.pill}>
-              {votingOpen ? 'Голосование открыто' : 'Голосование откроется после турнира'}
-            </span>
+            {VOTING_ENABLED ? (
+              <span className={styles.pill}>
+                {votingOpen ? 'Голосование открыто' : 'Голосование откроется после турнира'}
+              </span>
+            ) : null}
             {titleCount > 0 ? <span className={styles.pillGold}>Титульные матчи: {titleCount}</span> : null}
           </div>
           {event.poster && event.posterSource ? (

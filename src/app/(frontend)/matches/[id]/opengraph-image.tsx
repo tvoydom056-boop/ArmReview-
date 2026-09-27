@@ -3,8 +3,11 @@ import { ImageResponse } from 'next/og'
 import { OG_SIZE, OgCard } from '@/components/OgCard'
 import { getMatchPanelData } from '@/lib/queries/matches'
 import { loadOgFonts } from '@/lib/ogFont'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
-export const alt = 'Оценки матча'
+const FALLBACK = VOTING_ENABLED ? 'Оценки матча' : 'Матч East vs West'
+
+export const alt = FALLBACK
 export const size = OG_SIZE
 export const contentType = 'image/png'
 export const dynamic = 'force-dynamic'
@@ -14,7 +17,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
   const rawId = (await params).id
   const data = /^\d+$/.test(rawId) ? await getMatchPanelData(Number(rawId)) : null
 
-  const title = data ? `${data.match.athlete1.name} vs ${data.match.athlete2.name}` : 'Оценки матча'
+  const title = data ? `${data.match.athlete1.name} vs ${data.match.athlete2.name}` : FALLBACK
   const subtitle = data ? data.event.title : 'East vs West'
 
   return new ImageResponse(<OgCard title={title} subtitle={subtitle} />, {

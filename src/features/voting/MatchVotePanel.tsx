@@ -4,6 +4,7 @@ import { MatchResult } from '@/components/MatchResult'
 import { MatchVersus } from '@/components/MatchVersus'
 import { Notice } from '@/components/Notice'
 import type { MatchPanelData } from '@/lib/queries/matches'
+import { VOTING_ENABLED } from '@/lib/siteConfig'
 
 import styles from './MatchVotePanel.module.css'
 import { RatingReveal } from './RatingReveal'
@@ -38,20 +39,25 @@ export function MatchVotePanel({ data }: { data: MatchPanelData }) {
         <h2 className={styles.label}>Результат</h2>
         <MatchResult outcome={match.outcome} />
       </section>
-      <section>
-        <h2 className={styles.label}>Оцени матч</h2>
-        <div className={styles.card}>
-          {votingState === 'open' ? (
-            <VoteForm matchId={match.id} />
-          ) : (
-            <Notice {...NOTICES[votingState]} />
-          )}
-        </div>
-      </section>
-      <section>
-        <h2 className={styles.label}>Как оценили другие</h2>
-        <RatingReveal rating={match.rating} />
-      </section>
+      {/* альфа — без голосования: противостояние и результат (alpha-scope.md § 1) */}
+      {VOTING_ENABLED ? (
+        <>
+          <section>
+            <h2 className={styles.label}>Оцени матч</h2>
+            <div className={styles.card}>
+              {votingState === 'open' ? (
+                <VoteForm matchId={match.id} />
+              ) : (
+                <Notice {...NOTICES[votingState]} />
+              )}
+            </div>
+          </section>
+          <section>
+            <h2 className={styles.label}>Как оценили другие</h2>
+            <RatingReveal rating={match.rating} />
+          </section>
+        </>
+      ) : null}
     </div>
   )
 }

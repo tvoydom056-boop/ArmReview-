@@ -177,6 +177,10 @@ export interface Athlete {
    * Архив. Заменено полем «Основная техника»
    */
   style?: string | null;
+  /**
+   * 3–5 предложений: сильные и слабые стороны, как выигрывает и как проигрывает. Без счёта и исходов конкретных матчей — текст виден без спойлера
+   */
+  scoutingReport?: string | null;
   achievements?: string | null;
   isFeatured?: boolean | null;
   updatedAt: string;
@@ -452,6 +456,7 @@ export interface AthletesSelect<T extends boolean = true> {
   weightKg?: T;
   mainTechnique?: T;
   style?: T;
+  scoutingReport?: T;
   achievements?: T;
   isFeatured?: T;
   updatedAt?: T;

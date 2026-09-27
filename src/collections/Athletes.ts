@@ -59,6 +59,19 @@ export const Athletes: CollectionConfig = {
       label: 'Стиль (старый текст)',
       admin: { readOnly: true, description: 'Архив. Заменено полем «Основная техника»' },
     },
+    // Главное в профиле альфы — мнение автора, не статистика (docs/changes/alpha-scope.md § 3).
+    // Виден без спойлера — поэтому без исходов матчей (PROJECT.md § 12)
+    {
+      name: 'scoutingReport',
+      type: 'textarea',
+      label: 'Как борется',
+      maxLength: 800,
+      admin: {
+        description:
+          '3–5 предложений: сильные и слабые стороны, как выигрывает и как проигрывает. ' +
+          'Без счёта и исходов конкретных матчей — текст виден без спойлера',
+      },
+    },
     { name: 'achievements', type: 'textarea', label: 'Достижения' },
     {
       name: 'isFeatured',

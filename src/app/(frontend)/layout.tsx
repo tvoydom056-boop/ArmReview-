@@ -7,7 +7,7 @@ import { CookieBanner } from '@/components/CookieBanner'
 import { NavLink } from '@/components/NavLink'
 import { Providers } from '@/components/Providers'
 import { getEnv } from '@/lib/env'
-import { siteConfig } from '@/lib/siteConfig'
+import { VOTING_ENABLED, siteConfig } from '@/lib/siteConfig'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { themeColors, themeInitHtml } from '@/lib/theme'
 
@@ -58,7 +58,7 @@ export default function FrontendLayout({
             </Link>
             <nav className="site-nav">
               <NavLink href="/events">Ивенты</NavLink>
-              <NavLink href="/top">Лучшие матчи</NavLink>
+              {VOTING_ENABLED ? <NavLink href="/top">Лучшие матчи</NavLink> : null}
               <NavLink href="/athletes">Рукоборцы</NavLink>
             </nav>
           </header>
@@ -68,7 +68,8 @@ export default function FrontendLayout({
             <Link href="/contacts">Контакты</Link>
           </footer>
           {modal}
-          <CookieBanner />
+          {/* cookie ставит только голосование — без него предупреждать не о чем */}
+          {VOTING_ENABLED ? <CookieBanner /> : null}
         </Providers>
       </body>
     </html>

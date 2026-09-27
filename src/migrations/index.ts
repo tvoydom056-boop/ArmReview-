@@ -3,6 +3,7 @@ import * as migration_20260918_195704_add_match_title from './20260918_195704_ad
 import * as migration_20260918_201652_media_prefix from './20260918_201652_media_prefix';
 import * as migration_20260927_113244_vlad_feedback_techniques from './20260927_113244_vlad_feedback_techniques';
 import * as migration_20260927_193315_technique_pyramid from './20260927_193315_technique_pyramid';
+import * as migration_20260927_200052_scouting_report from './20260927_200052_scouting_report';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20260927_193315_technique_pyramid.up,
     down: migration_20260927_193315_technique_pyramid.down,
-    name: '20260927_193315_technique_pyramid'
+    name: '20260927_193315_technique_pyramid',
+  },
+  {
+    up: migration_20260927_200052_scouting_report.up,
+    down: migration_20260927_200052_scouting_report.down,
+    name: '20260927_200052_scouting_report'
   },
 ];
