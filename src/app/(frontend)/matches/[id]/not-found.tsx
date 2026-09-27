@@ -8,7 +8,7 @@ export default function MatchNotFound() {
       title="Матч не найден"
       hint="Поединка с таким номером нет. Найдите его в карте турнира — там все пары по датам."
       actions={[
-        { href: '/events', label: 'Все турниры', primary: true },
+        { href: '/events', label: 'Все ивенты', primary: true },
         { href: '/', label: 'На главную' },
       ]}
     />

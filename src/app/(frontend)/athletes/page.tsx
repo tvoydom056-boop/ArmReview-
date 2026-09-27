@@ -7,7 +7,7 @@ import { getPayloadClient } from '@/lib/payload'
 
 import styles from './athletes.module.css'
 
-export const metadata: Metadata = { title: 'Борцы' }
+export const metadata: Metadata = { title: 'Рукоборцы' }
 export const dynamic = 'force-dynamic'
 
 // Фото первого ряда сетки (на десктопе) — в первом экране, грузим без ленивой подгрузки
@@ -25,7 +25,7 @@ export default async function AthletesPage() {
 
   return (
     <>
-      <h1 className={styles.title}>Борцы</h1>
+      <h1 className={styles.title}>Рукоборцы</h1>
       {athletes.length === 0 ? (
         <EmptyState title="Борцов пока нет" hint="Карточки появятся по мере разбора турниров." />
       ) : (

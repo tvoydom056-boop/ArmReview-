@@ -131,8 +131,15 @@ export interface UserAuthOperations {
  */
 export interface Athlete {
   id: number;
+  /**
+   * Кириллицей, и у иностранцев тоже: «Эмре Йылдырым»
+   */
   name: string;
+  /**
+   * Для поиска и будущей английской версии; на странице не показывается
+   */
   nameEn?: string | null;
+  nickname?: string | null;
   /**
    * Латиницей. Если пусто — берётся из имени/названия, поэтому кириллицу заполните латиницей вручную
    */
@@ -146,6 +153,29 @@ export interface Athlete {
   birthYear?: number | null;
   heightCm?: number | null;
   weightKg?: number | null;
+  /**
+   * Подставляется в новые матчи этого борца, если техника в матче не указана. Уверен в точке пирамиды — выбирай её, сомневаешься — семейство «без уточнения»
+   */
+  mainTechnique?:
+    | (
+        | 'press'
+        | 'flop_press'
+        | 'shoulder_press'
+        | 'hook'
+        | 'hook_drive'
+        | 'hook_drag'
+        | 'high_hook'
+        | 'top_roll'
+        | 'posting_top_roll'
+        | 'sweeping_top_roll'
+        | 'low_hand_top_roll'
+        | 'open_top_roll'
+        | 'kings_move'
+      )
+    | null;
+  /**
+   * Архив. Заменено полем «Основная техника»
+   */
   style?: string | null;
   achievements?: string | null;
   isFeatured?: boolean | null;
@@ -215,6 +245,49 @@ export interface Match {
   athlete1: number | Athlete;
   athlete2: number | Athlete;
   hand: 'right' | 'left';
+  /**
+   * Пусто — подставится основная техника борца. Уверен в точке пирамиды — выбирай её, сомневаешься — семейство «без уточнения»
+   */
+  technique1?:
+    | (
+        | 'press'
+        | 'flop_press'
+        | 'shoulder_press'
+        | 'hook'
+        | 'hook_drive'
+        | 'hook_drag'
+        | 'high_hook'
+        | 'top_roll'
+        | 'posting_top_roll'
+        | 'sweeping_top_roll'
+        | 'low_hand_top_roll'
+        | 'open_top_roll'
+        | 'kings_move'
+      )
+    | null;
+  /**
+   * Пусто — подставится основная техника борца. Уверен в точке пирамиды — выбирай её, сомневаешься — семейство «без уточнения»
+   */
+  technique2?:
+    | (
+        | 'press'
+        | 'flop_press'
+        | 'shoulder_press'
+        | 'hook'
+        | 'hook_drive'
+        | 'hook_drag'
+        | 'high_hook'
+        | 'top_roll'
+        | 'posting_top_roll'
+        | 'sweeping_top_roll'
+        | 'low_hand_top_roll'
+        | 'open_top_roll'
+        | 'kings_move'
+      )
+    | null;
+  /**
+   * Лимит: «до 85 кг» или «свыше 105 кг»
+   */
   weightClass?: string | null;
   isTitle?: boolean | null;
   score1?: number | null;
@@ -222,6 +295,9 @@ export interface Match {
   winner?: (number | null) | Athlete;
   resultType: 'normal' | 'injury' | 'dq' | 'no_contest';
   cardOrder?: number | null;
+  /**
+   * Внутренние: на сайте и в публичном API не показываются
+   */
   notes?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -366,6 +442,7 @@ export interface PayloadMigration {
 export interface AthletesSelect<T extends boolean = true> {
   name?: T;
   nameEn?: T;
+  nickname?: T;
   slug?: T;
   countryCode?: T;
   photo?: T;
@@ -373,6 +450,7 @@ export interface AthletesSelect<T extends boolean = true> {
   birthYear?: T;
   heightCm?: T;
   weightKg?: T;
+  mainTechnique?: T;
   style?: T;
   achievements?: T;
   isFeatured?: T;
@@ -403,6 +481,8 @@ export interface MatchesSelect<T extends boolean = true> {
   athlete1?: T;
   athlete2?: T;
   hand?: T;
+  technique1?: T;
+  technique2?: T;
   weightClass?: T;
   isTitle?: T;
   score1?: T;

@@ -1,14 +1,23 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { cache } from 'react'
 
+import { AthleteMatches } from '@/components/AthleteMatches'
 import { AthletePhoto } from '@/components/AthletePhoto'
 import { CountryFlag } from '@/components/CountryFlag'
 import { StatsReveal } from '@/components/StatsReveal'
-import { computeAthleteStats } from '@/lib/athleteStats'
+import { StyleScale } from '@/components/StyleScale'
+import { computeAthleteStats, computeStyleProfile, pickRecentMatches } from '@/lib/athleteStats'
+import { getCurrentWeightClass, toHistoryRow, type HistoryRow } from '@/lib/athleteView'
 import { getPhoto } from '@/lib/media'
-import { getPayloadClient } from '@/lib/payload'
+import { getAthleteBySlug, getAthleteMatches, getOpponentIds, getWinRates } from '@/lib/queries/athletes'
+import {
+  STYLE_LABELS,
+  getTechniqueLabel,
+  getTechniqueStyle,
+  isTechnique,
+  type WrestlingStyle,
+} from '@/lib/techniques'
 
 import styles from './profile.module.css'
 
@@ -16,34 +25,47 @@ export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string }> }
 
-const getAthlete = cache(async (slug: string) => {
-  const payload = await getPayloadClient()
-  const { docs } = await payload.find({
-    collection: 'athletes',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    depth: 1,
-  })
-  return docs[0] ?? null
-})
+// Стиль борца — лёгкой подсветкой шапки и обводкой бейджа, не заливкой (design/README.md)
+const HEAD_TINT: Record<WrestlingStyle, string> = {
+  inside: styles.headInside,
+  outside: styles.headOutside,
+  universal: styles.headUniversal,
+}
+const BADGE: Record<WrestlingStyle, string> = {
+  inside: styles.badgeInside,
+  outside: styles.badgeOutside,
+  universal: styles.badgeUniversal,
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const athlete = await getAthlete((await params).slug)
+  const athlete = await getAthleteBySlug((await params).slug)
   return { title: athlete?.name ?? 'Борец не найден' }
 }
 
 export default async function AthleteProfilePage({ params }: Props) {
-  const athlete = await getAthlete((await params).slug)
+  const athlete = await getAthleteBySlug((await params).slug)
   if (!athlete) notFound()
 
-  // Подробный профиль — только у известных борцов (PROJECT.md § 5)
-  const stats = athlete.isFeatured ? await getStats(athlete.id) : null
+  // Базовый профиль (рекорд и история) — у всех, подробный — у известных (PROJECT.md § 5, п.11 Влада)
+  const featured = Boolean(athlete.isFeatured)
+  const matches = await getAthleteMatches(athlete.id)
+  const winRates = await getWinRates(getOpponentIds(athlete.id, matches))
+  const recent = pickRecentMatches(matches)
+  const stats = computeAthleteStats(athlete.id, matches)
+  const history = matches
+    .map((m) => toHistoryRow(athlete.id, m, winRates))
+    .filter((row): row is HistoryRow => row !== null)
 
+  const styleProfile = computeStyleProfile(athlete.id, matches)
+  const style = featured && styleProfile.enough ? styleProfile.style : undefined
+  const technique = featured && isTechnique(athlete.mainTechnique) ? athlete.mainTechnique : null
+  const weightClass = getCurrentWeightClass(matches)
+
+  // п.6 Влада: второстепенное — в поп-ап у имени, чтобы не отвлекать от статистики
   const facts = [
     athlete.birthYear ? ['Год рождения', String(athlete.birthYear)] : null,
     athlete.heightCm ? ['Рост', `${athlete.heightCm} см`] : null,
-    athlete.weightKg ? ['Вес', `${athlete.weightKg} кг`] : null,
-    athlete.style ? ['Стиль', athlete.style] : null,
+    athlete.weightKg ? ['Актуальный вес', `${athlete.weightKg} кг`] : null,
   ].filter((f): f is string[] => f !== null)
 
   const photo = getPhoto(athlete.photo)
@@ -51,51 +73,82 @@ export default async function AthleteProfilePage({ params }: Props) {
   return (
     <>
       <Link href="/athletes" className={styles.back}>
-        ← Все борцы
+        ← Все рукоборцы
       </Link>
-      <div className={styles.head}>
-        <AthletePhoto photo={photo} name={athlete.name} size="profile" />
+      <section className={`${styles.head} ${style ? HEAD_TINT[style] : ''}`}>
+        <AthletePhoto photo={photo} name={athlete.name} size="profile" ring={style} />
         <div className={styles.info}>
-          <h1 className={styles.name}>{athlete.name}</h1>
-          {athlete.nameEn ? <p className={styles.nameEn}>{athlete.nameEn}</p> : null}
-          <p className={styles.country}>
-            <CountryFlag code={athlete.countryCode} />
-            <span>{athlete.countryCode}</span>
-          </p>
-          {athlete.isFeatured && facts.length > 0 ? (
-            <dl className={styles.facts}>
-              {facts.map(([label, value]) => (
-                <div key={label} className={styles.fact}>
-                  <dt className={styles.factLabel}>{label}</dt>
-                  <dd>{value}</dd>
+          <div className={styles.nameRow}>
+            <h1 className={styles.name}>{athlete.name}</h1>
+            {featured && facts.length > 0 ? (
+              <>
+                <button type="button" popoverTarget="athlete-facts" className={styles.factsButton} aria-label="Данные борца">
+                  i
+                </button>
+                <div id="athlete-facts" popover="auto" className={styles.facts}>
+                  <p className={styles.factsTitle}>{athlete.name}</p>
+                  <dl className={styles.factsList}>
+                    {facts.map(([label, value]) => (
+                      <div key={label} className={styles.fact}>
+                        <dt className={styles.factLabel}>{label}</dt>
+                        <dd>{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
-              ))}
-            </dl>
-          ) : null}
-          {photo && athlete.photoSource ? (
-            <p className={styles.source}>Фото: {athlete.photoSource}</p>
+              </>
+            ) : null}
+          </div>
+          {athlete.nickname ? <p className={styles.nickname}>«{athlete.nickname}»</p> : null}
+          <p className={styles.meta}>
+            <span className={styles.country}>
+              <CountryFlag code={athlete.countryCode} />
+              {athlete.countryCode}
+            </span>
+            {/* п.3 и п.17 Влада: категория вместо веса, лимит — подсказкой */}
+            {weightClass ? (
+              <>
+                <span aria-hidden>·</span>
+                <span title={weightClass.limit ?? undefined}>{weightClass.label}</span>
+              </>
+            ) : null}
+          </p>
+          {/* п.4 Влада: сначала стиль, потом техника — она разновидность стиля */}
+          {style || technique ? (
+            <p className={styles.badges}>
+              {style ? <span className={`${styles.badge} ${BADGE[style]}`}>{STYLE_LABELS[style].badge}</span> : null}
+              {technique ? (
+                <span className={`${styles.badge} ${BADGE[getTechniqueStyle(technique)]}`}>
+                  {getTechniqueLabel(technique)}
+                </span>
+              ) : null}
+            </p>
           ) : null}
         </div>
-      </div>
-      {athlete.isFeatured && athlete.achievements ? (
+      </section>
+      {featured ? (
+        <section className={styles.section}>
+          <StyleScale profile={styleProfile} />
+        </section>
+      ) : null}
+      {featured && athlete.achievements ? (
         <section className={styles.section}>
           <h2>Достижения</h2>
           <p className={styles.achievements}>{athlete.achievements}</p>
         </section>
       ) : null}
-      {stats ? <StatsReveal stats={stats} /> : null}
+      {history.length > 0 ? (
+        <>
+          <StatsReveal
+            stats={stats}
+            recent={recent ? computeAthleteStats(athlete.id, recent) : null}
+            showTechniques={featured}
+          />
+          <AthleteMatches rows={history} />
+        </>
+      ) : null}
+      {/* п.8 Влада: источник фото обязателен (юр. минимум), но не должен отвлекать — в самом низу */}
+      {photo && athlete.photoSource ? <p className={styles.source}>Фото: {athlete.photoSource}</p> : null}
     </>
   )
-}
-
-async function getStats(athleteId: number) {
-  const payload = await getPayloadClient()
-  const { docs } = await payload.find({
-    collection: 'matches',
-    where: { or: [{ athlete1: { equals: athleteId } }, { athlete2: { equals: athleteId } }] },
-    depth: 0,
-    limit: 1000,
-    pagination: false,
-  })
-  return computeAthleteStats(athleteId, docs)
 }

@@ -51,7 +51,8 @@ const ivan = await ensureAthlete({
   birthYear: 1990,
   heightCm: 185,
   weightKg: 100,
-  style: 'Топ-ролл',
+  mainTechnique: 'posting_top_roll',
+  nickname: 'Тестовый',
   achievements: 'Тестовое достижение 1\nТестовое достижение 2',
   isFeatured: true,
 })
@@ -62,7 +63,7 @@ const john = await ensureAthlete({
   countryCode: 'US',
   heightCm: 190,
   weightKg: 110,
-  style: 'Хук',
+  mainTechnique: 'hook',
   achievements: 'Тестовое достижение',
   isFeatured: true,
 })
@@ -105,6 +106,44 @@ if ((await findId('events', 'east-vs-west-ii')) === null) {
   await make(3, { athlete1: giorgi, athlete2: ivan, resultType: 'injury', winner: ivan, notes: 'травма кисти' })
   await make(4, { athlete1: giorgi, athlete2: john, resultType: 'dq', winner: john })
   await make(5, { athlete1: ivan, athlete2: john, resultType: 'no_contest' })
+}
+
+// Техники и прозвища появились позже борцов (docs/changes/vlad-feedback-2026-09-27.md)
+await payload.update({ collection: 'athletes', id: ivan, data: { mainTechnique: 'posting_top_roll', nickname: 'Тестовый' } })
+await payload.update({ collection: 'athletes', id: john, data: { mainTechnique: 'hook' } })
+
+// Турнир 3 — техники: пусто → подставится основная техника борца (хук Matches.beforeChange)
+if ((await findId('events', 'east-vs-west-iii')) === null) {
+  const event = await payload.create({
+    collection: 'events',
+    data: { title: 'East vs West III (тест)', slug: 'east-vs-west-iii', date: '2026-06-01T12:00:00.000Z', location: 'Дубай' },
+  })
+  const make = (order: number, data: Record<string, unknown>) =>
+    payload.create({
+      collection: 'matches',
+      data: { event: event.id, athlete1: ivan, athlete2: john, hand: 'right', resultType: 'normal', cardOrder: order, ...data },
+    })
+  await make(1, { isTitle: true, weightClass: 'до 100 кг', score1: 3, score2: 1, winner: ivan })
+  await make(2, { athlete1: john, athlete2: ivan, hand: 'left', weightClass: 'свыше 100 кг', score1: 3, score2: 2, winner: john, technique1: 'flop_press', technique2: 'hook' })
+  await make(3, { athlete2: giorgi, weightClass: 'до 100 кг', score1: 3, score2: 0, winner: ivan })
+  await make(4, { athlete1: giorgi, athlete2: ivan, hand: 'left', weightClass: 'до 105 кг', score1: 1, score2: 3, winner: ivan, technique2: 'sweeping_top_roll' })
+}
+
+// Турнир 4 — чтобы у Ивана набралось больше 10 матчей и появилась вкладка «Последние 10»
+if ((await findId('events', 'east-vs-west-iv')) === null) {
+  const event = await payload.create({
+    collection: 'events',
+    data: { title: 'East vs West IV (тест)', slug: 'east-vs-west-iv', date: '2026-08-20T12:00:00.000Z', location: 'Алматы' },
+  })
+  for (const [order, hand, score1, score2] of [[1, 'right', 3, 1], [2, 'left', 2, 3], [3, 'right', 3, 0]] as const) {
+    await payload.create({
+      collection: 'matches',
+      data: {
+        event: event.id, athlete1: ivan, athlete2: giorgi, hand, resultType: 'normal', cardOrder: order,
+        weightClass: 'до 85 кг', score1, score2, winner: score1 > score2 ? ivan : giorgi,
+      },
+    })
+  }
 }
 
 // Название матча появилось позже матчей: дозаполняем старые (хук считает его при сохранении)

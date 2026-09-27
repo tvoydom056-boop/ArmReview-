@@ -1,0 +1,147 @@
+.root {
+  margin-top: 24px;
+}
+
+.title {
+  margin: 0 0 12px;
+}
+
+.chips {
+  composes: chips from './ui.module.css';
+  margin-bottom: 12px;
+}
+
+.chip {
+  composes: chip from './ui.module.css';
+}
+
+.empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* заголовок года — design/ui.css .yearhead */
+.year {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 18px 0 10px;
+}
+
+.year b {
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.year span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* строка матча — design/ui.css .matchrow */
+.row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.row:hover {
+  background: var(--surface-hover);
+}
+
+@media (min-width: 720px) {
+  .row {
+    grid-template-columns: 44px 1fr auto;
+  }
+}
+
+/* исход — сплошной заливкой (design/README.md «залито = результат») */
+.wl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 6px 0;
+  border-radius: 8px;
+  font-family: var(--font-display);
+}
+
+.wl b {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.wl span {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.wlWin {
+  background: color-mix(in srgb, var(--win) 22%, transparent);
+  color: var(--win);
+}
+
+.wlLoss {
+  background: color-mix(in srgb, var(--loss) 22%, transparent);
+  color: var(--loss);
+}
+
+.wlNone {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* на телефоне турнир — под именем во второй колонке */
+.event {
+  display: grid;
+  grid-column: 2;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.event b {
+  color: var(--text);
+}
+
+@media (min-width: 720px) {
+  .event {
+    grid-column: auto;
+    text-align: right;
+  }
+}

@@ -39,7 +39,7 @@ export default async function EventPage({ params }: Props) {
   return (
     <>
       <Link href="/events" className={styles.back}>
-        ← Все турниры
+        ← Все ивенты
       </Link>
       <EventBoard event={toEventHeader(event)} matches={matches} />
     </>

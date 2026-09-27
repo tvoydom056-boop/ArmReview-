@@ -6,6 +6,15 @@
   margin: 0 0 12px;
 }
 
+.tabs {
+  composes: chips from './ui.module.css';
+  margin-bottom: 12px;
+}
+
+.chip {
+  composes: chip from './ui.module.css';
+}
+
 .card {
   composes: card from './ui.module.css';
   padding: 18px;
@@ -28,13 +37,42 @@
   composes: recordMain from './ui.module.css';
 }
 
-
 .winPill {
   composes: pillGold from './ui.module.css';
 }
 
 .dash {
   composes: recordDash from './ui.module.css';
+}
+
+/* п.10 Влада: раунды — второй строкой и мельче рекорда (design/ui.css .record__subline) */
+.subline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+}
+
+.subline .label {
+  margin: 0;
+}
+
+.recordSub {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.subPercent,
+.handPercent {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .hands {
@@ -49,13 +87,24 @@
   }
 }
 
-.handscore {
+.handline {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   margin: 0 0 10px;
+}
+
+.handscore {
+  margin: 0;
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+}
+
+p.handscore {
+  margin: 0 0 10px;
 }
 
 /* W/L-полоса по руке: исход — сплошной заливкой (design/README.md «залито = результат») */
@@ -95,6 +144,75 @@
 
 .loss {
   color: var(--loss);
+}
+
+/* строки техник — design/ui.css .statline */
+.lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+}
+
+.lineCount {
+  font-variant-numeric: tabular-nums;
+}
+
+.lineName {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.linePercent {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.lineBar {
+  grid-column: 1 / -1;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.lineBar > i {
+  display: block;
+  width: var(--v, 0%);
+  height: 100%;
+}
+
+/* один нейтральный цвет вместо радуги по техникам — п.9 Влада */
+.lineBar > .neutral {
+  background: var(--muted);
+}
+
+.lineBar > .win {
+  background: var(--win);
+}
+
+.lineBar > .loss {
+  background: var(--loss);
+}
+
+.empty {
+  filter: grayscale(1);
+}
+
+.emptyText {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .note {

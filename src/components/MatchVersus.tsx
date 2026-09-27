@@ -25,7 +25,13 @@ export function MatchVersus({
       </div>
       <ul className={styles.pills}>
         <li className={styles.pill}>{getHandLabel(match.hand)}</li>
-        {match.weightClass ? <li className={styles.pill}>{match.weightClass}</li> : null}
+        {/* п.17 Влада: название категории, лимит — мелко рядом (в строках списков его нет) */}
+        {match.weightClass ? (
+          <li className={styles.pill}>
+            {match.weightClass.label}
+            {match.weightClass.limit ? <span className={styles.limit}>{match.weightClass.limit}</span> : null}
+          </li>
+        ) : null}
         {match.isTitle ? <li className={styles.pillGold}>Титульный матч</li> : null}
       </ul>
     </div>

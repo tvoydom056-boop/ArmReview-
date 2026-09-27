@@ -22,6 +22,17 @@
   --gold-bg: rgb(234 179 8 / 0.16);
   --gold-border: rgb(161 98 7 / 0.45);
 
+  /* стиль борца (инсайд / аутсайд / универсал) — только обводка и текст, не заливка:
+     «залито = результат, обведено = стиль» (design/README.md). Красный — настоящий красный
+     (п.19 Влада), от поражения его отличает форма и подпись, а не оттенок.
+     Контраст текста на --surface ≥ 4.5 — docs/changes/vlad-feedback-2026-09-27.md § 6 */
+  --inside: #c81e1e;
+  --outside: #1d4ed8;
+  --universal: #7c2fd4;
+  --inside-tint: rgb(200 30 30 / 0.1);
+  --outside-tint: rgb(29 78 216 / 0.1);
+  --universal-tint: rgb(124 47 212 / 0.1);
+
   /* какая иконка видна в кнопке темы: в светлой — луна («включить тёмную»), в тёмной — солнце */
   --icon-moon: block;
   --icon-sun: none;
@@ -62,6 +73,13 @@
     --gold-bg: rgb(245 197 24 / 0.14);
     --gold-border: rgb(245 197 24 / 0.45);
 
+    --inside: #ff3b30;
+    --outside: #2f80ff;
+    --universal: #a855f7;
+    --inside-tint: rgb(255 59 48 / 0.13);
+    --outside-tint: rgb(47 128 255 / 0.13);
+    --universal-tint: rgb(168 85 247 / 0.13);
+
     --icon-moon: none;
     --icon-sun: block;
   }
@@ -87,6 +105,13 @@
   --gold: #f5c518;
   --gold-bg: rgb(245 197 24 / 0.14);
   --gold-border: rgb(245 197 24 / 0.45);
+
+  --inside: #ff3b30;
+  --outside: #2f80ff;
+  --universal: #a855f7;
+  --inside-tint: rgb(255 59 48 / 0.13);
+  --outside-tint: rgb(47 128 255 / 0.13);
+  --universal-tint: rgb(168 85 247 / 0.13);
 
   --icon-moon: none;
   --icon-sun: block;

@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import type { WrestlingStyle } from '@/lib/techniques'
+
 import styles from './AthletePhoto.module.css'
 
 type Props = {
@@ -8,12 +10,14 @@ type Props = {
   size?: 'card' | 'profile'
   // фото в первом экране грузим сразу (LCP), остальные — лениво
   eager?: boolean
+  // обводка цветом стиля борца (design/ui.css .avatar--inside); не задан — нейтральная
+  ring?: WrestlingStyle
 }
 
 // Круглое фото — во всех макетах design/ (.avatar, .athletecard__photo), вопрос B плана restyle-2026-09
-export function AthletePhoto({ photo, name, size = 'card', eager = size === 'profile' }: Props) {
+export function AthletePhoto({ photo, name, size = 'card', eager = size === 'profile', ring }: Props) {
   return (
-    <div className={`${styles.frame} ${styles[size]}`}>
+    <div className={`${styles.frame} ${styles[size]} ${ring ? styles[ring] : ''}`}>
       {photo ? (
         <Image
           src={photo.url}

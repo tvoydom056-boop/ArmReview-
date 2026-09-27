@@ -57,9 +57,9 @@ export default function FrontendLayout({
               {siteConfig.name}
             </Link>
             <nav className="site-nav">
-              <NavLink href="/events">Турниры</NavLink>
-              <NavLink href="/top">Топ-100</NavLink>
-              <NavLink href="/athletes">Борцы</NavLink>
+              <NavLink href="/events">Ивенты</NavLink>
+              <NavLink href="/top">Лучшие матчи</NavLink>
+              <NavLink href="/athletes">Рукоборцы</NavLink>
             </nav>
           </header>
           <main className="site-main">{children}</main>

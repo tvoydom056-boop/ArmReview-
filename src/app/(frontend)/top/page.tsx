@@ -12,7 +12,7 @@ import { RATING_WEIGHTS } from '@/lib/rating'
 
 import styles from './top.module.css'
 
-export const metadata: Metadata = { title: 'Топ-100 матчей' }
+export const metadata: Metadata = { title: 'Лучшие матчи' }
 export const dynamic = 'force-dynamic'
 
 // Оттенки золота для долей шкал в полосе «Из чего складывается балл» (design/top.html)
@@ -25,7 +25,7 @@ export default async function TopPage() {
   return (
     <>
       <p className={styles.kicker}>Рейтинг зрителей</p>
-      <h1 className={styles.title}>Топ-100 матчей</h1>
+      <h1 className={styles.title}>Лучшие матчи</h1>
       <p className={styles.lead}>
         Балл — взвешенное среднее четырёх зрительских оценок с байесовским сглаживанием: пока голосов
         мало, балл тянется к среднему по сайту, поэтому матч с тремя голосами не обгонит матч с сотней.

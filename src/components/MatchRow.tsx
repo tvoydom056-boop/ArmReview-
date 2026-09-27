@@ -27,7 +27,7 @@ export function MatchRow({ match, cardNo }: { match: MatchView; cardNo: number }
         </Link>
         <div className={styles.tags}>
           <span className={styles.sub}>
-            {match.weightClass ? `${match.weightClass} · ` : ''}
+            {match.weightClass ? `${match.weightClass.label} · ` : ''}
             {getHandLabel(match.hand)}
           </span>
           {match.isTitle ? <span className={styles.titleTag}>Титульный</span> : null}

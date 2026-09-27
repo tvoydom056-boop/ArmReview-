@@ -48,3 +48,16 @@
     font-size: 52px;
   }
 }
+
+/* стиль борца — только обводкой (design/README.md «обведено = стиль») */
+.inside {
+  border-color: var(--inside);
+}
+
+.outside {
+  border-color: var(--outside);
+}
+
+.universal {
+  border-color: var(--universal);
+}

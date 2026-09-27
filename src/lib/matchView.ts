@@ -2,6 +2,7 @@ import type { Match } from '../../payload-types'
 
 import type { MatchRating } from './rating'
 import { refId } from './refId'
+import { toWeightClassView, type WeightClassView } from './weightClass'
 
 export type AthleteRef = { name: string; slug: string; countryCode: string }
 // Результат — спойлер: строки лежат отдельно и показываются только по кнопке (PROJECT.md § 12)
@@ -11,7 +12,7 @@ export type MatchView = {
   athlete1: AthleteRef
   athlete2: AthleteRef
   hand: 'right' | 'left'
-  weightClass: string | null
+  weightClass: WeightClassView | null
   isTitle: boolean
   outcome: MatchOutcome
   rating: MatchRating
@@ -55,7 +56,7 @@ export function toMatchView(match: Match, rating: MatchRating): MatchView | null
     athlete1: { name: a1.name, slug: a1.slug, countryCode: a1.countryCode },
     athlete2: { name: a2.name, slug: a2.slug, countryCode: a2.countryCode },
     hand: match.hand,
-    weightClass: match.weightClass ?? null,
+    weightClass: toWeightClassView(match.weightClass),
     isTitle: Boolean(match.isTitle),
     outcome: getMatchOutcome({
       resultType: match.resultType,

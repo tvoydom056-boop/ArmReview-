@@ -7,7 +7,7 @@ import { getEvents } from '@/lib/queries/events'
 
 import styles from './events.module.css'
 
-export const metadata: Metadata = { title: 'Турниры' }
+export const metadata: Metadata = { title: 'Ивенты' }
 export const dynamic = 'force-dynamic'
 
 export default async function EventsPage() {
@@ -15,7 +15,7 @@ export default async function EventsPage() {
 
   return (
     <>
-      <h1 className={styles.title}>Турниры</h1>
+      <h1 className={styles.title}>Ивенты</h1>
       {events.length === 0 ? (
         <EmptyState title="Турниров пока нет" hint="Первый турнир появится здесь, как только мы внесём его карту матчей." />
       ) : (

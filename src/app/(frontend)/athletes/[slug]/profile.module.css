@@ -10,7 +10,7 @@
   color: var(--text);
 }
 
-/* шапка борца — design/ui.css .hero, без подсветки по типу борца (нет данных, § 1 плана) */
+/* шапка борца — design/ui.css .hero; стиль борца — лёгкой подсветкой фона, не заливкой */
 .head {
   composes: card from '../../../../components/ui.module.css';
   display: flex;
@@ -19,6 +19,18 @@
   gap: 12px;
   padding: 22px 18px;
   text-align: center;
+}
+
+.headInside {
+  background: radial-gradient(120% 90% at 50% 0%, var(--inside-tint), transparent 70%), var(--surface);
+}
+
+.headOutside {
+  background: radial-gradient(120% 90% at 50% 0%, var(--outside-tint), transparent 70%), var(--surface);
+}
+
+.headUniversal {
+  background: radial-gradient(120% 90% at 50% 0%, var(--universal-tint), transparent 70%), var(--surface);
 }
 
 @media (min-width: 720px) {
@@ -31,10 +43,22 @@
   }
 }
 
-/* во всю ширину шапки, иначе в колонке по центру факты сжимаются по одному в ряд */
 .info {
   width: 100%;
   min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+@media (min-width: 720px) {
+  .nameRow {
+    justify-content: flex-start;
+  }
 }
 
 .name {
@@ -42,53 +66,138 @@
   overflow-wrap: anywhere;
 }
 
-.nameEn {
-  margin: 0;
+/* ⓘ у имени: открывает поп-ап с фактами (п.6 Влада). Popover API — без JS,
+   закрывается кликом мимо и Esc, работает с клавиатуры и по тапу */
+.factsButton {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-top: 4px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
   color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color var(--transition);
 }
 
-.country {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin: 12px 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-@media (min-width: 720px) {
-  .country {
-    justify-content: flex-start;
-  }
+.factsButton:hover {
+  color: var(--text);
 }
 
 .facts {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  margin: 16px 0 0;
+  width: min(320px, calc(100vw - 32px));
+  padding: 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text);
 }
 
-.fact {
-  composes: card from '../../../../components/ui.module.css';
-  padding: 10px 12px;
+.facts::backdrop {
+  background: var(--overlay);
+}
+
+.factsTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.factsList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.fact dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .factLabel {
   composes: label from '../../../../components/ui.module.css';
 }
 
-.fact dd {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 24px;
+.nickname {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.country {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (min-width: 720px) {
+  .meta {
+    justify-content: flex-start;
+  }
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+
+@media (min-width: 720px) {
+  .badges {
+    justify-content: flex-start;
+  }
+}
+
+/* стиль и техника — только обводка и текст (design/ui.css .stylebadge) */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
   font-weight: 700;
-  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.badgeInside {
+  color: var(--inside);
+}
+
+.badgeOutside {
+  color: var(--outside);
+}
+
+.badgeUniversal {
+  color: var(--universal);
 }
 
 .source {
-  font-size: 12px;
+  margin: 32px 0 0;
+  font-size: 11px;
   color: var(--muted);
 }
 

@@ -52,7 +52,7 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
           <EmptyState
             title="Карта матчей ещё не объявлена"
             hint="Пары появятся здесь, как только организаторы их объявят."
-            actions={[{ href: '/events', label: 'Все турниры' }]}
+            actions={[{ href: '/events', label: 'Все ивенты' }]}
           />
         ) : (
           <>
