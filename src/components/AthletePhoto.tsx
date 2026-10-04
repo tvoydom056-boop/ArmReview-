@@ -1,11 +1,12 @@
 import Image from 'next/image'
 
+import type { Photo } from '@/lib/media'
 import type { WrestlingStyle } from '@/lib/techniques'
 
 import styles from './AthletePhoto.module.css'
 
 type Props = {
-  photo: { url: string; alt: string } | null
+  photo: Photo | null
   name: string
   size?: 'card' | 'profile'
   // фото в первом экране грузим сразу (LCP), остальные — лениво
@@ -25,6 +26,7 @@ export function AthletePhoto({ photo, name, size = 'card', eager = size === 'pro
           fill
           sizes="150px"
           className={styles.img}
+          style={{ objectPosition: photo.position }}
           loading={eager ? 'eager' : undefined}
           unoptimized
         />

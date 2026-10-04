@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import type { Photo } from '@/lib/media'
+
 import { AthletePhoto } from './AthletePhoto'
 import styles from './AthleteCard.module.css'
 import { CountryFlag } from './CountryFlag'
@@ -9,7 +11,7 @@ type Props = {
   name: string
   countryCode: string
   weightKg: number | null
-  photo: { url: string; alt: string } | null
+  photo: Photo | null
   isFeatured: boolean
   eager?: boolean
 }

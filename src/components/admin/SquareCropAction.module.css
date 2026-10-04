@@ -1,0 +1,55 @@
+/* Цвета — переменные темы админки Payload, чтобы окно совпадало со светлой и тёмной темой */
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 32px;
+}
+
+.area {
+  position: relative;
+  height: min(60vh, 520px);
+  overflow: hidden;
+  border-radius: var(--style-radius-m, 4px);
+  background: var(--theme-elevation-900);
+}
+
+.hint,
+.note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--theme-elevation-500);
+}
+
+.note {
+  align-self: center;
+}
+
+.controls {
+  display: grid;
+  gap: 12px;
+  max-width: 560px;
+}
+
+.control {
+  display: grid;
+  grid-template-columns: 80px 1fr 48px;
+  align-items: center;
+  gap: 12px;
+}
+
+.value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.error {
+  margin: 0;
+  color: var(--theme-error-500);
+}

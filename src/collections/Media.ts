@@ -5,6 +5,10 @@ import { anyone } from './access'
 export const Media: CollectionConfig = {
   slug: 'media',
   access: { read: anyone },
+  admin: {
+    // Встроенный редактор Payload не умеет поворот и квадрат — добавляем свою кнопку рядом
+    components: { edit: { Upload: '/components/admin/MediaUpload#MediaUpload' } },
+  },
   upload: {
     // На сервере — вне папки релиза (/var/lib/armreview/media), иначе картинки «уедут» вместе с
     // releases/<версия> при следующей выкатке. Payload не резолвит путь: относительный — от cwd процесса

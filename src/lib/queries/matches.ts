@@ -1,12 +1,12 @@
 import type { Match } from '../../../payload-types'
 import { toMatchView, type MatchView } from '../matchView'
-import { getPhoto } from '../media'
+import { getPhoto, type Photo } from '../media'
 import { getPayloadClient } from '../payload'
 import { getVotingState, type VotingState } from '../votingWindow'
 import { formatEventDate } from '../formatDate'
 import { getRatingsByMatch, NO_VOTES } from './ratings'
 
-type AthletePhoto = { url: string; alt: string } | null
+type AthletePhoto = Photo | null
 
 export type MatchPanelData = {
   match: MatchView

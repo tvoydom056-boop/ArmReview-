@@ -1,12 +1,11 @@
 import Link from 'next/link'
 
 import { getHandLabel, type AthleteRef, type MatchView } from '@/lib/matchView'
+import type { Photo } from '@/lib/media'
 
 import { AthletePhoto } from './AthletePhoto'
 import { CountryFlag } from './CountryFlag'
 import styles from './MatchVersus.module.css'
-
-type Photo = { url: string; alt: string } | null
 
 // Противостояние на странице матча — design/match.html .versus
 export function MatchVersus({
@@ -14,7 +13,7 @@ export function MatchVersus({
   photos,
 }: {
   match: MatchView
-  photos: { athlete1: Photo; athlete2: Photo }
+  photos: { athlete1: Photo | null; athlete2: Photo | null }
 }) {
   return (
     <div className={styles.card}>
@@ -38,7 +37,7 @@ export function MatchVersus({
   )
 }
 
-function Side({ athlete, photo }: { athlete: AthleteRef; photo: Photo }) {
+function Side({ athlete, photo }: { athlete: AthleteRef; photo: Photo | null }) {
   return (
     <Link href={`/athletes/${athlete.slug}`} className={styles.side}>
       <AthletePhoto photo={photo} name={athlete.name} eager />
