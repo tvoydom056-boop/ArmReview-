@@ -3,10 +3,12 @@
 import { Upload, useDocumentInfo, useForm } from '@payloadcms/ui'
 import { useEffect, useRef } from 'react'
 
+import { ReplaceOnFocalPointClick } from './ReplaceOnFocalPointClick'
 import { SquareCropAction } from './SquareCropAction'
 
 // Слот admin.components.edit.Upload коллекции media: стандартная загрузка Payload
 // плюс кнопка «Квадрат и поворот» рядом со встроенной «Редактировать изображение»
+// и замена файла кликом по «+» во встроенном редакторе
 export function MediaUpload() {
   const { collectionSlug, data, docConfig, initialState } = useDocumentInfo()
   useClearFileAfterSave(data?.updatedAt)
@@ -15,7 +17,10 @@ export function MediaUpload() {
   return (
     <Upload
       collectionSlug={collectionSlug}
-      customActions={[<SquareCropAction key="square-crop" />]}
+      customActions={[
+        <SquareCropAction key="square-crop" />,
+        <ReplaceOnFocalPointClick key="replace-file" accept={docConfig.upload.mimeTypes?.join(', ')} />,
+      ]}
       initialState={initialState}
       uploadConfig={docConfig.upload}
     />
