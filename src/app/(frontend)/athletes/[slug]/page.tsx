@@ -5,10 +5,12 @@ import { notFound } from 'next/navigation'
 import { AthleteMatches } from '@/components/AthleteMatches'
 import { AthletePhoto } from '@/components/AthletePhoto'
 import { CountryFlag } from '@/components/CountryFlag'
+import { EmptyState } from '@/components/EmptyState'
 import { StatsReveal } from '@/components/StatsReveal'
 import { StyleScale } from '@/components/StyleScale'
 import { computeAthleteStats, computeStyleProfile, pickRecentMatches } from '@/lib/athleteStats'
 import { getCurrentWeightClass, toHistoryRow, type HistoryRow } from '@/lib/athleteView'
+import { getCountryName } from '@/lib/country'
 import { getPhoto } from '@/lib/media'
 import { getAthleteBySlug, getAthleteMatches, getOpponentIds, getWinRates } from '@/lib/queries/athletes'
 import {
@@ -103,7 +105,7 @@ export default async function AthleteProfilePage({ params }: Props) {
           <p className={styles.meta}>
             <span className={styles.country}>
               <CountryFlag code={athlete.countryCode} />
-              {athlete.countryCode}
+              {getCountryName(athlete.countryCode)}
             </span>
             {/* п.3 и п.17 Влада: категория вместо веса, лимит — подсказкой */}
             {weightClass ? (
@@ -153,7 +155,15 @@ export default async function AthleteProfilePage({ params }: Props) {
           />
           <AthleteMatches rows={history} />
         </>
-      ) : null}
+      ) : (
+        <section className={styles.section}>
+          <EmptyState
+            title="Матчей пока нет"
+            hint="Статистика и история появятся, когда в базе будут матчи с участием борца."
+            actions={[{ href: '/events', label: 'Все ивенты' }]}
+          />
+        </section>
+      )}
       {/* п.8 Влада: источник фото обязателен (юр. минимум), но не должен отвлекать — в самом низу */}
       {photo && athlete.photoSource ? <p className={styles.source}>Фото: {athlete.photoSource}</p> : null}
     </>

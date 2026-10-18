@@ -1,0 +1,76 @@
+/* раскладка, нужная одной странице — design/contacts.html (.fact, .callout) */
+.lead {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 0 0 28px;
+}
+
+@media (min-width: 720px) {
+  .facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.fact {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+}
+
+.fact dt {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fact dd {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.card {
+  composes: card from '../../../components/ui.module.css';
+  margin: 0 0 16px;
+  padding: 18px;
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.label {
+  composes: label from '../../../components/ui.module.css';
+  margin: 0;
+}
+
+.pill {
+  composes: pillGold from '../../../components/ui.module.css';
+}
+
+/* .page h2 из LegalPage даёт отступ 36px — внутри карточки он лишний */
+.card .cardTitle {
+  margin: 0 0 10px;
+}
+
+.card p:last-child,
+.card ol:last-child,
+.card ul:last-child {
+  margin-bottom: 0;
+}

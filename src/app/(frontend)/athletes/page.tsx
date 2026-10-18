@@ -4,6 +4,7 @@ import { AthleteCard } from '@/components/AthleteCard'
 import { EmptyState } from '@/components/EmptyState'
 import { getPhoto } from '@/lib/media'
 import { getPayloadClient } from '@/lib/payload'
+import { pluralize } from '@/lib/plural'
 
 import styles from './athletes.module.css'
 
@@ -25,25 +26,32 @@ export default async function AthletesPage() {
 
   return (
     <>
+      <p className={styles.kicker}>База участников</p>
       <h1 className={styles.title}>Рукоборцы</h1>
+      <p className={styles.lead}>Все, кто хоть раз выходил к столу на турнирах в базе.</p>
       {athletes.length === 0 ? (
         <EmptyState title="Борцов пока нет" hint="Карточки появятся по мере разбора турниров." />
       ) : (
-        <ul className={styles.grid}>
-          {athletes.map((a, i) => (
-            <li key={a.id}>
-              <AthleteCard
-                eager={i < EAGER_PHOTOS}
-                slug={a.slug}
-                name={a.name}
-                countryCode={a.countryCode}
-                weightKg={a.weightKg ?? null}
-                photo={getPhoto(a.photo)}
-                isFeatured={Boolean(a.isFeatured)}
-              />
-            </li>
-          ))}
-        </ul>
+        <>
+          <p className={styles.count}>
+            {athletes.length} {pluralize(athletes.length, ['борец', 'борца', 'борцов'])}
+          </p>
+          <ul className={styles.grid}>
+            {athletes.map((a, i) => (
+              <li key={a.id}>
+                <AthleteCard
+                  eager={i < EAGER_PHOTOS}
+                  slug={a.slug}
+                  name={a.name}
+                  countryCode={a.countryCode}
+                  weightKg={a.weightKg ?? null}
+                  photo={getPhoto(a.photo)}
+                  isFeatured={Boolean(a.isFeatured)}
+                />
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </>
   )

@@ -1,10 +1,13 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
 
 import { MatchVotePanel } from '@/features/voting/MatchVotePanel'
 import { getMatchPanelData } from '@/lib/queries/matches'
 import { VOTING_ENABLED } from '@/lib/siteConfig'
+
+import styles from './match.module.css'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,5 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function MatchPage({ params }: Props) {
   const data = await loadMatch((await params).id)
   if (!data) notFound()
-  return <MatchVotePanel data={data} />
+  return (
+    <>
+      <Link href={`/events/${data.event.slug}`} className={styles.back}>
+        ← К карте матчей
+      </Link>
+      <MatchVotePanel data={data} />
+    </>
+  )
 }
