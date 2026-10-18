@@ -27,9 +27,11 @@ export const Votes: CollectionConfig = {
   // Гонка «проверил — записал»: дубль голоса не пускает сама БД (STRUCTURE.md § 2)
   indexes: [{ fields: ['match', 'deviceId'], unique: true }],
   fields: [
-    { name: 'match', type: 'relationship', relationTo: 'matches', label: 'Матч', required: true },
-    { name: 'deviceId', type: 'text', label: 'Устройство (cookie)', required: true, index: true },
-    { name: 'ipHash', type: 'text', label: 'Хеш IP', required: true, index: true },
+    // Идентичность голоса админ менять не может: правка deviceId/ipHash/матча обходит квоты и уникальность.
+    // Создаёт голос только серверный код через Local API (он обходит field access)
+    { name: 'match', type: 'relationship', relationTo: 'matches', label: 'Матч', required: true, access: { update: () => false } },
+    { name: 'deviceId', type: 'text', label: 'Устройство (cookie)', required: true, index: true, access: { update: () => false } },
+    { name: 'ipHash', type: 'text', label: 'Хеш IP', required: true, index: true, access: { update: () => false } },
     scale('spectacle', 'Зрелищность'),
     scale('intrigue', 'Интрига'),
     scale('technique', 'Техничность'),

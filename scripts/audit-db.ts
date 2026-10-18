@@ -120,6 +120,15 @@ try {
   const { auditVoting } = await import('./audit-voting')
   await auditVoting(payload, db, makeMatch)
 
+  // F6: удаление матча с голосами — голоса уходят вместе с ним, а не роняют удаление на NOT NULL
+  const doomed = await makeMatch()
+  await castVote({ matchId: String(doomed.id), spectacle: 3, intrigue: 3, technique: 3, refereeing: 3, openedAt: Date.now() - 5000 },
+    { deviceId: `doomed-${suffix}`, ipHash: `doomed-ip-${suffix}`, now: new Date() })
+  assert.equal((await payload.count({ collection: 'votes', where: { match: { equals: doomed.id } } })).totalDocs, 1)
+  await payload.delete({ collection: 'matches', id: doomed.id })
+  assert.equal((await payload.count({ collection: 'votes', where: { match: { equals: doomed.id } } })).totalDocs, 0)
+  console.log('PASS F6: match delete removes its votes')
+
   // PRAGMA читают только временную БД; raw SQL используется исключительно для диагностики.
   if ('all' in db.drizzle && typeof db.drizzle.all === 'function') {
     console.log('PRAGMA integrity_check', JSON.stringify(await db.drizzle.all(sql`PRAGMA integrity_check`)))

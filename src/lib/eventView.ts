@@ -4,6 +4,7 @@ import { formatEventDate } from './formatDate'
 import { getPhoto } from './media'
 
 export type EventHeaderData = {
+  slug: string
   title: string
   dateIso: string
   dateLabel: string
@@ -15,6 +16,7 @@ export type EventHeaderData = {
 // Ждёт событие с depth ≥ 1, иначе постера не будет
 export function toEventHeader(event: Event): EventHeaderData {
   return {
+    slug: event.slug,
     title: event.title,
     dateIso: event.date,
     dateLabel: formatEventDate(event.date),

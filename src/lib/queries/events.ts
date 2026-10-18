@@ -1,6 +1,7 @@
 import { toMatchView, type MatchView } from '../matchView'
 import { getPayloadClient } from '../payload'
-import { getRatingsByMatch, NO_VOTES } from './ratings'
+import { refId } from '../refId'
+import { getDisplayedRatings, NO_VOTES } from './ratings'
 
 export async function getEvents() {
   const payload = await getPayloadClient()
@@ -24,12 +25,20 @@ export async function getEventsWithMatchCount() {
     limit: 100,
     pagination: false,
   })
-  return Promise.all(
-    docs.map(async (event) => {
-      const { totalDocs } = await payload.count({ collection: 'matches', where: { event: { equals: event.id } } })
-      return { event, matchCount: totalDocs }
-    }),
-  )
+  // Один запрос на все матчи вместо count на каждый турнир
+  const { docs: matches } = await payload.find({
+    collection: 'matches',
+    depth: 0,
+    limit: 10000,
+    pagination: false,
+    select: { event: true },
+  })
+  const counts = new Map<number, number>()
+  for (const m of matches) {
+    const eventId = refId(m.event)
+    if (eventId !== null) counts.set(eventId, (counts.get(eventId) ?? 0) + 1)
+  }
+  return docs.map((event) => ({ event, matchCount: counts.get(event.id) ?? 0 }))
 }
 
 export async function getEventBySlug(slug: string) {
@@ -64,6 +73,6 @@ export async function getEventMatches(eventId: number): Promise<MatchView[]> {
     limit: 100,
     pagination: false,
   })
-  const ratings = await getRatingsByMatch()
+  const ratings = await getDisplayedRatings()
   return docs.flatMap((doc) => toMatchView(doc, ratings.get(doc.id) ?? NO_VOTES) ?? [])
 }

@@ -7,6 +7,10 @@
   transition: filter var(--transition);
 }
 
+.body:focus {
+  outline: none;
+}
+
 .root[data-open='false'] .body {
   filter: blur(9px);
   opacity: 0.5;

@@ -19,6 +19,13 @@ export const Matches: CollectionConfig = {
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'event', 'hand', 'cardOrder'] },
   access: { read: anyone },
   hooks: {
+    // votes.match_id: NOT NULL + ON DELETE SET NULL — удаление матча с голосами падало бы на ограничении БД.
+    // Голоса без матча не нужны, поэтому убираем их вместе с матчем (в той же транзакции)
+    beforeDelete: [
+      async ({ id, req }) => {
+        await req.payload.delete({ collection: 'votes', where: { match: { equals: id } }, req })
+      },
+    ],
     // Название матча хранится в базе только ради читаемого списка в админке; в публичный код не попадает
     // Техника: пусто при создании → основная техника борца, Влад правит только исключения.
     // Только при создании: у старых матчей техника — исторический факт, задним числом не подставляем

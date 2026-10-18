@@ -60,6 +60,11 @@ describe('computeAthleteStats', () => {
     expect(stats.total.rounds).toMatchObject({ won: 3, lost: 1 })
   })
 
+  it('матч без названного победителя — не поражение', () => {
+    const stats = computeAthleteStats(1, [match({}), match({ winner: null }), match({ winner: 2 })])
+    expect(stats.total.matches).toMatchObject({ won: 1, lost: 1 })
+  })
+
   it('меньше 3 матчей — без процентов', () => {
     const stats = computeAthleteStats(1, [match({ score1: 3, score2: 0 }), match({ score1: 3, score2: 1 })])
     expect(stats.total.matches.percent).toBeNull()

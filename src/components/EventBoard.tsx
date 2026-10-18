@@ -60,6 +60,7 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
       ) : (
         <EventMatches
           matches={matches}
+          watchedKey={event.slug}
           intro={
             <>
               <div className={styles.sectionHead}>
@@ -68,7 +69,7 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
               </div>
               <p className={styles.note}>
                 Счёт открывается в каждой строке отдельно — карту можно пролистать целиком, не узнав
-                результат матча, который вы ещё не смотрели.
+                результат матча, который вы ещё не смотрели. Если турнир уже смотрели, откройте все счета разом.
               </p>
             </>
           }

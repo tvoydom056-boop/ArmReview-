@@ -20,7 +20,10 @@ const isSqliteAdapter = (db: object): db is SQLiteAdapter => 'drizzle' in db
 export async function castVote(input: VoteInput, ctx: VoteContext): Promise<CastVoteResult> {
   // Бот-проверки отвечают как обычный успех — не выдаём, какую проверку не прошли
   if (input.website) return ok
-  if (ctx.now.getTime() - input.openedAt < MIN_MS_BEFORE_SUBMIT) return ok
+  // openedAt — по часам клиента. Если они спешат, разница отрицательна: это перекос часов, а не бот
+  // (бот и так подставит любое значение), поэтому такой голос принимаем, а не теряем молча
+  const elapsed = ctx.now.getTime() - input.openedAt
+  if (elapsed >= 0 && elapsed < MIN_MS_BEFORE_SUBMIT) return ok
 
   const payload = await getPayloadClient()
   const matchId = Number(input.matchId)

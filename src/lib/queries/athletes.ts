@@ -87,8 +87,19 @@ export async function getHandsByAthlete(): Promise<Map<number, Set<'right' | 'le
 // (isFeatured) и только когда техник в матчах хватает — иначе борца в карте нет
 export async function getStyleByAthlete(featuredIds: number[]): Promise<Map<number, WrestlingStyle>> {
   const styles = new Map<number, WrestlingStyle>()
+  if (featuredIds.length === 0) return styles
+  // Один запрос на всех вместо запроса на каждого борца; computeStyleProfile сам отбирает матчи борца
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'matches',
+    where: { or: [{ athlete1: { in: featuredIds } }, { athlete2: { in: featuredIds } }] },
+    depth: 0,
+    limit: 10000,
+    pagination: false,
+    select: { athlete1: true, athlete2: true, winner: true, hand: true, resultType: true, technique1: true, technique2: true },
+  })
   for (const id of featuredIds) {
-    const profile = computeStyleProfile(id, await getAthleteMatches(id))
+    const profile = computeStyleProfile(id, docs)
     if (profile.enough) styles.set(id, profile.style)
   }
   return styles

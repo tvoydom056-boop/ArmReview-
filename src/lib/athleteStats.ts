@@ -51,6 +51,7 @@ export type MatchLike = {
 type OwnMatch = {
   hand: 'right' | 'left'
   won: boolean
+  lost: boolean // победитель назван и это не он: матч без победителя — не поражение
   rounds: { won: number; lost: number } | null
   technique: Technique | null
 }
@@ -62,9 +63,11 @@ function toOwnMatch(athleteId: number, m: MatchLike): OwnMatch | null {
 
   const [own, other] = side === 1 ? [m.score1, m.score2] : [m.score2, m.score1]
   const technique = side === 1 ? m.technique1 : m.technique2
+  const winnerId = refId(m.winner)
   return {
     hand: m.hand,
-    won: refId(m.winner) === athleteId,
+    won: winnerId === athleteId,
+    lost: winnerId !== null && winnerId !== athleteId,
     rounds: own != null && other != null ? { won: own, lost: other } : null,
     technique: isTechnique(technique) ? technique : null,
   }
@@ -84,6 +87,7 @@ export function computeAthleteStats(athleteId: number, matches: MatchLike[]): At
 function handStats(own: OwnMatch[]): HandStats {
   const enough = own.length >= MIN_MATCHES_FOR_PERCENT
   const wins = own.filter((m) => m.won).length
+  const losses = own.filter((m) => m.lost).length
   let roundsWon = 0
   let roundsLost = 0
   for (const m of own) {
@@ -91,7 +95,7 @@ function handStats(own: OwnMatch[]): HandStats {
     roundsLost += m.rounds?.lost ?? 0
   }
   return {
-    matches: tally(wins, own.length - wins, enough),
+    matches: tally(wins, losses, enough),
     rounds: tally(roundsWon, roundsLost, enough),
   }
 }
@@ -179,7 +183,8 @@ export function computeWinRates(athleteIds: number[], matches: MatchLike[]): Map
     athleteIds.map((id) => {
       const own = matches.map((m) => toOwnMatch(id, m)).filter((m): m is OwnMatch => m !== null)
       const wins = own.filter((m) => m.won).length
-      return [id, tally(wins, own.length - wins, own.length >= MIN_MATCHES_FOR_PERCENT).percent]
+      const losses = own.filter((m) => m.lost).length
+      return [id, tally(wins, losses, own.length >= MIN_MATCHES_FOR_PERCENT).percent]
     }),
   )
 }

@@ -1,5 +1,6 @@
 /* design/ui.css .matchrow + раскладка строки из design/event.html */
 .row {
+  position: relative;
   display: grid;
   grid-template-columns: 38px 1fr;
   gap: 10px 12px;
@@ -40,7 +41,7 @@
 }
 
 .cardNo span {
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -62,6 +63,14 @@
 
 .fighters:hover {
   text-decoration: underline;
+}
+
+/* вся карточка — ссылка на матч (цель нажатия больше 24 px строки с именами); блок результата лежит выше */
+.fighters::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .fighter {
@@ -103,6 +112,8 @@
 
 /* на телефоне результат уходит под имена, отделён линией */
 .result {
+  position: relative;
+  z-index: 2;
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
@@ -121,6 +132,8 @@
 }
 
 .spoiler {
+  /* без бейджа оценки (альфа) блок прижат вправо, как колонка результата на десктопе */
+  margin-left: auto;
   min-width: 108px;
 }
 

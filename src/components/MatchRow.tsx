@@ -13,7 +13,7 @@ const PLACEHOLDER: MatchOutcome = { headline: 'Победа скрыта', score
 
 // Строка карты матчей — design/event.html .matchrow. Балл открыт (он не выдаёт победителя),
 // счёт — под своим спойлером в каждой строке, чтобы карту можно было пролистать без спойлеров
-export function MatchRow({ match, cardNo }: { match: MatchView; cardNo: number }) {
+export function MatchRow({ match, cardNo, revealed }: { match: MatchView; cardNo: number; revealed?: boolean }) {
   return (
     <article className={styles.row}>
       <div className={styles.cardNo}>
@@ -37,7 +37,13 @@ export function MatchRow({ match, cardNo }: { match: MatchView; cardNo: number }
       <div className={styles.result}>
         {VOTING_ENABLED ? <RatingBadge rating={match.rating} compact /> : null}
         <div className={styles.spoiler}>
-          <Spoiler variant="compact" action="Счёт" placeholder={<Outcome outcome={PLACEHOLDER} />}>
+          <Spoiler
+            variant="compact"
+            action="Счёт"
+            forceOpen={revealed}
+            label={`Показать счёт: ${match.athlete1.name} против ${match.athlete2.name}`}
+            placeholder={<Outcome outcome={PLACEHOLDER} />}
+          >
             <Outcome outcome={match.outcome} />
           </Spoiler>
         </div>

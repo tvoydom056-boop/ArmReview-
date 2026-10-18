@@ -6,7 +6,8 @@
 .versus {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  /* по верху, чтобы фото не «ступенькой» при двухстрочном имени; VS опущен к середине фото */
+  align-items: start;
   gap: 12px;
   text-align: center;
 }
@@ -53,6 +54,7 @@
 }
 
 .vs {
+  margin-top: 38px;
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;

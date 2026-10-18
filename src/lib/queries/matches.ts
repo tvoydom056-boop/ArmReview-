@@ -4,7 +4,7 @@ import { getPhoto, type Photo } from '../media'
 import { getPayloadClient } from '../payload'
 import { getVotingState, type VotingState } from '../votingWindow'
 import { formatEventDate } from '../formatDate'
-import { getRatingsByMatch, NO_VOTES } from './ratings'
+import { getDisplayedRatings, NO_VOTES } from './ratings'
 
 type AthletePhoto = Photo | null
 
@@ -28,7 +28,7 @@ export async function getMatchPanelData(id: number): Promise<MatchPanelData | nu
   const doc = docs[0]
   if (!doc || typeof doc.event !== 'object') return null
 
-  const ratings = await getRatingsByMatch()
+  const ratings = await getDisplayedRatings()
   const match = toMatchView(doc, ratings.get(doc.id) ?? NO_VOTES)
   if (!match) return null
 

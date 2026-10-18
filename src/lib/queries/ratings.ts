@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 import { getPayloadClient } from '../payload'
 import { computeGlobalMean, computeScore, computeTotal, type MatchRating } from '../rating'
+import { VOTING_ENABLED } from '../siteConfig'
 
 const rowSchema = z.object({
   match_id: z.number(),
@@ -17,6 +18,10 @@ const rowSchema = z.object({
 const isSqliteAdapter = (db: object): db is SQLiteAdapter => 'drizzle' in db
 
 export const NO_VOTES: MatchRating = { votes: 0, score: null }
+
+// Для страниц: пока голосование выключено (альфа), баллов нет и агрегат по votes не нужен
+export const getDisplayedRatings = async (): Promise<Map<number, MatchRating>> =>
+  VOTING_ENABLED ? getRatingsByMatch() : new Map()
 
 // Балл считаем SQL-агрегатом при запросе, без денормализации (PROJECT.md § 9).
 // Скрытые админом голоса (isHidden) не учитываются.
