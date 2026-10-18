@@ -8,7 +8,7 @@ import { isVotingOpen } from '@/lib/votingWindow'
 
 import { EmptyState } from './EmptyState'
 import styles from './EventBoard.module.css'
-import { MatchRow } from './MatchRow'
+import { EventMatches } from './EventMatches'
 
 // Шапка турнира и карта матчей: одна и та же на главной и на /events/[slug] (design/event.html)
 export function EventBoard({ event, matches }: { event: EventHeaderData; matches: MatchView[] }) {
@@ -46,33 +46,34 @@ export function EventBoard({ event, matches }: { event: EventHeaderData; matches
           ) : null}
         </div>
       </header>
-      <section>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Карта матчей</h2>
-          {matches.length > 0 ? <span className={styles.sectionSub}>по порядку в карте</span> : null}
-        </div>
-        {matches.length === 0 ? (
+      {matches.length === 0 ? (
+        <section>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.sectionTitle}>Карта матчей</h2>
+          </div>
           <EmptyState
             title="Карта матчей ещё не объявлена"
             hint="Пары появятся здесь, как только организаторы их объявят."
             actions={[{ href: '/events', label: 'Все ивенты' }]}
           />
-        ) : (
-          <>
-            <p className={styles.note}>
-              Счёт открывается в каждой строке отдельно — карту можно пролистать целиком, не узнав
-              результат матча, который вы ещё не смотрели.
-            </p>
-            <ol className={styles.list}>
-              {matches.map((m, i) => (
-                <li key={m.id}>
-                  <MatchRow match={m} cardNo={i + 1} />
-                </li>
-              ))}
-            </ol>
-          </>
-        )}
-      </section>
+        </section>
+      ) : (
+        <EventMatches
+          matches={matches}
+          intro={
+            <>
+              <div className={styles.sectionHead}>
+                <h2 className={styles.sectionTitle}>Карта матчей</h2>
+                <span className={styles.sectionSub}>по порядку в карте</span>
+              </div>
+              <p className={styles.note}>
+                Счёт открывается в каждой строке отдельно — карту можно пролистать целиком, не узнав
+                результат матча, который вы ещё не смотрели.
+              </p>
+            </>
+          }
+        />
+      )}
     </>
   )
 }

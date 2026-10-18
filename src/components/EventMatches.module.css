@@ -1,0 +1,22 @@
+.chips {
+  composes: chips from './ui.module.css';
+}
+
+.chip {
+  composes: chip from './ui.module.css';
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.empty {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
