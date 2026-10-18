@@ -1,0 +1,62 @@
+/* design/home.html .upcoming */
+.card {
+  composes: card from './ui.module.css';
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 18px;
+}
+
+@media (min-width: 640px) {
+  .card:has(.poster) {
+    grid-template-columns: 240px 1fr;
+    align-items: center;
+  }
+}
+
+.poster {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  margin: 6px 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.pill {
+  composes: pill from './ui.module.css';
+}
+
+.pillGold {
+  composes: pillGold from './ui.module.css';
+}
+
+.action {
+  composes: action from './ui.module.css';
+}

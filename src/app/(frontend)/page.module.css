@@ -1,0 +1,64 @@
+/* design/home.html: вводный блок и сетки секций */
+.lead {
+  max-width: 62ch;
+  margin: 12px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.label {
+  composes: label from '../../components/ui.module.css';
+  margin: 0 0 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.action {
+  composes: action from '../../components/ui.module.css';
+}
+
+.more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.more:hover {
+  color: var(--text);
+}

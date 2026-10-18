@@ -14,6 +14,24 @@ export async function getEvents() {
   return docs
 }
 
+// Турниры (новые первыми) с числом матчей в карте — для главной (design/home.html)
+export async function getEventsWithMatchCount() {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'events',
+    sort: '-date',
+    depth: 1,
+    limit: 100,
+    pagination: false,
+  })
+  return Promise.all(
+    docs.map(async (event) => {
+      const { totalDocs } = await payload.count({ collection: 'matches', where: { event: { equals: event.id } } })
+      return { event, matchCount: totalDocs }
+    }),
+  )
+}
+
 export async function getEventBySlug(slug: string) {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({
