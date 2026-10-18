@@ -15,8 +15,8 @@ export const Athletes: CollectionConfig = {
       type: 'text',
       label: 'Имя',
       required: true,
-      // п.15 фидбэка Влада: в русской версии все имена по-русски, латиница — в nameEn
-      admin: { description: 'Кириллицей, и у иностранцев тоже: «Эмре Йылдырым»' },
+      // Имена импорта EVW — латиницей (решение Danil, docs/changes/evw-import.md), а не по п.15 фидбэка Влада
+      admin: { description: 'Как показывать на сайте. Импорт EVW пишет латиницей: «Emre Yildirim»' },
     },
     {
       name: 'nameEn',

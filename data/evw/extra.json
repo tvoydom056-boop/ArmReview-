@@ -1,0 +1,27 @@
+{
+  "aliases": {
+    "Arthur Makarov": "Artur Makarov",
+    "Oleh Zhokh": "Oleg Zhokh",
+    "Vlad Krasovskis": "Vladislav Krasovskis"
+  },
+  "locationsRu": {
+    "Jiaxing, China": "Цзясин, Китай",
+    "Batumi, Georgia": "Батуми, Грузия",
+    "Little Rock, USA": "Литл-Рок, США"
+  },
+  "countryOverrides": {
+    "Alex Koshadze": "Georgia",
+    "Daniyar Roman": "Kazakhstan",
+    "Oleksandr Telyatnik": "Ukraine",
+    "Omer Dror": "Israel",
+    "Alex Kurdecha": "Poland",
+    "Lao Wu": "China",
+    "Dai Zheng": "China"
+  },
+  "countryNotes": {
+    "Lao Wu": "не подтверждено: в источниках страны нет, предположено по месту турнира (Цзясин, Китай)",
+    "Dai Zheng": "не подтверждено: в источниках страны нет, предположено по месту турнира (Цзясин, Китай)",
+    "Grigorii Liashchuk": "страна не найдена ни в одном источнике — борец и его матч не импортируются, пока не добавлена в countryOverrides",
+    "Ryan Belanger": "goldsarm.com — USA (EVW 24 и 25), armrankings.com — Canada; взято USA"
+  }
+}

@@ -132,7 +132,7 @@ export interface UserAuthOperations {
 export interface Athlete {
   id: number;
   /**
-   * Кириллицей, и у иностранцев тоже: «Эмре Йылдырым»
+   * Как показывать на сайте. Импорт EVW пишет латиницей: «Emre Yildirim»
    */
   name: string;
   /**

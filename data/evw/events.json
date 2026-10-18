@@ -1,0 +1,770 @@
+{
+  "sources": [
+    "https://evwsports.com/evw-results/",
+    "https://www.armrankings.com/events/evw-24",
+    "https://www.armrankings.com/events/evw-25",
+    "https://www.armrankings.com/events/evw-26",
+    "https://www.goldsarm.com/events/east-vs-west-24",
+    "https://www.goldsarm.com/events/east-vs-west-25",
+    "https://www.goldsarm.com/events/east-vs-west-26"
+  ],
+  "notes": [
+    "Last 3 completed events as of 2026-10-06; EVW 27 is on 2026-10-24 in Budapest.",
+    "country=null where no source stated it.",
+    "worldTitle flags follow evwsports.com; goldsarm.com marks Morozov vs Gasparini (EVW 24) as a World Title, armrankings counts only 2 title matches there; armrankings counts 2 title matches at EVW 26 vs 4 on evwsports/goldsarm.",
+    "EVW 25: Koshadze/Zhuo, Roman/Liashchuk, Telyatnik/Dror (2-0 scores) appear only on evwsports.com results; armrankings lists 14 matches.",
+    "EVW 26 Matt Mask vs Arkona: evwsports says Super Heavyweight, goldsarm says Heavyweight."
+  ],
+  "events": [
+    {
+      "event": "EVW 26",
+      "date": "2026-09-12",
+      "location": "Jiaxing, China",
+      "matches": [
+        {
+          "winner": {
+            "name": "Lao Wu",
+            "country": null,
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Dai Zheng",
+            "country": null,
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Left",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Zhuo Xiaohai",
+            "country": "China",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Joffey Jolly",
+            "country": "Malaysia",
+            "inAthletesJson": false
+          },
+          "score": "3-1",
+          "arm": "Right",
+          "weightClass": "Lightweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Raimonds Liepiņš",
+            "country": "Latvia",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Rui Jiale",
+            "country": "China",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Welterweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Ethan Lovei",
+            "country": "France",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Josh Nicholas",
+            "country": "Malaysia",
+            "inAthletesJson": false
+          },
+          "score": "3-2",
+          "arm": "Right",
+          "weightClass": "Featherweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Kersten Mercieca",
+            "country": "Malta",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Tanapat Thammaya",
+            "country": "Thailand",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Welterweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Joseph Meranto",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Valen Low",
+            "country": "Singapore",
+            "inAthletesJson": true
+          },
+          "score": "3-1",
+          "arm": "Right",
+          "weightClass": "Featherweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Fia Reisek",
+            "country": "Sweden",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Yrysty Orazkhan",
+            "country": "Kazakhstan",
+            "inAthletesJson": false
+          },
+          "score": "4-1",
+          "arm": "Right",
+          "weightClass": "Lightweight",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Rustam Babaiev",
+            "country": "Ukraine",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Eldar Bubenko",
+            "country": "Russia",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Left",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Barbora Bajčiová",
+            "country": "Slovakia",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Marta Volkova",
+            "country": "Russia",
+            "inAthletesJson": false
+          },
+          "score": "4-0",
+          "arm": "Right",
+          "weightClass": "Open Weight (women)",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Oleg Chersakov",
+            "country": "Russia",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Arthur Makarov",
+            "country": "Russia",
+            "inAthletesJson": false
+          },
+          "score": "4-3",
+          "arm": "Right",
+          "weightClass": "Lightweight",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Riekerd Bornman",
+            "country": "South Africa",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Filip Larsson",
+            "country": "Sweden",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Zhao Zi Rui",
+            "country": "China",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "John Brzenk",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Bogdan Stoica",
+            "country": "Romania",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Irakli Zirakashvili",
+            "country": "Georgia",
+            "inAthletesJson": true
+          },
+          "score": "4-3",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Matt Mask",
+            "country": "Canada",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Leonidas Arkona",
+            "country": "Germany",
+            "inAthletesJson": false
+          },
+          "score": "4-0",
+          "arm": "Right",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Devon Larratt",
+            "country": "Canada",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Ivan Matyushenko",
+            "country": "Russia",
+            "inAthletesJson": true
+          },
+          "score": "4-0",
+          "arm": "Left",
+          "weightClass": "Heavyweight",
+          "worldTitle": false
+        }
+      ]
+    },
+    {
+      "event": "EVW 25",
+      "date": "2026-08-01",
+      "location": "Batumi, Georgia",
+      "matches": [
+        {
+          "winner": {
+            "name": "Alex Koshadze",
+            "country": null,
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Zhuo Xiaohai",
+            "country": "China",
+            "inAthletesJson": false
+          },
+          "score": "2-0",
+          "arm": "Right",
+          "weightClass": "Lightweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Daniyar Roman",
+            "country": null,
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Grigorii Liashchuk",
+            "country": null,
+            "inAthletesJson": false
+          },
+          "score": "2-0",
+          "arm": "Right",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Oleksandr Telyatnik",
+            "country": null,
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Omer Dror",
+            "country": null,
+            "inAthletesJson": false
+          },
+          "score": "2-0",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Vlad Krasovskis",
+            "country": "Latvia",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Artem Popov",
+            "country": "Ukraine",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Welterweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Tim Tallmadge",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Vala Ichqiti",
+            "country": "Georgia",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Welterweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Zurab Tavberidze",
+            "country": "Georgia",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Ryan Belanger",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Gabriela Vasconcelos",
+            "country": "Brazil",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Irina Driaeva",
+            "country": "Georgia",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Open Weight (women)",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Adam Wawrzynski",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Nurdaulet Aidarkhan",
+            "country": "Kazakhstan",
+            "inAthletesJson": true
+          },
+          "score": "3-2",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Eldar Bubenko",
+            "country": "Russia",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Paul Linn",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Daniel Procopciuc",
+            "country": "Moldova",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Vachagan Hovhannisyan",
+            "country": "Armenia",
+            "inAthletesJson": true
+          },
+          "score": "4-0",
+          "arm": "Left",
+          "weightClass": "Lightweight",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Krasimir Kostadinov",
+            "country": "Bulgaria",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Nugzari Chikadze",
+            "country": "Georgia",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Light Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Ibragim Sagov",
+            "country": "Russia",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Yordan Tsonev",
+            "country": "Bulgaria",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Light Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Oleh Zhokh",
+            "country": "Ukraine",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Luka Tsinadze",
+            "country": "Georgia",
+            "inAthletesJson": true
+          },
+          "score": "4-0",
+          "arm": "Left",
+          "weightClass": "Welterweight",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Kamil Jablonski",
+            "country": "Poland",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Georgi Tsvetkov",
+            "country": "Bulgaria",
+            "inAthletesJson": true
+          },
+          "score": "4-2",
+          "arm": "Right",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Vitaly Laletin",
+            "country": "Russia",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Alizhan Muratov",
+            "country": "Kazakhstan",
+            "inAthletesJson": true
+          },
+          "score": "4-0",
+          "arm": "Left",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": true
+        }
+      ]
+    },
+    {
+      "event": "EVW 24",
+      "date": "2026-06-06",
+      "location": "Little Rock, USA",
+      "matches": [
+        {
+          "winner": {
+            "name": "Bob Brown",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Isaiah Jones",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Welterweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Courtney Huycke",
+            "country": "Canada",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Nastasia Pastorkova",
+            "country": "Slovakia",
+            "inAthletesJson": false
+          },
+          "score": "3-1",
+          "arm": "Right",
+          "weightClass": "Lightweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Ryan Belanger",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Jason Merlo",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Jeremy Parker",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Auden Larratt",
+            "country": "Canada",
+            "inAthletesJson": false
+          },
+          "score": "3-1",
+          "arm": "Right",
+          "weightClass": "Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Irakli Zirakashvili",
+            "country": "Georgia",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Yoshinobu Kanai",
+            "country": "Japan",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Light Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Adam Wawrzynski",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Peter Čeleš",
+            "country": "Slovakia",
+            "inAthletesJson": false
+          },
+          "score": "3-1",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Tom Holland",
+            "country": "UK",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Justin Bishop",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "score": "3-1",
+          "arm": "Right",
+          "weightClass": "Lightweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Janis Amolins",
+            "country": "Latvia",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Craig Tullier",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Welterweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Corey West",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Pavlo Derbedyenyev",
+            "country": "Ukraine",
+            "inAthletesJson": false
+          },
+          "score": "3-0",
+          "arm": "Left",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Jerry Cadorette",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Kody Merritt",
+            "country": "USA",
+            "inAthletesJson": false
+          },
+          "score": "3-1",
+          "arm": "Left",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Tobias Sporrong",
+            "country": "Sweden",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Alex Kurdecha",
+            "country": null,
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Left",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Riekerd Bornman",
+            "country": "South Africa",
+            "inAthletesJson": false
+          },
+          "loser": {
+            "name": "Alizhan Muratov",
+            "country": "Kazakhstan",
+            "inAthletesJson": true
+          },
+          "score": "3-0",
+          "arm": "Right",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Bogdan Stoica",
+            "country": "Romania",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Todd Hutchings",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "score": "4-1",
+          "arm": "Right",
+          "weightClass": "Middleweight",
+          "worldTitle": true
+        },
+        {
+          "winner": {
+            "name": "Artyom Morozov",
+            "country": "Kazakhstan",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Ermes Gasparini",
+            "country": "Italy",
+            "inAthletesJson": true
+          },
+          "score": "4-1",
+          "arm": "Right",
+          "weightClass": "Super Heavyweight",
+          "worldTitle": false
+        },
+        {
+          "winner": {
+            "name": "Michael Todd",
+            "country": "USA",
+            "inAthletesJson": true
+          },
+          "loser": {
+            "name": "Oleg Petrenko",
+            "country": "Ukraine",
+            "inAthletesJson": true
+          },
+          "score": "4-0",
+          "arm": "Right",
+          "weightClass": "Light Heavyweight",
+          "worldTitle": true
+        }
+      ],
+      "cancelled": [
+        {
+          "athletes": [
+            "Justin Bishop",
+            "Daniel Ustinov"
+          ],
+          "note": "Cancelled (per goldsarm.com)"
+        }
+      ]
+    }
+  ]
+}

@@ -1,16 +1,20 @@
 // Весовая категория матча: в базе — лимит текстом («до 85 кг», «свыше 105 кг»), название
 // вычисляется здесь (docs/changes/vlad-feedback-2026-09-27.md, вопрос 48). Поменять названия
 // или границы можно без миграции.
-// TODO(вопрос 48): таблица названий — предположение по примеру Влада «полутяжёлый — до 85 кг»
+// Границы — как у East vs West (наш ориентир, docs/changes/evw-import.md, вопрос 4):
+// Featherweight 70, Lightweight 77, Welterweight 85, Middleweight 95, Light Heavyweight 105,
+// Heavyweight 115, дальше Super Heavyweight. Русские названия — общепринятые для этих границ.
+// TODO(вопрос 48): названия на русском подтвердить у Влада
 
 export const WEIGHT_CLASS_FORMAT = /^(до|свыше) (\d{2,3}) кг$/
 
 const NAMES: { maxKg: number; label: string }[] = [
-  { maxKg: 65, label: 'Лёгкий вес' },
-  { maxKg: 75, label: 'Полусредний вес' },
-  { maxKg: 80, label: 'Средний вес' },
-  { maxKg: 85, label: 'Полутяжёлый вес' },
-  { maxKg: 105, label: 'Тяжёлый вес' },
+  { maxKg: 70, label: 'Полулёгкий вес' },
+  { maxKg: 77, label: 'Лёгкий вес' },
+  { maxKg: 85, label: 'Полусредний вес' },
+  { maxKg: 95, label: 'Средний вес' },
+  { maxKg: 105, label: 'Полутяжёлый вес' },
+  { maxKg: 115, label: 'Тяжёлый вес' },
 ]
 const OPEN_LABEL = 'Супертяжёлый вес'
 

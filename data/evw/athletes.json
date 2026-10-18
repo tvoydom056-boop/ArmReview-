@@ -1,0 +1,1284 @@
+[
+    {
+        "name":  "Devon Larratt",
+        "country":  "Canada",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-DevonL-300x300.webp",
+        "photoFile":  "photos/devon-larratt.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  2
+                          },
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Devon",
+        "lastName":  "Larratt"
+    },
+    {
+        "name":  "Artyom Morozov",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-ArtyomM-300x300.webp",
+        "photoFile":  "photos/artyom-morozov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  3
+                          },
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Artyom",
+        "lastName":  "Morozov"
+    },
+    {
+        "name":  "Ermes Gasparini",
+        "country":  "Italy",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-ErmesG-300x300.webp",
+        "photoFile":  "photos/ermes-gasparini.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Ermes",
+        "lastName":  "Gasparini"
+    },
+    {
+        "name":  "Vitaly Laletin",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-VitaliiL-300x300.webp",
+        "photoFile":  "photos/vitaly-laletin.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  5
+                          },
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Vitaly",
+        "lastName":  "Laletin"
+    },
+    {
+        "name":  "Kamil Jablonski",
+        "country":  "Poland",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-KamilJ-300x300.webp",
+        "photoFile":  "photos/kamil-jablonski.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  6
+                          },
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  9
+                          }
+                      ],
+        "firstName":  "Kamil",
+        "lastName":  "Jablonski"
+    },
+    {
+        "name":  "Jerry Cadorette",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-JerryC-300x300.webp",
+        "photoFile":  "photos/jerry-cadorette.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Jerry",
+        "lastName":  "Cadorette"
+    },
+    {
+        "name":  "Michael Todd",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-MichaelT-300x300.webp",
+        "photoFile":  "photos/michael-todd.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  8
+                          },
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  4
+                          },
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Michael",
+        "lastName":  "Todd"
+    },
+    {
+        "name":  "Alex Kurdecha",
+        "country":  "Poland",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-AlexK-300x300.webp",
+        "photoFile":  "photos/alex-kurdecha.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  9
+                          },
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Alex",
+        "lastName":  "Kurdecha"
+    },
+    {
+        "name":  "Georgi Tsvetkov",
+        "country":  "Bulgaria",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-GeorgiT-300x300.webp",
+        "photoFile":  "photos/georgi-tsvetkov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  10
+                          }
+                      ],
+        "firstName":  "Georgi",
+        "lastName":  "Tsvetkov"
+    },
+    {
+        "name":  "Alizhan Muratov",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-AlizhanM-300x300.webp",
+        "photoFile":  "photos/alizhan-muratov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  2
+                          },
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  "champion"
+                          },
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Alizhan",
+        "lastName":  "Muratov"
+    },
+    {
+        "name":  "David Dadikyan",
+        "country":  "Armenia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-DavidD-300x300.webp",
+        "photoFile":  "photos/david-dadikyan.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  4
+                          },
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  3
+                          },
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "David",
+        "lastName":  "Dadikyan"
+    },
+    {
+        "name":  "Tobias Sporrong",
+        "country":  "Sweden",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-TobiasS-300x300.webp",
+        "photoFile":  "photos/tobias-sporrong.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Tobias",
+        "lastName":  "Sporrong"
+    },
+    {
+        "name":  "Ivan Matyushenko",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-IvanM-300x300.webp",
+        "photoFile":  "photos/ivan-matyushenko.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  8
+                          },
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  "champion"
+                          },
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Ivan",
+        "lastName":  "Matyushenko"
+    },
+    {
+        "name":  "Georgii Dzeranov",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-GeorgiiD-300x300.webp",
+        "photoFile":  "photos/georgii-dzeranov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Super Heavyweight (115kg / 254lb) PLUS",
+                              "rank":  10
+                          }
+                      ],
+        "firstName":  "Georgii",
+        "lastName":  "Dzeranov"
+    },
+    {
+        "name":  "Dave Chaffee",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-DaveC.webp",
+        "photoFile":  "photos/dave-chaffee.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Dave",
+        "lastName":  "Chaffee"
+    },
+    {
+        "name":  "Ibragim Sagov",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-IbragimS-300x300.webp",
+        "photoFile":  "photos/ibragim-sagov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Ibragim",
+        "lastName":  "Sagov"
+    },
+    {
+        "name":  "Yordan Tsonev",
+        "country":  "Bulgaria",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Yordan-Tsonev-300x300.webp",
+        "photoFile":  "photos/yordan-tsonev.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  5
+                          },
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Yordan",
+        "lastName":  "Tsonev"
+    },
+    {
+        "name":  "Serhii Kalinichenko",
+        "country":  "Ukraine",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-SerhiiK-300x300.webp",
+        "photoFile":  "photos/serhii-kalinichenko.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Serhii",
+        "lastName":  "Kalinichenko"
+    },
+    {
+        "name":  "Frank Lamparelli",
+        "country":  "Italy",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-FrankL-300x300.webp",
+        "photoFile":  "photos/frank-lamparelli.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Frank",
+        "lastName":  "Lamparelli"
+    },
+    {
+        "name":  "Sandris Šēdis",
+        "country":  "Latvia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-SandrisS-300x300.webp",
+        "photoFile":  "photos/sandris-dis.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  8
+                          },
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Sandris",
+        "lastName":  "Šēdis"
+    },
+    {
+        "name":  "Matt Mask",
+        "country":  "Canada",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-MattM-300x300.webp",
+        "photoFile":  "photos/matt-mask.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  9
+                          },
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  10
+                          },
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  8
+                          },
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  10
+                          }
+                      ],
+        "firstName":  "Matt",
+        "lastName":  "Mask"
+    },
+    {
+        "name":  "Lachlan Adair",
+        "country":  "Australia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-LachlanA-300x300.webp",
+        "photoFile":  "photos/lachlan-adair.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Heavyweight (115kg / 254lb)",
+                              "rank":  10
+                          }
+                      ],
+        "firstName":  "Lachlan",
+        "lastName":  "Adair"
+    },
+    {
+        "name":  "Evgeny Prudnik",
+        "country":  "Ukraine",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-EvgenyP-300x300.webp",
+        "photoFile":  "photos/evgeny-prudnik.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  4
+                          },
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Evgeny",
+        "lastName":  "Prudnik"
+    },
+    {
+        "name":  "Rino Mašić",
+        "country":  "Croatia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-RinoM-300x300.webp",
+        "photoFile":  "photos/rino-ma-i.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Rino",
+        "lastName":  "Mašić"
+    },
+    {
+        "name":  "Efe Kömek",
+        "country":  "Türkiye",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-EfeK-300x300.webp",
+        "photoFile":  "photos/efe-k-mek.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Efe",
+        "lastName":  "Kömek"
+    },
+    {
+        "name":  "Davit Arabuli",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-DavitA-300x300.webp",
+        "photoFile":  "photos/davit-arabuli.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  8
+                          }
+                      ],
+        "firstName":  "Davit",
+        "lastName":  "Arabuli"
+    },
+    {
+        "name":  "Marcio Barboza",
+        "country":  "Brazil",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-MarcioB-300x300.webp",
+        "photoFile":  "photos/marcio-barboza.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Heavyweight (115kg / 254lb)",
+                              "rank":  9
+                          }
+                      ],
+        "firstName":  "Marcio",
+        "lastName":  "Barboza"
+    },
+    {
+        "name":  "Oleg Petrenko",
+        "country":  "Ukraine",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-OlegP-300x300.webp",
+        "photoFile":  "photos/oleg-petrenko.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  2
+                          },
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  4
+                          },
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Oleg",
+        "lastName":  "Petrenko"
+    },
+    {
+        "name":  "Todd Hutchings",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-ToddH-300x300.webp",
+        "photoFile":  "photos/todd-hutchings.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  4
+                          },
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Todd",
+        "lastName":  "Hutchings"
+    },
+    {
+        "name":  "Krasimir Kostadinov",
+        "country":  "Bulgaria",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-KrasimirK-300x300.webp",
+        "photoFile":  "photos/krasimir-kostadinov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Krasimir",
+        "lastName":  "Kostadinov"
+    },
+    {
+        "name":  "Nugzari Chikadze",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-NugoC-300x300.webp",
+        "photoFile":  "photos/nugzari-chikadze.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Nugzari",
+        "lastName":  "Chikadze"
+    },
+    {
+        "name":  "Bogdan Stoica",
+        "country":  "Romania",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Bogdan-Stoica-300x300.webp",
+        "photoFile":  "photos/bogdan-stoica.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  7
+                          },
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Bogdan",
+        "lastName":  "Stoica"
+    },
+    {
+        "name":  "Irakli Zirakashvili",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-IrakliZ-300x300.webp",
+        "photoFile":  "photos/irakli-zirakashvili.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  9
+                          },
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Irakli",
+        "lastName":  "Zirakashvili"
+    },
+    {
+        "name":  "Yoshinobu Kanai",
+        "country":  "Japan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-YoshinobuK-300x300.webp",
+        "photoFile":  "photos/yoshinobu-kanai.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  10
+                          }
+                      ],
+        "firstName":  "Yoshinobu",
+        "lastName":  "Kanai"
+    },
+    {
+        "name":  "Aymeric Pradines",
+        "country":  "France",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-AymericP-300x300.webp",
+        "photoFile":  "photos/aymeric-pradines.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Aymeric",
+        "lastName":  "Pradines"
+    },
+    {
+        "name":  "Oleg Zhokh",
+        "country":  "Ukraine",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-OlegZ-300x300.webp",
+        "photoFile":  "photos/oleg-zhokh.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  6
+                          },
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  3
+                          },
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Oleg",
+        "lastName":  "Zhokh"
+    },
+    {
+        "name":  "Zurab Tavberidze",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-ZurabT-300x300.webp",
+        "photoFile":  "photos/zurab-tavberidze.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  7
+                          },
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Zurab",
+        "lastName":  "Tavberidze"
+    },
+    {
+        "name":  "Jonathan Breda",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-JonathonB-300x300.webp",
+        "photoFile":  "photos/jonathan-breda.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  8
+                          }
+                      ],
+        "firstName":  "Jonathan",
+        "lastName":  "Breda"
+    },
+    {
+        "name":  "Robbie Topie",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-RobbieT-300x300.webp",
+        "photoFile":  "photos/robbie-topie.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Light Heavyweight (105kg / 232lb)",
+                              "rank":  9
+                          }
+                      ],
+        "firstName":  "Robbie",
+        "lastName":  "Topie"
+    },
+    {
+        "name":  "Rustam Babaiev",
+        "country":  "Ukraine",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-RustamB-300x300.webp",
+        "photoFile":  "photos/rustam-babaiev.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  4
+                          },
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Rustam",
+        "lastName":  "Babaiev"
+    },
+    {
+        "name":  "Eldar Bubenko",
+        "country":  "Russia",
+        "photoUrl":  null,
+        "photoFile":  null,
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Eldar",
+        "lastName":  "Bubenko"
+    },
+    {
+        "name":  "Paul Linn",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-PaulL-300x300.webp",
+        "photoFile":  "photos/paul-linn.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Paul",
+        "lastName":  "Linn"
+    },
+    {
+        "name":  "Georgii Tautiev",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-GeorgiiT-300x300.webp",
+        "photoFile":  "photos/georgii-tautiev.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Georgii",
+        "lastName":  "Tautiev"
+    },
+    {
+        "name":  "Bacho Saginashvili",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-BachoS-300x300.webp",
+        "photoFile":  "photos/bacho-saginashvili.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  8
+                          }
+                      ],
+        "firstName":  "Bacho",
+        "lastName":  "Saginashvili"
+    },
+    {
+        "name":  "Davit Samushia",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-DavidS-300x300.webp",
+        "photoFile":  "photos/davit-samushia.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  9
+                          },
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Davit",
+        "lastName":  "Samushia"
+    },
+    {
+        "name":  "Adam Wawrzynski",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-AdamW-300x300.webp",
+        "photoFile":  "photos/adam-wawrzynski.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Middleweight (95kg / 209lb)",
+                              "rank":  10
+                          },
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  9
+                          }
+                      ],
+        "firstName":  "Adam",
+        "lastName":  "Wawrzynski"
+    },
+    {
+        "name":  "Betkili Oniani",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-BetkiliO-300x300.webp",
+        "photoFile":  "photos/betkili-oniani.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Betkili",
+        "lastName":  "Oniani"
+    },
+    {
+        "name":  "Artem Taynov",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-ArtemTaynov-300x300.webp",
+        "photoFile":  "photos/artem-taynov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Artem",
+        "lastName":  "Taynov"
+    },
+    {
+        "name":  "Talgat Aktaev",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-TalgatA-300x300.webp",
+        "photoFile":  "photos/talgat-aktaev.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Talgat",
+        "lastName":  "Aktaev"
+    },
+    {
+        "name":  "Maayan Shterengas",
+        "country":  "Israel",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Maayan-Shterengas-300x300.webp",
+        "photoFile":  "photos/maayan-shterengas.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  8
+                          }
+                      ],
+        "firstName":  "Maayan",
+        "lastName":  "Shterengas"
+    },
+    {
+        "name":  "Jason Merlo",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Jason-Merlo-300x300.webp",
+        "photoFile":  "photos/jason-merlo.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  9
+                          }
+                      ],
+        "firstName":  "Jason",
+        "lastName":  "Merlo"
+    },
+    {
+        "name":  "Oleksandr Telyatnik",
+        "country":  "Ukraine",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2026/04/EVW-Athletes-OleksandrT.webp",
+        "photoFile":  "photos/oleksandr-telyatnik.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Middleweight (95kg / 209lb)",
+                              "rank":  10
+                          },
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Oleksandr",
+        "lastName":  "Telyatnik"
+    },
+    {
+        "name":  "Nurdaulet Aidarkhan",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-NurdauletA-300x300.webp",
+        "photoFile":  "photos/nurdaulet-aidarkhan.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Nurdaulet",
+        "lastName":  "Aidarkhan"
+    },
+    {
+        "name":  "Vladimir Maiorov",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-VladimirM-300x300.webp",
+        "photoFile":  "photos/vladimir-maiorov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Vladimir",
+        "lastName":  "Maiorov"
+    },
+    {
+        "name":  "Abdulmanaf Tuzuyev",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-AbdulmanafT-300x300.webp",
+        "photoFile":  "photos/abdulmanaf-tuzuyev.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Abdulmanaf",
+        "lastName":  "Tuzuyev"
+    },
+    {
+        "name":  "Vladislav Krasovskis",
+        "country":  "Latvia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2026/04/EVW-Athletes-VladislavK.webp",
+        "photoFile":  "photos/vladislav-krasovskis.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Vladislav",
+        "lastName":  "Krasovskis"
+    },
+    {
+        "name":  "Tim Tallmadge",
+        "country":  "USA",
+        "photoUrl":  null,
+        "photoFile":  null,
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Tim",
+        "lastName":  "Tallmadge"
+    },
+    {
+        "name":  "Vala Ichqiti",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-ValaI-300x300.webp",
+        "photoFile":  "photos/vala-ichqiti.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  8
+                          }
+                      ],
+        "firstName":  "Vala",
+        "lastName":  "Ichqiti"
+    },
+    {
+        "name":  "Janis Amolins",
+        "country":  "Latvia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Janis-Amolins-300x300.webp",
+        "photoFile":  "photos/janis-amolins.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Welterweight (85kg / 187lb)",
+                              "rank":  10
+                          },
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Janis",
+        "lastName":  "Amolins"
+    },
+    {
+        "name":  "Vrezh Sedrakyan",
+        "country":  "Armenia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-VrezhS-300x300.webp",
+        "photoFile":  "photos/vrezh-sedrakyan.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Vrezh",
+        "lastName":  "Sedrakyan"
+    },
+    {
+        "name":  "Daniel Procopciuc",
+        "country":  "Moldova",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-DanielP-300x300.webp",
+        "photoFile":  "photos/daniel-procopciuc.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  3
+                          },
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  3
+                          },
+                          {
+                              "division":  "Left Arm Lightweight (77kg / 170lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Daniel",
+        "lastName":  "Procopciuc"
+    },
+    {
+        "name":  "Luka Tsinadze",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2026/06/EVW-Athletes-LukaTsinadze-300x300.webp",
+        "photoFile":  "photos/luka-tsinadze.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Luka",
+        "lastName":  "Tsinadze"
+    },
+    {
+        "name":  "Avtandil Tutberidze",
+        "country":  "Georgia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-AvtandilT-300x300.webp",
+        "photoFile":  "photos/avtandil-tutberidze.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Avtandil",
+        "lastName":  "Tutberidze"
+    },
+    {
+        "name":  "Paul Talbott",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-PaulT-300x300.webp",
+        "photoFile":  "photos/paul-talbott.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Paul",
+        "lastName":  "Talbott"
+    },
+    {
+        "name":  "Toms Rozits",
+        "country":  "Latvia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-TomsR-300x300.webp",
+        "photoFile":  "photos/toms-rozits.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Toms",
+        "lastName":  "Rozits"
+    },
+    {
+        "name":  "Artem Taranenko",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-ArtemTaranenko-300x300.webp",
+        "photoFile":  "photos/artem-taranenko.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  8
+                          }
+                      ],
+        "firstName":  "Artem",
+        "lastName":  "Taranenko"
+    },
+    {
+        "name":  "Eli Saidov",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2026/06/EVW-Athletes-EliSaidov-300x300.webp",
+        "photoFile":  "photos/eli-saidov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Welterweight (85kg / 187lb)",
+                              "rank":  9
+                          }
+                      ],
+        "firstName":  "Eli",
+        "lastName":  "Saidov"
+    },
+    {
+        "name":  "Artur Makarov",
+        "country":  "Russia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/10/EVW-Athletes-ArturM.webp",
+        "photoFile":  "photos/artur-makarov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Artur",
+        "lastName":  "Makarov"
+    },
+    {
+        "name":  "Mindaugas Tarasaitis",
+        "country":  "Lithuania",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-MindaugasT-300x300.webp",
+        "photoFile":  "photos/mindaugas-tarasaitis.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  2
+                          },
+                          {
+                              "division":  "Left Arm Lightweight (77kg / 170lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Mindaugas",
+        "lastName":  "Tarasaitis"
+    },
+    {
+        "name":  "Ömer Kozakoğlu",
+        "country":  "Türkiye",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Omer-Kozakoglu-300x300.webp",
+        "photoFile":  "photos/mer-kozako-lu.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Ömer",
+        "lastName":  "Kozakoğlu"
+    },
+    {
+        "name":  "Tom Holland",
+        "country":  "UK",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2026/06/EVW-Athlete-Tom-Holland-300x300.webp",
+        "photoFile":  "photos/tom-holland.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Tom",
+        "lastName":  "Holland"
+    },
+    {
+        "name":  "Justin Bishop",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Justin-Bishop-300x300.webp",
+        "photoFile":  "photos/justin-bishop.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  7
+                          }
+                      ],
+        "firstName":  "Justin",
+        "lastName":  "Bishop"
+    },
+    {
+        "name":  "Danil Ustinov",
+        "country":  "Kazakhstan",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Danil-Ustinov-300x300.webp",
+        "photoFile":  "photos/danil-ustinov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  8
+                          },
+                          {
+                              "division":  "Right Arm Featherweight (70kg / 154lb)",
+                              "rank":  "champion"
+                          }
+                      ],
+        "firstName":  "Danil",
+        "lastName":  "Ustinov"
+    },
+    {
+        "name":  "Hunter Noffz",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Hunter-Noffz-300x300.webp",
+        "photoFile":  "photos/hunter-noffz.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  9
+                          },
+                          {
+                              "division":  "Left Arm Lightweight (77kg / 170lb)",
+                              "rank":  6
+                          }
+                      ],
+        "firstName":  "Hunter",
+        "lastName":  "Noffz"
+    },
+    {
+        "name":  "Valen Low",
+        "country":  "Singapore",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Valen-Low-300x300.webp",
+        "photoFile":  "photos/valen-low.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Lightweight (77kg / 170lb)",
+                              "rank":  10
+                          }
+                      ],
+        "firstName":  "Valen",
+        "lastName":  "Low"
+    },
+    {
+        "name":  "Vachagan Hovhannisyan",
+        "country":  "Armenia",
+        "photoUrl":  null,
+        "photoFile":  null,
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Lightweight (77kg / 170lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Vachagan",
+        "lastName":  "Hovhannisyan"
+    },
+    {
+        "name":  "Emil Amirshadyan",
+        "country":  "Armenia",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Emil-Amirshadyan-300x300.webp",
+        "photoFile":  "photos/emil-amirshadyan.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Lightweight (77kg / 170lb)",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Emil",
+        "lastName":  "Amirshadyan"
+    },
+    {
+        "name":  "Bozhidar Simeonov",
+        "country":  "Bulgaria",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/11/EVW-Athletes-BozhidarS-300x300.webp",
+        "photoFile":  "photos/bozhidar-simeonov.webp",
+        "divisions":  [
+                          {
+                              "division":  "Left Arm Lightweight (77kg / 170lb)",
+                              "rank":  5
+                          }
+                      ],
+        "firstName":  "Bozhidar",
+        "lastName":  "Simeonov"
+    },
+    {
+        "name":  "Joseph Meranto",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Joseph-Meranto-300x300.webp",
+        "photoFile":  "photos/joseph-meranto.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Featherweight (70kg / 154lb)",
+                              "rank":  2
+                          }
+                      ],
+        "firstName":  "Joseph",
+        "lastName":  "Meranto"
+    },
+    {
+        "name":  "Kevin Palko",
+        "country":  "USA",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Kevin-Palko-300x300.webp",
+        "photoFile":  "photos/kevin-palko.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Featherweight (70kg / 154lb)",
+                              "rank":  3
+                          }
+                      ],
+        "firstName":  "Kevin",
+        "lastName":  "Palko"
+    },
+    {
+        "name":  "Ivan Portela",
+        "country":  "Spain",
+        "photoUrl":  "https://evwsports.com/wp-content/uploads/2025/12/EVW-Athlete-Ivan-Portela-300x300.webp",
+        "photoFile":  "photos/ivan-portela.webp",
+        "divisions":  [
+                          {
+                              "division":  "Right Arm Featherweight (70kg / 154lb)",
+                              "rank":  4
+                          }
+                      ],
+        "firstName":  "Ivan",
+        "lastName":  "Portela"
+    }
+]
