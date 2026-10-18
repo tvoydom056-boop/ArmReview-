@@ -214,3 +214,7 @@
   margin: 0;
   white-space: pre-line;
 }
+
+.skeletonRecord {
+  margin-top: 20px;
+}

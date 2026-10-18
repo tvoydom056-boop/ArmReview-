@@ -4,3 +4,8 @@
   color: var(--muted);
   text-decoration: none;
 }
+
+.skeletonList {
+  display: grid;
+  gap: 8px;
+}

@@ -1,0 +1,28 @@
+/* design/states.html § 6: мягкая пульсация, при «уменьшить анимацию» — статичная плашка */
+@keyframes sk-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.sk {
+  display: block;
+  border-radius: 6px;
+  background: var(--surface-2);
+  animation: sk-pulse 1.5s ease-in-out infinite;
+}
+
+.pill {
+  border-radius: var(--radius-pill);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk {
+    animation: none;
+  }
+}

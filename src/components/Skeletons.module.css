@@ -1,0 +1,32 @@
+/* Геометрия повторяет MatchRow / AthleteCard, чтобы при подстановке данных ничего не прыгало */
+.row {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 10px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 38px 1fr 212px;
+  }
+}
+
+.athlete {
+  composes: card from './ui.module.css';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 16px 12px;
+}
+
+.record {
+  composes: card from './ui.module.css';
+  padding: 20px;
+}

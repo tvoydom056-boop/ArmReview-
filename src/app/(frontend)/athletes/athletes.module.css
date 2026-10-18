@@ -14,3 +14,19 @@
   font-size: 14px;
   color: var(--muted);
 }
+
+/* та же сетка, что в AthleteList; отступ сверху заменяет лид и панель поиска */
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 720px) {
+  .skeletonGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
