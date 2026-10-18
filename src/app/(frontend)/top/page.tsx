@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { CSSProperties } from 'react'
 
-import { CountryFlag } from '@/components/CountryFlag'
 import { EmptyState } from '@/components/EmptyState'
-import { RatingBadge } from '@/components/RatingBadge'
+import { TopList } from '@/components/TopList'
 import { SCALES } from '@/features/voting/scales'
-import { getHandLabel, type AthleteRef } from '@/lib/matchView'
 import { getTopMatches } from '@/lib/queries/top'
 import { RATING_WEIGHTS } from '@/lib/rating'
 import { VOTING_ENABLED } from '@/lib/siteConfig'
@@ -20,7 +17,7 @@ export const dynamic = 'force-dynamic'
 // Оттенки золота для долей шкал в полосе «Из чего складывается балл» (design/top.html)
 const SHARE_TONES = ['100%', '72%', '48%', '28%']
 
-// design/top.html без пьедестала топ-3 (вопрос E плана restyle-2026-09 — отдельной задачей)
+// design/top.html: фильтры есть; пьедестал топ-3 в макете помечен «нет данных в базе» — пропущен (design-rollout.md § 3а)
 export default async function TopPage() {
   // топ складывается из голосов — в альфе его нет (alpha-scope.md § 1)
   if (!VOTING_ENABLED) notFound()
@@ -42,23 +39,7 @@ export default async function TopPage() {
           actions={[{ href: '/', label: 'Выбрать матч', primary: true }]}
         />
       ) : (
-        <ol className={styles.list}>
-          {top.map(({ match, eventTitle }, i) => (
-            <li key={match.id}>
-              <Link href={`/matches/${match.id}`} className={styles.row}>
-                <span className={styles.rank}>{i + 1}</span>
-                <span className={styles.main}>
-                  <Fighter athlete={match.athlete1} />
-                  <Fighter athlete={match.athlete2} />
-                  <span className={styles.sub}>
-                    {eventTitle} · {getHandLabel(match.hand)}
-                  </span>
-                </span>
-                <RatingBadge rating={match.rating} compact />
-              </Link>
-            </li>
-          ))}
-        </ol>
+        <TopList items={top} />
       )}
       <section className={styles.method}>
         <div className={styles.card}>
@@ -93,14 +74,5 @@ export default async function TopPage() {
         </div>
       </section>
     </>
-  )
-}
-
-function Fighter({ athlete }: { athlete: AthleteRef }) {
-  return (
-    <span className={styles.fighter}>
-      <CountryFlag code={athlete.countryCode} />
-      {athlete.name}
-    </span>
   )
 }

@@ -38,3 +38,26 @@
   font-size: 11px;
   white-space: nowrap;
 }
+
+/* бейдж стиля — design/ui.css .stylebadge: только обводка и подпись, без заливки (заливкой помечен исход матча) */
+.style {
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.styleInside {
+  color: var(--inside);
+}
+
+.styleOutside {
+  color: var(--outside);
+}
+
+.styleUniversal {
+  color: var(--universal);
+}

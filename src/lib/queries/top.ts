@@ -3,7 +3,7 @@ import { getPayloadClient } from '../payload'
 import { rankRatings } from '../rating'
 import { getRatingsByMatch } from './ratings'
 
-export type TopMatch = { match: MatchView; eventTitle: string }
+export type TopMatch = { match: MatchView; eventTitle: string; eventDate: string }
 
 // Топ-100 по баллу; в него попадают только матчи, у которых баллы уже видны (от 5 голосов)
 export async function getTopMatches(limit = 100): Promise<TopMatch[]> {
@@ -26,6 +26,6 @@ export async function getTopMatches(limit = 100): Promise<TopMatch[]> {
     const rating = ratings.get(id)
     if (!doc || !rating || typeof doc.event !== 'object') return []
     const match = toMatchView(doc, rating)
-    return match ? [{ match, eventTitle: doc.event.title }] : []
+    return match ? [{ match, eventTitle: doc.event.title, eventDate: doc.event.date }] : []
   })
 }

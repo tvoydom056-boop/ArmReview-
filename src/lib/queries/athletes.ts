@@ -1,9 +1,10 @@
 import { cache } from 'react'
 
 import type { Match } from '../../../payload-types'
-import { computeWinRates } from '../athleteStats'
+import { computeStyleProfile, computeWinRates } from '../athleteStats'
 import { getPayloadClient } from '../payload'
 import { refId } from '../refId'
+import type { WrestlingStyle } from '../techniques'
 
 // Общий запрос страницы и generateMetadata (AGENTS § 5)
 export const getAthleteBySlug = cache(async (slug: string) => {
@@ -80,4 +81,15 @@ export async function getHandsByAthlete(): Promise<Map<number, Set<'right' | 'le
     }
   }
   return hands
+}
+
+// Стиль борца для обводки и бейджа в списке. Как и в профиле, считаем только для известных борцов
+// (isFeatured) и только когда техник в матчах хватает — иначе борца в карте нет
+export async function getStyleByAthlete(featuredIds: number[]): Promise<Map<number, WrestlingStyle>> {
+  const styles = new Map<number, WrestlingStyle>()
+  for (const id of featuredIds) {
+    const profile = computeStyleProfile(id, await getAthleteMatches(id))
+    if (profile.enough) styles.set(id, profile.style)
+  }
+  return styles
 }

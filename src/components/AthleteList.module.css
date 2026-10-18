@@ -69,3 +69,39 @@
   font-weight: 400;
   color: var(--muted);
 }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.ring {
+  width: 14px;
+  height: 14px;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+}
+
+.inside {
+  color: var(--inside);
+}
+
+.outside {
+  color: var(--outside);
+}
+
+.universal {
+  color: var(--universal);
+}

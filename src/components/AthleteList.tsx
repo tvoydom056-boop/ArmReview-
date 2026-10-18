@@ -6,6 +6,7 @@ import { matchesAthleteSearch } from '@/lib/athleteSearch'
 import { getCountryName } from '@/lib/country'
 import type { Photo } from '@/lib/media'
 import { pluralize } from '@/lib/plural'
+import { STYLE_LABELS, type WrestlingStyle } from '@/lib/techniques'
 
 import { AthleteCard } from './AthleteCard'
 import styles from './AthleteList.module.css'
@@ -21,6 +22,7 @@ export type AthleteListItem = {
   photo: Photo | null
   isFeatured: boolean
   hands: ('right' | 'left')[]
+  style: WrestlingStyle | null
 }
 
 type Filter = 'all' | 'right' | 'left' | 'countries'
@@ -30,6 +32,8 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: 'left', label: 'Левая' },
   { value: 'countries', label: 'По странам' },
 ]
+
+const STYLES: WrestlingStyle[] = ['inside', 'outside', 'universal']
 
 // Фото первого ряда сетки (на десктопе) — в первом экране, грузим без ленивой подгрузки
 const EAGER_PHOTOS = 6
@@ -74,6 +78,7 @@ export function AthleteList({ athletes }: { athletes: AthleteListItem[] }) {
       <p className={styles.count}>
         {visible.length} из {athletes.length} {pluralize(athletes.length, ['борца', 'борцов', 'борцов'])}
       </p>
+      {athletes.some((a) => a.style) ? <StyleLegend /> : null}
       {visible.length === 0 ? (
         <EmptyState
           title="Никого не нашли"
@@ -85,6 +90,21 @@ export function AthleteList({ athletes }: { athletes: AthleteListItem[] }) {
         <Grid athletes={visible} />
       )}
     </>
+  )
+}
+
+// Что значит цвет обводки — design/athletes.html «Что означает цвет обводки фото» (без описаний: они в макете «нет данных»)
+function StyleLegend() {
+  return (
+    <p className={styles.legend}>
+      Обводка фото — стиль борца:
+      {STYLES.map((style) => (
+        <span key={style} className={`${styles.legendItem} ${styles[style]}`}>
+          <i className={styles.ring} />
+          {STYLE_LABELS[style].short}
+        </span>
+      ))}
+    </p>
   )
 }
 
@@ -101,6 +121,7 @@ function Grid({ athletes, eagerCount = EAGER_PHOTOS }: { athletes: AthleteListIt
             weightKg={a.weightKg}
             photo={a.photo}
             isFeatured={a.isFeatured}
+            style={a.style}
           />
         </li>
       ))}

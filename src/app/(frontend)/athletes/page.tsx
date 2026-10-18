@@ -4,7 +4,7 @@ import { AthleteList, type AthleteListItem } from '@/components/AthleteList'
 import { EmptyState } from '@/components/EmptyState'
 import { getPhoto } from '@/lib/media'
 import { getPayloadClient } from '@/lib/payload'
-import { getHandsByAthlete } from '@/lib/queries/athletes'
+import { getHandsByAthlete, getStyleByAthlete } from '@/lib/queries/athletes'
 
 import styles from './athletes.module.css'
 
@@ -21,6 +21,7 @@ export default async function AthletesPage() {
     pagination: false,
   })
   const hands = await getHandsByAthlete()
+  const styleById = await getStyleByAthlete(docs.filter((a) => a.isFeatured).map((a) => a.id))
 
   const athletes: AthleteListItem[] = docs.map((a) => ({
     id: a.id,
@@ -32,6 +33,7 @@ export default async function AthletesPage() {
     photo: getPhoto(a.photo),
     isFeatured: Boolean(a.isFeatured),
     hands: [...(hands.get(a.id) ?? [])],
+    style: styleById.get(a.id) ?? null,
   }))
 
   return (
