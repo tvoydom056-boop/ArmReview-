@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import Link from 'next/link'
-import { Oswald } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 import { CookieBanner } from '@/components/CookieBanner'
@@ -12,13 +11,6 @@ import { ThemeToggle } from '@/components/ThemeToggle'
 import { themeColors, themeInitHtml } from '@/lib/theme'
 
 import './globals.css'
-
-const display = Oswald({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['500', '600', '700'],
-  variable: '--font-oswald',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(getEnv().SITE_URL),
@@ -44,7 +36,7 @@ export default function FrontendLayout({
   return (
     // TODO(вопрос 13): сайт только на русском
     // suppressHydrationWarning: скрипт темы ставит data-theme на <html> до гидратации
-    <html lang="ru" className={display.variable} suppressHydrationWarning>
+    <html lang="ru" suppressHydrationWarning>
       <body>
         {/* Скрипт темы — HTML-строкой, а не <script>-элементом React: браузер выполняет его при парсинге
             до первой отрисовки (без мигания), а React не ругается на script в компоненте.
