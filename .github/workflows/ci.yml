@@ -41,6 +41,22 @@ jobs:
       # Ловит миграцию, которая не применяется к пустой базе (ops-readiness.md, этап 1)
       - name: payload migrate (пустая база)
         run: npx payload migrate
+      # Аудит голосования и схемы на отдельной временной БД (project-audit.md § 5): квоты, гонки, схема.
+      # Охранные проверки скрипта требуют file: под tmpdir/armreview-audit-*, production и пустые облачные токены
+      - name: audit-db (временная SQLite)
+        env:
+          NODE_ENV: production
+          DATABASE_AUTH_TOKEN: ''
+          BLOB_READ_WRITE_TOKEN: ''
+          PAYLOAD_SECRET: audit-only-not-a-production-secret
+          IP_HASH_SALT: audit-only-not-a-production-salt
+          PAYLOAD_DROP_DATABASE: 'false'
+        run: |
+          AUDIT_DIR="$(mktemp -d "${TMPDIR:-/tmp}/armreview-audit-XXXXXX")"
+          export DATABASE_URI="file:${AUDIT_DIR}/audit.db"
+          export ARMREVIEW_AUDIT_DATABASE="$DATABASE_URI"
+          npm run payload -- migrate
+          npm run payload -- run scripts/audit-db.ts
       # Кеш сборки — по node_modules/next/dist/docs/01-app/02-guides/ci-build-caching.md
       - uses: actions/cache@v6
         with:
