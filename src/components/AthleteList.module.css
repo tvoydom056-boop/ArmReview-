@@ -1,0 +1,71 @@
+/* design/athletes.html: .toolbar, .search, сетка карточек */
+.toolbar {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 4px;
+}
+
+.search {
+  width: 100%;
+  max-width: 420px;
+  padding: 11px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.search::placeholder {
+  color: var(--muted);
+}
+
+.chips {
+  composes: chips from './ui.module.css';
+}
+
+.chip {
+  composes: chip from './ui.module.css';
+}
+
+.count {
+  composes: label from './ui.module.css';
+  margin: 24px 0 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.group {
+  margin-top: 24px;
+}
+
+.groupTitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.groupTitle span {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}

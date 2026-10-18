@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { getCountryName } from '@/lib/country'
 import type { Photo } from '@/lib/media'
 
 import { AthletePhoto } from './AthletePhoto'
@@ -24,7 +25,10 @@ export function AthleteCard({ slug, name, countryCode, weightKg, photo, isFeatur
       <span className={styles.name}>{name}</span>
       <span className={styles.meta}>
         <CountryFlag code={countryCode} />
-        {weightKg ? <span>{weightKg} кг</span> : null}
+        <span>
+          {getCountryName(countryCode)}
+          {weightKg ? ` · ${weightKg} кг` : ''}
+        </span>
       </span>
       {isFeatured ? <span className={styles.badge}>Подробный профиль</span> : null}
     </Link>

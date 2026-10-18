@@ -60,3 +60,24 @@ export function getOpponentIds(athleteId: number, matches: Match[]): number[] {
   }
   return [...ids]
 }
+
+// Какой рукой борец выходил в матчах — для фильтра «Правая / Левая» в списке борцов.
+// Отдельного поля «основная рука» нет: рука — свойство матча (design/athletes.html)
+export async function getHandsByAthlete(): Promise<Map<number, Set<'right' | 'left'>>> {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'matches',
+    depth: 0,
+    limit: 10000,
+    pagination: false,
+    select: { athlete1: true, athlete2: true, hand: true },
+  })
+  const hands = new Map<number, Set<'right' | 'left'>>()
+  for (const m of docs) {
+    for (const id of [refId(m.athlete1), refId(m.athlete2)]) {
+      if (id === null) continue
+      hands.set(id, (hands.get(id) ?? new Set()).add(m.hand))
+    }
+  }
+  return hands
+}
